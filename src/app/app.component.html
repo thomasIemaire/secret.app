@@ -1,0 +1,39 @@
+@if (user) {
+<div class="app">
+    <div class="header">
+        <div class="header__wrapper">
+            <!-- header content -->
+        </div>
+    </div>
+    <div class="app__layout">
+        <div class="app__main">
+            <div class="app__body">
+                <div class="sidebar">
+                    <div class="sidebar__wrapper">
+                        <!-- sidebar content -->
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="content__wrapper">
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+} @else {
+<div class="app">
+    <div class="app__layout">
+        <div class="app__main">
+            <div class="app__body">
+                <div class="content">
+                    <div class="content__wrapper">
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

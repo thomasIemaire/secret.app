@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "PortailWeb": {
+    "Sardine": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -75,13 +75,13 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "PortailWeb:build:production"
+              "buildTarget": "Sardine:build:production"
             },
             "development": {
-              "buildTarget": "PortailWeb:build:development"
+              "buildTarget": "Sardine:build:development"
             },
             "recette": {
-              "buildTarget": "PortailWeb:build:recette"
+              "buildTarget": "Sardine:build:recette"
             }
           },
           "defaultConfiguration": "development"
@@ -122,7 +122,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "PortailWeb:build",
+            "browserTarget": "Sardine:build",
             "compodoc": false,
             "port": 6006
           }
@@ -131,7 +131,7 @@
           "builder": "@storybook/angular:build-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "PortailWeb:build",
+            "browserTarget": "Sardine:build",
             "compodoc": false,
             "outputDir": "storybook-static"
           }
