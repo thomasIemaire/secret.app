@@ -12,5 +12,13 @@ export const routes: Routes = [
     {
         path: 'playground',
         loadChildren: () => import('./features/playground/playground.routes').then(m => m.playgroundRoutes)
+    },
+    {
+        path: 'flows',
+        loadChildren: () => import('./features/flows/flows.routes').then(m => m.flowsRoutes)
+    },
+    {
+        path: 'logs',
+        loadChildren: () => import('./features/logs/logs.routes').then(m => m.logsRoutes)
     }
 ];

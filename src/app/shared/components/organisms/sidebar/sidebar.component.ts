@@ -30,15 +30,15 @@ export class SidebarComponent {
             label: 'Playground',
             icon: 'pi pi-sparkles',
             route: '/playground'
-        },
-        {
-            label: 'Logs',
-            icon: 'pi pi-code',
-            route: '/logs'
         }
     ];
 
     public tools: IMenuItem[] = [
+        {
+            label: 'Logs',
+            icon: 'pi pi-code',
+            route: '/logs'
+        },
         {
             label: 'Paramètres',
             icon: 'pi pi-cog',

@@ -2,13 +2,18 @@ import { Component, Input } from "@angular/core";
 import { IMenuItem } from "../../../../core/models/menu-item.model";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { RouterLink } from "@angular/router";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
     selector: 'app-menu-item',
-    imports: [CommonModule, FormsModule, RouterLink],
+    imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
     template: `
-    <div class="menu-item__wrapper" [routerLink]="item.route">
+    <div 
+        class="menu-item__wrapper" 
+        [routerLink]="item.route" 
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+    >
         <i class="menu-item__icon" [ngClass]="item.icon"></i>
         <span class="menu-item__label">{{ item.label }}</span>
     </div>
