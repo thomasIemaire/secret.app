@@ -8,5 +8,9 @@ export const routes: Routes = [
     {
         path: 'agents',
         loadChildren: () => import('./features/agents/agents.routes').then(m => m.agentsRoutes)
+    },
+    {
+        path: 'playground',
+        loadChildren: () => import('./features/playground/playground.routes').then(m => m.playgroundRoutes)
     }
 ];

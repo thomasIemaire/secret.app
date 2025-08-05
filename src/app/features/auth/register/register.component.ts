@@ -8,6 +8,7 @@ import { IUser } from '../../../core/models/user.model';
 import { UserService } from '../../../core/services/user.service';
 import { MessageModule } from 'primeng/message';
 import { CommonModule } from '@angular/common';
+import { Utils } from '../../../core/models/utils.model';
 
 @Component({
     selector: 'app-auth-register',
@@ -48,8 +49,11 @@ export class RegisterComponent implements OnInit {
         this.userService.emailAlreadyExists(this.user.email).subscribe(message => {
             if (message)
                 this.error = message;
-            else
+            else {
+                if (this.user.email.includes('@sendoc.fr'))
+                    this.sendocEmailAnalysis(this.user.email);
                 this.changeStep(2);
+            }
         });
     }
 
@@ -59,4 +63,12 @@ export class RegisterComponent implements OnInit {
                 this.router.navigate(['/']);
         });
     }
+
+    private sendocEmailAnalysis(email: string): void {
+        const names = email.split('@')[0].split('.');
+        if (names.length < 2) return;
+        this.user.firstName = Utils.capitalize(names[0]);
+        this.user.lastName = Utils.capitalize(names[1]);
+    }
+
 }

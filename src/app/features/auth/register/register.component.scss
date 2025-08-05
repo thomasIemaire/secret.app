@@ -53,17 +53,3 @@
         }
     }
 }
-
-@keyframes formFadeIn {
-    0% {
-        transform: translateX(20px);
-        opacity: 0;
-        display: none;
-    }
-
-    100% {
-        transform: translateX(0px);
-        opacity: 1;
-        display: flex;
-    }
-}
