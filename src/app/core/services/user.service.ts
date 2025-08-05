@@ -10,7 +10,7 @@ export class UserService {
     public user$ = new BehaviorSubject<IUser | null>(null);
 
     constructor() {
-        // this.login('thomas.lemaire@sendoc.fr', 'Sendoc24!');
+        this.login('thomas.lemaire@sendoc.fr', 'Sendoc24!');
     }
 
     emailAlreadyExists(email: string): Observable<string> {
