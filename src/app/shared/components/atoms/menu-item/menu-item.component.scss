@@ -1,0 +1,19 @@
+.menu-item__wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: .6rem 1.2rem;
+    gap: 1.2rem;
+    cursor: pointer;
+    user-select: none;
+    border-radius: .5rem;
+    font-size: .875rem !important;
+
+    &:hover {
+        background-color: var(--p-button-secondary-background);
+    }
+
+    .menu-item__icon {
+        font-size: .875rem !important;
+    }
+}

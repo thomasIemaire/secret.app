@@ -54,6 +54,7 @@
                 width: 100%;
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
 
                 .left__content {
                     height: 100%;
@@ -77,6 +78,18 @@
                             line-height: 1.5rem;
                             color: var(--p-text-color);
                         }
+                    }
+                }
+
+                .right__content {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+
+                    .right__content-wrapper {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
                     }
                 }
             }

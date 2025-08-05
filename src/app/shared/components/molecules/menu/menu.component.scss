@@ -1,0 +1,10 @@
+.menu__wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+
+    app-menu-item {
+        width: 100%;
+    }
+}

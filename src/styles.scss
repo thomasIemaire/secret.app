@@ -7,7 +7,13 @@
     --sidebar-width: 256px;
 
     --padding-app: 1.5rem;
-    --gap-app: 1rem;
+    --gap-app: var(--padding-app);
+
+    --background-color: var(--p-surface-50);
+}
+
+.app-dark:root {
+    --background-color: var(--p-surface-950);
 }
 
 * {
@@ -30,7 +36,12 @@ body {
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     line-height: normal;
     color: var(--p-text-color);
-    background-color: var(--ground-background);
+    background-color: var(--background-color);
+}
+
+::selection {
+    background-color: var(--p-text-color);
+    color: var(--background-color);
 }
 
 p-password input {

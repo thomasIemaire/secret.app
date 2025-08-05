@@ -16,6 +16,13 @@
                         <span class="title">Bienvenue Thomas.L 👋</span>
                     </div>
                 </div>
+                <div class="right__content">
+                    <div class="right__content-wrapper">
+                        <p-button [icon]="themeService.isDarkMode() ? 'pi pi-moon' : 'pi pi-sun'" severity="secondary"
+                            (onClick)="themeService.toggleTheme()" size="small">
+                        </p-button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
