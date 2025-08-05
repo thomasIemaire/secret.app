@@ -84,16 +84,25 @@
 
                 .right__content {
                     height: 100%;
+                    flex: 1;
                     display: flex;
                     align-items: center;
+                    justify-content: flex-end;
 
                     .right__content-wrapper {
                         display: flex;
                         align-items: center;
+                        justify-content: flex-end;
                         gap: 1rem;
                     }
                 }
             }
         }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .header .header__wrapper .header__content .content__wrapper .left__content {
+        display: none;
     }
 }

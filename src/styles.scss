@@ -50,3 +50,10 @@ body {
 p-password input {
     width: 100%;
 }
+
+@media screen and (max-width: 768px) {
+    :root {
+        --sidebar-width: auto;
+        --padding-app: .75rem;
+    }
+}

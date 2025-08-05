@@ -63,3 +63,15 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    .app .app__layout .app__main .app__body {
+        .sidebar {
+            display: none;
+        }
+
+        .content .content__wrapper.__padding {
+            padding: 0 var(--padding-app) var(--padding-app) var(--padding-app) !important;
+        }
+    }
+}
