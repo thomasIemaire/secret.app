@@ -9,10 +9,13 @@
             <div [class.active]="step === 1" class="form__step" [class.inactive]="step !== 1">
                 <input pInputText [(ngModel)]="user.email" placeholder="Votre adresse e-mail" [disabled]="!user"
                     pSize="small" />
+
+                <p-message *ngIf="error" severity="error" [text]="error" size="small" />
+
                 <div class="form__actions">
                     <p-button label="Retour" size="small" severity="secondary" (onClick)="changeStep(0)"
                         variant="text" />
-                    <p-button label="Continuer" size="small" severity="secondary" (onClick)="changeStep(2)"
+                    <p-button label="Continuer" size="small" severity="secondary" (onClick)="emailIsValid()"
                         [disabled]="!user.email" />
                 </div>
             </div>

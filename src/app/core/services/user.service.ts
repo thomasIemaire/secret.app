@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { IUser, User } from "../models/user.model";
 import { users } from "../../../_db/users.db";
 import { BehaviorSubject, Observable, of } from "rxjs";
+import { Utils } from "../models/utils.model";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -10,6 +11,13 @@ export class UserService {
 
     constructor() {
         // this.login('thomas.lemaire@sendoc.fr', 'Sendoc24!');
+    }
+
+    emailAlreadyExists(email: string): Observable<string> {
+        if (!Utils.emailIsValid(email))
+            return of('Cette adresse e-mail n\'est pas valide');
+        const userExists = users.some((u: IUser) => u.email === email);
+        return of(userExists ? 'Cette adresse e-mail est déjà utilisée' : '');
     }
 
     login(email: string, password: string): Observable<boolean> {
