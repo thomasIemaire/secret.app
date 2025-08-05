@@ -23,10 +23,10 @@ export class RegisterComponent implements OnInit {
     };
 
     public user: IUser = { ...this.USER_DEFAULT };
-    public step: number = 0;
+    public step = 0;
 
     private router: Router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private route: ActivatedRoute = inject(ActivatedRoute);
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {

@@ -29,3 +29,7 @@ body {
     color: var(--p-text-color);
     background-color: var(--ground-background);
 }
+
+p-password input {
+    width: 100%;
+}

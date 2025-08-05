@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { IUser } from './core/models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class App {
-  protected readonly title = signal('Sardine');
-
-  public user: any = false;
+  public user: IUser | null = null;
 }

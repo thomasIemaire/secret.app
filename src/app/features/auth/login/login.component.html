@@ -1,1 +1,30 @@
-coucou
+<div class="login">
+    <div class="login__wrapper">
+        <div class="login__form">
+            <div [class.active]="step === 0" class="form__step" [class.inactive]="step !== 0">
+                <p-button label="Se connecter dès maintenant" size="small" severity="secondary"
+                    (onClick)="changeStep(1)" />
+            </div>
+
+            <div [class.active]="step === 1" class="form__step" [class.inactive]="step !== 1">
+                <input pInputText [(ngModel)]="user.email" placeholder="Votre adresse e-mail" [disabled]="!user"
+                    pSize="small" />
+                <p-password [(ngModel)]="user.password" [toggleMask]="true" [feedback]="false"
+                    placeholder="Votre mot de passe" [disabled]="!user" size="small" />
+                <div class="form__actions">
+                    <p-button label="Annuler" size="small" severity="secondary" (onClick)="changeStep(0)"
+                        variant="text" />
+                    <p-button label="Se connecter" size="small" severity="secondary" (onClick)="changeStep(2)"
+                        [disabled]="!user.email" />
+                </div>
+            </div>
+        </div>
+
+        <div class="login__footer">
+            Pas encore inscrit ?
+            <a routerLink="/auth/register" class="footer__link">
+                Inscrivez-vous
+            </a>
+        </div>
+    </div>
+</div>

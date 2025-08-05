@@ -1,18 +1,5 @@
 <div class="register">
     <div class="register__wrapper">
-        <div class="register__head">
-            <div class="head__title">
-                Planvenguda a <span class="title__brand">Sardine</span>
-            </div>
-            <div class="head__subtitle">
-                Une intelligence artificielle made in Aveyron par
-                <a href="https://sendoc.fr" class="subtitle__link" target="_blank">
-                    SenDOC
-                    <i class="pi pi-arrow-up-right"></i>
-                </a>
-            </div>
-        </div>
-
         <div class="register__form">
             <div [class.active]="step === 0" class="form__step" [class.inactive]="step !== 0">
                 <p-button label="S'inscrire dès maintenant" size="small" severity="secondary"
@@ -53,14 +40,12 @@
                         [disabled]="!user.password" />
                 </div>
             </div>
-
         </div>
 
         <div class="register__footer">
             Déjà inscrit ?
             <a routerLink="/auth/login" class="footer__link">
                 Connectez-vous
-                <i class="pi pi-arrow-up-right"></i>
             </a>
         </div>
     </div>
