@@ -3,8 +3,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
-    --header-height: 128px;
+    --header-height: 64px;
     --sidebar-width: 256px;
+
+    --padding-app: 1.5rem;
+    --gap-app: 1rem;
 }
 
 * {
@@ -20,8 +23,8 @@ html,
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
-    width: 100vw;
+    height: 100dvh;
+    width: 100dvw;
     font-size: 14px;
     font-family: "Inter", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";

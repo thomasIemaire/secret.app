@@ -11,10 +11,13 @@
                     pSize="small" />
                 <p-password [(ngModel)]="user.password" [toggleMask]="true" [feedback]="false"
                     placeholder="Votre mot de passe" [disabled]="!user" size="small" />
+
+                <p-message *ngIf="error" severity="error" [text]="error" size="small" />
+
                 <div class="form__actions">
                     <p-button label="Annuler" size="small" severity="secondary" (onClick)="changeStep(0)"
                         variant="text" />
-                    <p-button label="Se connecter" size="small" severity="secondary" (onClick)="changeStep(2)"
+                    <p-button label="Se connecter" size="small" severity="secondary" (onClick)="login()"
                         [disabled]="!user.email" />
                 </div>
             </div>

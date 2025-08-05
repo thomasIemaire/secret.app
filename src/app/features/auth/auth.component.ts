@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
     selector: 'app-auth',
@@ -7,5 +8,17 @@ import { RouterOutlet } from '@angular/router';
     templateUrl: './auth.component.html',
     styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
+
+    private router = inject(Router);
+    private userService = inject(UserService);
+
+    ngOnInit(): void {
+        this.userService.user$.subscribe(user => {
+            if (user)
+                this.router.navigate(['/']);
+            else
+                this.router.navigate(['/auth/login']);
+        });
+    }
 }

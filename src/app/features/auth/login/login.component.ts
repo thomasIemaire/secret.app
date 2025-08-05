@@ -5,10 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { UserService } from '../../../core/services/user.service';
+import { MessageModule } from 'primeng/message';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-auth-login',
-    imports: [FormsModule, RouterLink, Button, PasswordModule, InputTextModule],
+    imports: [CommonModule, FormsModule, RouterLink, Button, PasswordModule, InputTextModule, MessageModule],
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
@@ -23,13 +26,14 @@ export class LoginComponent {
 
     public user: IUser = { ...this.USER_DEFAULT };
     public step = 0;
+    public error: string | null = null;
 
     private router: Router = inject(Router);
     private route: ActivatedRoute = inject(ActivatedRoute);
+    private userService = inject(UserService);
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
-            console.log('RegisterComponent initialized with queryParams:', params);
             this.step = +params['step'] || 0;
         });
     }
@@ -39,4 +43,12 @@ export class LoginComponent {
         this.router.navigate(['auth/login'], { queryParams: { step } });
     }
 
+    public login(): void {
+        this.userService.login(this.user.email, this.user.password!).subscribe(success => {
+            if (success)
+                this.router.navigate(['/']);
+            else
+                this.error = 'Identifiant ou mot de passe invalide';
+        });
+    }
 }

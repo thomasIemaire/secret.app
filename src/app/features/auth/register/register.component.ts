@@ -6,6 +6,7 @@ import { PasswordModule } from 'primeng/password';
 import { Button } from 'primeng/button';
 
 import { IUser } from '../../../core/models/user.model';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
     selector: 'app-auth-register',
@@ -27,10 +28,10 @@ export class RegisterComponent implements OnInit {
 
     private router: Router = inject(Router);
     private route: ActivatedRoute = inject(ActivatedRoute);
+    private userService = inject(UserService);
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
-            console.log('RegisterComponent initialized with queryParams:', params);
             this.step = +params['step'] || 0;
         });
     }
@@ -40,4 +41,10 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['auth/register'], { queryParams: { step } });
     }
 
+    public register(): void {
+        this.userService.register(this.user).subscribe(success => {
+            if (success)
+                this.router.navigate(['/']);
+        });
+    }
 }
