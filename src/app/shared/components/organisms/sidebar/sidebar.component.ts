@@ -40,11 +40,6 @@ export class SidebarComponent {
             route: '/logs'
         },
         {
-            label: 'Paramètres',
-            icon: 'pi pi-cog',
-            route: '/settings'
-        },
-        {
             label: this.userService.user?.email || 'Profil',
             icon: 'pi pi-user',
             route: '/profile'

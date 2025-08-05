@@ -1,0 +1,28 @@
+<div class="flows">
+    <div class="flows__wrapper">
+        <div class="left__content">
+            <div class="flows__grid">
+                <div class="flow__add">
+                    <i class="pi pi-plus"></i>
+                </div>
+                <div class="flow__item" *ngFor="let flow of flows">
+                    <div class="flow__head">
+                        <div class="flow__item-title">{{ flow.name }}</div>
+                        <p-tag [value]="flow.status"
+                            [severity]="flow.status === 'active' ? 'success' : flow.status === 'inactive' ? 'warn' : 'danger'" />
+                    </div>
+                    <div class="flow__item-description">{{ flow.description }}</div>
+                    <div class="flow__foot">
+                        <div class="flow__item-files">{{ flow.files }}</div>
+                        <div class="flow__item-updated">
+                            Mis à jour le {{ flow.updatedAt | date: 'dd/MM/yyyy à HH:mm' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right__content">
+
+        </div>
+    </div>
+</div>

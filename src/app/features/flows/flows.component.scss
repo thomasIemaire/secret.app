@@ -1,0 +1,95 @@
+.flows {
+    height: 100%;
+    width: 100%;
+
+    .flows__wrapper {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        gap: var(--gap-app);
+
+        .left__content,
+        .right__content {
+            height: 100%;
+            flex: 1;
+        }
+
+        .left__content {
+
+            .flows__grid {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(312px, 1fr));
+                gap: 1rem;
+
+                .flow__add {
+                    height: 100%;
+                    min-height: 80px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 1rem;
+                    border: 2px dashed var(--p-button-secondary-background);
+                    color: var(--p-text-muted-color);
+                    user-select: none;
+                    cursor: pointer;
+                }
+
+                .flow__item {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: .25rem;
+                    background-color: var(--p-button-secondary-background);
+                    border-radius: 1rem;
+                    padding: 1rem 2rem;
+                    user-select: none;
+                    cursor: pointer;
+
+                    transition: .1s ease 0s all;
+
+                    &:hover {
+                        background-color: var(--p-button-secondary-hover-background);
+
+                        &:active {
+                            background-color: var(--p-button-secondary-active-background);
+                        }
+                    }
+
+                    font-size: .75rem;
+
+                    .flow__head,
+                    .flow__foot {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .flow__item-title {
+                            font-size: 1rem;
+                            font-weight: 600;
+                        }
+                        
+                        p-tag {
+                            font-size: .75rem;
+                            font-weight: 500;
+                        }
+
+                        .flow__item-files,
+                        .flow__item-updated {
+                            color: var(--p-text-muted-color);
+                        }
+
+                        .flow__item-updated {
+                            width: 100%;
+                            display: flex;
+                            justify-content: flex-end;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
