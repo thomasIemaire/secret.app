@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MenuComponent } from "../../molecules/menu/menu.component";
 import { IMenuItem } from "../../../../core/models/menu-item.model";
+import { UserService } from "../../../../core/services/user.service";
 
 @Component({
     selector: 'app-sidebar',
@@ -11,6 +12,8 @@ import { IMenuItem } from "../../../../core/models/menu-item.model";
     styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
+
+    public userService = inject(UserService);
 
     public navigation: IMenuItem[] = [
         {
@@ -42,7 +45,7 @@ export class SidebarComponent {
             route: '/settings'
         },
         {
-            label: 'Profil',
+            label: this.userService.user?.email || 'Profil',
             icon: 'pi pi-user',
             route: '/profile'
         },
