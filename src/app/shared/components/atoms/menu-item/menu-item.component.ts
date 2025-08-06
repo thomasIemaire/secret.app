@@ -12,7 +12,7 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
         class="menu-item__wrapper" 
         [routerLink]="item.route" 
         routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLinkActiveOptions]="{ exact: false }"
     >
         <i class="menu-item__icon" [ngClass]="item.icon"></i>
         <span class="menu-item__label">{{ item.label }}</span>

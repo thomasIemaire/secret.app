@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { flows } from '../../../_db/flows.db';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -6,14 +6,18 @@ import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
+import { RouterModule, RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/router';
 
 @Component({
     selector: 'app-flows',
-    imports: [CommonModule, FormsModule, TagModule, InputTextModule, SelectModule, ButtonModule],
+    imports: [CommonModule, FormsModule, TagModule, InputTextModule, SelectModule, ButtonModule, RouterModule, RouterLink, RouterLinkActive, RouterOutlet],
     templateUrl: './flows.component.html',
     styleUrls: ['./flows.component.scss']
 })
 export class FlowsComponent {
+    
+    public router: Router = inject(Router);
+
     public flows = flows;
 
     public search: string = '';

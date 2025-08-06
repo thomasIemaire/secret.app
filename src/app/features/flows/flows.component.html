@@ -1,8 +1,6 @@
 <div class="flows">
     <div class="flows__wrapper">
         <div class="left__content">
-            <span class="left__content-title">Liste des Flows</span>
-
             <div class="flows__filters">
                 <input pInputText [(ngModel)]="search" type="text" pSize="small" placeholder="Rechercher un Flow" />
                 <div class="filters__type">
@@ -17,7 +15,8 @@
                 <div class="flow__add">
                     <i class="pi pi-plus"></i>
                 </div>
-                <div class="flow__item" *ngFor="let flow of filteredFlows">
+                <div class="flow__item" *ngFor="let flow of filteredFlows" [routerLink]="['/flows', flow.id]"
+                    routerLinkActive="active">
                     <div class="flow__head">
                         <div class="flow__item-title">{{ flow.name }}</div>
                         <p-tag [value]="flow.status"
@@ -34,7 +33,11 @@
             </div>
         </div>
         <div class="right__content">
+            @if (router.url === '/flows') {
             Aucun Flow sélectionné
+            } @else {
+            <router-outlet></router-outlet>
+            }
         </div>
     </div>
 </div>

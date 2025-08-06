@@ -83,8 +83,9 @@
 
                     transition: .1s ease 0s all;
 
+                    &.active,
                     &:hover {
-                        background-color: var(--p-button-secondary-hover-background);
+                        background-color: var(--p-button-secondary-hover-background) !important;
 
                         &:active {
                             background-color: var(--p-button-secondary-active-background);
