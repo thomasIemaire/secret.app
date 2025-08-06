@@ -81,6 +81,7 @@ export class FlowPreviewComponent {
     translateX = 0;
     translateY = 0;
     scale = .8;
+    lastPinchDistance = 0;
 
     startPan(event: MouseEvent) {
         this.isPanning = true;
@@ -103,4 +104,36 @@ export class FlowPreviewComponent {
         const delta = event.deltaY > 0 ? -0.1 : 0.1;
         this.scale = Math.min(Math.max(this.scale + delta, 0.5), 2);
     }
+
+    startPanTouch(event: TouchEvent) {
+        if (event.touches.length === 1) {
+            // Pan simple avec un doigt
+            this.isPanning = true;
+            this.startX = event.touches[0].clientX - this.translateX;
+            this.startY = event.touches[0].clientY - this.translateY;
+        } else if (event.touches.length === 2) {
+            // Pinch zoom
+            this.isPanning = false;
+            this.lastPinchDistance = this.getPinchDistance(event);
+        }
+    }
+
+    panTouch(event: TouchEvent) {
+        if (event.touches.length === 1 && this.isPanning) {
+            this.translateX = event.touches[0].clientX - this.startX;
+            this.translateY = event.touches[0].clientY - this.startY;
+        } else if (event.touches.length === 2) {
+            const newDistance = this.getPinchDistance(event);
+            const delta = (newDistance - this.lastPinchDistance) / 200; // Ajuste la sensibilité
+            this.scale = Math.min(Math.max(this.scale + delta, 0.5), 2);
+            this.lastPinchDistance = newDistance;
+        }
+    }
+
+    private getPinchDistance(event: TouchEvent): number {
+        const dx = event.touches[0].clientX - event.touches[1].clientX;
+        const dy = event.touches[0].clientY - event.touches[1].clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
 }
