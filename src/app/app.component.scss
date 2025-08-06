@@ -20,6 +20,7 @@
     .app__layout {
         flex: 1;
         height: 100%;
+        max-height: calc(100dvh - var(--header-height));
         width: 100%;
 
         .app__main {
@@ -65,6 +66,7 @@
 
     .mobile-navigation {
         display: none;
+        min-height: var(--mobile-navigation-height);
         height: var(--mobile-navigation-height);
         width: 100%;
         background-color: var(--p-button-secondary-background);
@@ -78,13 +80,17 @@
 
 @media screen and (max-width: 768px) {
     .app {
-        .app__layout .app__main .app__body {
-            .sidebar {
-                display: none;
-            }
+        .app__layout {
+            max-height: calc(100dvh - var(--header-height) - var(--mobile-navigation-height));
 
-            .content .content__wrapper.__padding {
-                padding: 0 var(--padding-app) var(--padding-app) var(--padding-app) !important;
+            .app__main .app__body {
+                .sidebar {
+                    display: none;
+                }
+
+                .content .content__wrapper.__padding {
+                    padding: 0 var(--padding-app) var(--padding-app) var(--padding-app) !important;
+                }
             }
         }
 
