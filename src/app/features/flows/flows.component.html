@@ -1,11 +1,23 @@
 <div class="flows">
     <div class="flows__wrapper">
         <div class="left__content">
+            <span class="left__content-title">Liste des Flows</span>
+
+            <div class="flows__filters">
+                <input pInputText [(ngModel)]="search" type="text" pSize="small" placeholder="Rechercher un Flow" />
+                <div class="filters__type">
+                    <p-select [(ngModel)]="filterOn" [options]="filters" optionLabel="name" optionValue="value"
+                        size="small" placeholder="Small" class="w-full md:w-56" />
+                    <p-button [icon]="orderBy === 'asc' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'"
+                        [text]="true" severity="secondary" size="small" (click)="toggleOrder()" />
+                </div>
+            </div>
+
             <div class="flows__grid">
                 <div class="flow__add">
                     <i class="pi pi-plus"></i>
                 </div>
-                <div class="flow__item" *ngFor="let flow of flows">
+                <div class="flow__item" *ngFor="let flow of filteredFlows">
                     <div class="flow__head">
                         <div class="flow__item-title">{{ flow.name }}</div>
                         <p-tag [value]="flow.status"
@@ -15,14 +27,14 @@
                     <div class="flow__foot">
                         <div class="flow__item-files">{{ flow.files }}</div>
                         <div class="flow__item-updated">
-                            Mis à jour le {{ flow.updatedAt | date: 'dd/MM/yyyy à HH:mm' }}
+                            MAJ {{ flow.updatedAt | date: 'dd/MM/yyyy HH:mm' }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="right__content">
-
+            Aucun Flow sélectionné
         </div>
     </div>
 </div>

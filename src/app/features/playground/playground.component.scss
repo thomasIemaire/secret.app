@@ -74,3 +74,9 @@
         }
     }
 }
+
+@media screen and (max-width: 568px) {
+    .playground .playground__wrapper .playground__form .form__choices .form__choice {
+        width: 90vw;
+    }
+}
