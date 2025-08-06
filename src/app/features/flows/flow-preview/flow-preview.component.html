@@ -1,3 +1,20 @@
-<p-button label="Retour" severity="secondary" icon="pi pi-arrow-left" [text]="true" (onClick)="back()" size="small"/>
-
-{{ flow!.name }}
+<div class="flow-preview">
+    <div class="flow-preview__wrapper">
+        <div class="flow-preview__header">
+            <p-button label="Retour" severity="secondary" icon="pi pi-arrow-left" [text]="true" (onClick)="back()"
+                size="small" />
+            <span class="flow-preview__title">{{ flow!.name }}</span>
+        </div>
+        <div class="flow-preview__content">
+            <p-selectbutton [(ngModel)]="selectPreview.value" [options]="selectPreview.options" size="small"
+                optionLabel="label" optionValue="value" [allowEmpty]="false" />
+            <div class="orgchart-container" (mousedown)="startPan($event)" (mousemove)="pan($event)"
+                (mouseup)="endPan()" (mouseleave)="endPan()" (wheel)="onWheel($event)">
+                <div class="orgchart-content"
+                    [ngStyle]="{'transform': 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scale + ')'}">
+                    <p-organization-chart [value]="data" [styleClass]="'custom-orgchart'" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

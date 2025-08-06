@@ -48,6 +48,7 @@
 
                 .content {
                     height: 100%;
+                    max-width: calc(100dvw - var(--sidebar-width));
                     flex: 1;
 
                     .content__wrapper {
@@ -88,8 +89,12 @@
                     display: none;
                 }
 
-                .content .content__wrapper.__padding {
-                    padding: 0 var(--padding-app) var(--padding-app) var(--padding-app) !important;
+                .content {
+                    max-width: 100dvw;
+
+                    .content__wrapper.__padding {
+                        padding: 0 var(--padding-app) var(--padding-app) var(--padding-app) !important;
+                    }
                 }
             }
         }

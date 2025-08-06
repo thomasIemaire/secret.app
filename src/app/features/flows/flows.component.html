@@ -35,7 +35,9 @@
         </div>
         <div class="right__content" [class.mobile__section-hide]="router.url === '/flows'">
             @if (router.url === '/flows') {
-            Aucun Flow sélectionné
+            <div class="right__content-empty">
+                <span>Aucun Flow sélectionné</span>
+            </div>
             } @else {
             <router-outlet></router-outlet>
             }
