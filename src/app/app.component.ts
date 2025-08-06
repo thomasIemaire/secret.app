@@ -5,10 +5,11 @@ import { UserService } from './core/services/user.service';
 import { HeaderComponent } from './shared/components/organisms/header/header.component';
 import { SidebarComponent } from "./shared/components/organisms/sidebar/sidebar.component";
 import { ThemeService } from './core/services/theme.service';
+import { MobileNavigationComponent } from './shared/components/organisms/mobile-navigation/mobile-navigation.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, SidebarComponent],
+  imports: [RouterOutlet, HeaderComponent, SidebarComponent, MobileNavigationComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

@@ -1,0 +1,39 @@
+.mobile-navigation {
+    height: 100%;
+    width: 100%;
+
+    .mobile-navigation__wrapper {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: var(--gap-app);
+
+        .mobile_navigation__item {
+            aspect-ratio: 1;
+            height: 50px;
+            border-radius: 4px;
+            user-select: none;
+            cursor: pointer;
+
+            &.active {
+                background-color: var(--p-button-secondary-hover-background);
+            }
+
+            .mobile_navigation__item-wrapper {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: .25rem;
+
+                .mobile_navigation__title {
+                    font-size: 0.5rem;
+                }
+            }
+        }
+    }
+}

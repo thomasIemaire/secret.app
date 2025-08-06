@@ -1,9 +1,10 @@
 <div class="flows">
     <div class="flows__wrapper">
-        <div class="left__content">
+        <div class="left__content" [class.mobile__section-hide]="router.url !== '/flows'">
             <div class="flows__filters">
                 <input pInputText [(ngModel)]="search" type="text" pSize="small" placeholder="Rechercher un Flow" />
                 <div class="filters__type">
+                    <span class="filters__type-desc">Trier par</span>
                     <p-select [(ngModel)]="filterOn" [options]="filters" optionLabel="name" optionValue="value"
                         size="small" placeholder="Small" class="w-full md:w-56" />
                     <p-button [icon]="orderBy === 'asc' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'"
@@ -32,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div class="right__content">
+        <div class="right__content" [class.mobile__section-hide]="router.url === '/flows'">
             @if (router.url === '/flows') {
             Aucun Flow sélectionné
             } @else {

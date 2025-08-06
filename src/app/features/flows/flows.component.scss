@@ -40,7 +40,13 @@
                     display: flex;
                     align-items: center;
                     justify-content: flex-end;
+                    user-select: none;
                     gap: .5rem;
+
+                    .filters__type-desc {
+                        font-size: .875rem;
+                        color: var(--p-text-muted-color);
+                    }
 
                     p-select {
                         width: 100%;
@@ -146,7 +152,7 @@
     .flows .flows__wrapper {
         flex-direction: column;
         
-        .right__content {
+        .mobile__section-hide {
             display: none;
         }
     }

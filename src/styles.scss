@@ -6,6 +6,7 @@
 :root {
     --header-height: 64px;
     --sidebar-width: 256px;
+    --mobile-navigation-height: var(--header-height);
 
     --padding-app: 1.5rem;
     --gap-app: var(--padding-app);

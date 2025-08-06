@@ -1,0 +1,11 @@
+<div class="mobile-navigation">
+    <div class="mobile-navigation__wrapper">
+        <div class="mobile_navigation__item" *ngFor="let item of navigation" [routerLink]="item.route"
+            routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }">
+            <div class="mobile_navigation__item-wrapper">
+                <i class="mobile_navigation__icon" [ngClass]="item.icon"></i>
+                <span class="mobile_navigation__title">{{ item.label }}</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -62,16 +62,34 @@
             }
         }
     }
+
+    .mobile-navigation {
+        display: none;
+        height: var(--mobile-navigation-height);
+        width: 100%;
+        background-color: var(--p-button-secondary-background);
+
+        .mobile-navigation__wrapper {
+            height: 100%;
+            width: 100%;
+        }
+    }
 }
 
 @media screen and (max-width: 768px) {
-    .app .app__layout .app__main .app__body {
-        .sidebar {
-            display: none;
+    .app {
+        .app__layout .app__main .app__body {
+            .sidebar {
+                display: none;
+            }
+
+            .content .content__wrapper.__padding {
+                padding: 0 var(--padding-app) var(--padding-app) var(--padding-app) !important;
+            }
         }
 
-        .content .content__wrapper.__padding {
-            padding: 0 var(--padding-app) var(--padding-app) var(--padding-app) !important;
+        .mobile-navigation {
+            display: block;
         }
     }
 }
