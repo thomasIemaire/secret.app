@@ -20,8 +20,11 @@
     .app__layout {
         flex: 1;
         height: 100%;
-        max-height: calc(100dvh - var(--header-height));
         width: 100%;
+
+        &.__logged {
+            max-height: calc(100dvh - var(--header-height));
+        }
 
         .app__main {
             height: 100%;
@@ -48,8 +51,11 @@
 
                 .content {
                     height: 100%;
-                    max-width: calc(100dvw - var(--sidebar-width));
                     flex: 1;
+
+                    &.__logged {
+                        max-width: calc(100dvw - var(--sidebar-width));
+                    }
 
                     .content__wrapper {
                         height: 100%;
@@ -82,7 +88,9 @@
 @media screen and (max-width: 768px) {
     .app {
         .app__layout {
-            max-height: calc(100dvh - var(--header-height) - var(--mobile-navigation-height));
+            &.__logged {
+                max-height: calc(100dvh - var(--header-height) - var(--mobile-navigation-height));
+            }
 
             .app__main .app__body {
                 .sidebar {

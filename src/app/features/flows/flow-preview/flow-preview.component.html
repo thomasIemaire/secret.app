@@ -3,28 +3,40 @@
         <div class="flow-preview__header">
             <p-button label="Retour" severity="secondary" icon="pi pi-arrow-left" [text]="true" (onClick)="back()"
                 size="small" />
-            <span class="flow-preview__title">{{ flow!.name }}</span>
         </div>
         <div class="flow-preview__content">
+            <p-table [value]="flowInfos">
+                <ng-template #body let-flow>
+                    <tr style="background-color: transparent !important;">
+                        <td style="border-color: var(--p-button-secondary-active-background); color: var(--p-text-muted-color);">{{ flow.key }}</td>
+                        <td style="border-color: var(--p-button-secondary-active-background); width: 100%;">{{ flow.value }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
             <p-selectbutton [(ngModel)]="selectPreview.value" [options]="selectPreview.options" size="small"
                 optionLabel="label" optionValue="value" [allowEmpty]="false" />
+
             <div class="orgchart-container" (mousedown)="startPan($event)" (mousemove)="pan($event)"
                 (mouseup)="endPan()" (mouseleave)="endPan()" (wheel)="onWheel($event)"
                 (touchstart)="startPanTouch($event)" (touchmove)="panTouch($event)" (touchend)="endPan()">
                 <div class="orgchart-content"
                     [ngStyle]="{'transform': 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scale + ')'}">
-                    <p-organization-chart [value]="data" [styleClass]="'custom-orgchart'">
+                    <p-organization-chart [value]="data">
                         <ng-template let-node pTemplate="default">
-                            <div class="">
-                                <div class="node-icon">
-                                    <i class="pi" [ngClass]="node.type === 'agent' ? 'pi-microchip-ai' : 'pi-sitemap'"></i>
+                            <div class="org-item">
+                                <div class="org-item__wrapper">
+                                    <i class="pi" [class.pi-microchip-ai]="node.data.type === 'agent'"
+                                        [class.pi-sitemap]="node.data.type !== 'agent'"
+                                        [class.pi-file]="node.data.type === 'sard'"></i>
+                                    <span class="org-item__label">{{ node.data.label }}</span>
                                 </div>
-                                <div class="mt-4 font-medium text-lg">{{ node.label }}</div>
                             </div>
                         </ng-template>
                     </p-organization-chart>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

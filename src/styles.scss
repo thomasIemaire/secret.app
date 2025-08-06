@@ -14,12 +14,20 @@
     --background-gradient: linear-gradient(270deg, #ff00cc, #3333ff, #00ffcc, #ff00cc);
 
     --background-color: var(--p-surface-50);
+
     --orgchart-background-line: #1a1a1a0c;
+    --orgchart-node-sardine-background: var(--p-surface-200);
+    --orgchart-node-flow-background: var(--p-surface-100);
+
+    --p-organizationchart-node-padding: 0 !important;
 }
 
 .app-dark:root {
     --background-color: var(--p-surface-950);
-    --orgchart-background-line: #ebebeb17;
+    
+    --orgchart-background-line: #ebebeb1f;
+    --orgchart-node-sardine-background: var(--p-surface-700);
+    --orgchart-node-flow-background: var(--p-surface-800);
 }
 
 * {

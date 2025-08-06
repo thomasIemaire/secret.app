@@ -7,10 +7,11 @@ import { Button } from 'primeng/button';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { OrganizationChartModule } from 'primeng/organizationchart';
 import { TreeNode } from 'primeng/api';
+import { TableModule } from 'primeng/table';
 
 @Component({
     selector: 'app-flow-preview',
-    imports: [CommonModule, FormsModule, Button, SelectButtonModule, OrganizationChartModule],
+    imports: [CommonModule, FormsModule, Button, SelectButtonModule, OrganizationChartModule, TableModule],
     templateUrl: './flow-preview.component.html',
     styleUrls: ['./flow-preview.component.scss']
 })
@@ -24,7 +25,7 @@ export class FlowPreviewComponent {
     public selectPreview: any = {
         options: [
             { label: 'Arborescence', value: 'tree' },
-            { label: 'Retour', value: 'return' },
+            { label: 'Objet', value: 'object' },
         ],
         value: 'tree'
     }
@@ -33,6 +34,13 @@ export class FlowPreviewComponent {
         this.route.params.subscribe(params => {
             this.flow = this.findFlowById(params['id']);
         });
+    }
+
+    get flowInfos() {
+        return Object.entries(this.flow).map(([key, value]) => ({
+            key,
+            value: Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value
+        }));
     }
 
     private findFlowById(id: string) {
@@ -45,28 +53,28 @@ export class FlowPreviewComponent {
 
     data: TreeNode[] = [
         {
-            type: 'flow',
-            label: 'Sardine',
+            data: { type: 'sard', label: 'Sardine' },
+            styleClass: 'agent-node',
             expanded: true,
             children: [
                 {
-                    type: 'flow',
-                    label: 'flow',
+                    data: { type: 'flow', label: 'FactureX' },
                     expanded: true,
+                    styleClass: 'flow-node',
                     children: [
                         {
-                            type: 'agent',
-                            label: 'agent'
+                            data: { type: 'agent', label: 'adrs' },
+
                         },
                         {
-                            type: 'agent',
-                            label: 'agent'
+                            data: { type: 'agent', label: 'tots' },
+
                         }
                     ]
                 },
                 {
-                    type: 'agent',
-                    label: 'agent',
+                    data: { type: 'agent', label: 'demo' },
+
                 }
             ]
         }
@@ -75,8 +83,8 @@ export class FlowPreviewComponent {
     startX = 0;
     startY = 0;
     translateX = 0;
-    translateY = 0;
-    scale = .7;
+    translateY = 50;
+    scale = 1;
     lastPinchDistance = 0;
 
     startPan(event: MouseEvent) {
