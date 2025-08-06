@@ -45,32 +45,28 @@ export class FlowPreviewComponent {
 
     data: TreeNode[] = [
         {
-            label: 'F.C Barcelona',
+            type: 'flow',
+            label: 'Sardine',
             expanded: true,
             children: [
                 {
-                    label: 'Argentina',
+                    type: 'flow',
+                    label: 'flow',
                     expanded: true,
                     children: [
                         {
-                            label: 'Argentina'
+                            type: 'agent',
+                            label: 'agent'
                         },
                         {
-                            label: 'France'
+                            type: 'agent',
+                            label: 'agent'
                         }
                     ]
                 },
                 {
-                    label: 'France',
-                    expanded: true,
-                    children: [
-                        {
-                            label: 'France'
-                        },
-                        {
-                            label: 'Morocco'
-                        }
-                    ]
+                    type: 'agent',
+                    label: 'agent',
                 }
             ]
         }
@@ -80,7 +76,7 @@ export class FlowPreviewComponent {
     startY = 0;
     translateX = 0;
     translateY = 0;
-    scale = .8;
+    scale = .7;
     lastPinchDistance = 0;
 
     startPan(event: MouseEvent) {

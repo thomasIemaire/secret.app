@@ -13,7 +13,16 @@
                 (touchstart)="startPanTouch($event)" (touchmove)="panTouch($event)" (touchend)="endPan()">
                 <div class="orgchart-content"
                     [ngStyle]="{'transform': 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scale + ')'}">
-                    <p-organization-chart [value]="data" [styleClass]="'custom-orgchart'" />
+                    <p-organization-chart [value]="data" [styleClass]="'custom-orgchart'">
+                        <ng-template let-node pTemplate="default">
+                            <div class="">
+                                <div class="node-icon">
+                                    <i class="pi" [ngClass]="node.type === 'agent' ? 'pi-microchip-ai' : 'pi-sitemap'"></i>
+                                </div>
+                                <div class="mt-4 font-medium text-lg">{{ node.label }}</div>
+                            </div>
+                        </ng-template>
+                    </p-organization-chart>
                 </div>
             </div>
         </div>
