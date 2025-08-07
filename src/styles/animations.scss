@@ -25,3 +25,37 @@
         display: flex;
     }
 }
+
+@keyframes toNode {
+    0% {
+        top: -100%;
+        opacity: 0;
+    }
+
+    50% {
+        top: 50%;
+        opacity: 1;
+    }
+
+    100% {
+        top: 50%;
+        opacity: 1;
+    }
+}
+
+@keyframes fromNode {
+    0% {
+        bottom: 10px;
+        opacity: 1;
+    }
+
+    50% {
+        bottom: 10px;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: -150%;
+        opacity: 0;
+    }
+}

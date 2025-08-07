@@ -7,11 +7,12 @@ import { Button } from 'primeng/button';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { OrganizationChartModule } from 'primeng/organizationchart';
 import { TreeNode } from 'primeng/api';
-import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
     selector: 'app-flow-preview',
-    imports: [CommonModule, FormsModule, Button, SelectButtonModule, OrganizationChartModule, TableModule],
+    imports: [CommonModule, FormsModule, Button, SelectButtonModule, OrganizationChartModule, TagModule, DividerModule],
     templateUrl: './flow-preview.component.html',
     styleUrls: ['./flow-preview.component.scss']
 })
@@ -53,28 +54,43 @@ export class FlowPreviewComponent {
 
     data: TreeNode[] = [
         {
-            data: { type: 'sard', label: 'Sardine' },
-            styleClass: 'agent-node',
+            data: { type: 'sard', label: 'Sardine', version: 'latest' },
             expanded: true,
             children: [
                 {
-                    data: { type: 'flow', label: 'FactureX' },
+                    data: { type: 'alert', label: 'Facture' },
+                    styleClass: 'success-node',
                     expanded: true,
-                    styleClass: 'flow-node',
                     children: [
                         {
-                            data: { type: 'agent', label: 'adrs' },
+                            data: { type: 'flow', label: 'FactureX' },
+                            expanded: true,
+                            children: [
+                                {
+                                    data: { type: 'agent', label: 'adrs', version: '1.0' },
 
+                                },
+                                {
+                                    data: { type: 'agent', label: 'tots', version: '1.0' },
+
+                                }
+                            ]
                         },
                         {
-                            data: { type: 'agent', label: 'tots' },
+                            data: { type: 'agent', label: 'demo', version: '1.0' },
 
                         }
                     ]
                 },
                 {
-                    data: { type: 'agent', label: 'demo' },
-
+                    data: { type: 'alert', label: 'Autre' },
+                    styleClass: 'error-node',
+                    expanded: true,
+                    children: [
+                        {
+                            data: { type: 'agent', label: 'demo', version: '1.0' },
+                        }
+                    ]
                 }
             ]
         }

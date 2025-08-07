@@ -25,7 +25,7 @@
                     </div>
                     <div class="flow__item-description">{{ flow.description }}</div>
                     <div class="flow__foot">
-                        <div class="flow__item-files">{{ flow.files }}</div>
+                        <span class="flow__item-files">{{ flow.files.join(', ') || 'Tous' }}</span>
                         <div class="flow__item-updated">
                             MAJ {{ flow.updatedAt | date: 'dd/MM/yyyy HH:mm' }}
                         </div>

@@ -3,40 +3,114 @@
         <div class="flow-preview__header">
             <p-button label="Retour" severity="secondary" icon="pi pi-arrow-left" [text]="true" (onClick)="back()"
                 size="small" />
+            <p-button label="Modifier" severity="secondary" icon="pi pi-pencil" [text]="true" (onClick)="back()"
+                size="small" />
         </div>
         <div class="flow-preview__content">
-            <p-table [value]="flowInfos">
-                <ng-template #body let-flow>
-                    <tr style="background-color: transparent !important;">
-                        <td style="border-color: var(--p-button-secondary-active-background); color: var(--p-text-muted-color);">{{ flow.key }}</td>
-                        <td style="border-color: var(--p-button-secondary-active-background); width: 100%;">{{ flow.value }}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
+            <div class="flow-preview__infos">
+                <div class="flow-preview__sections">
+                    <div class="flow-preview__row-section">
+                        <div class="flow-preview__section-title">
+                            {{ flow?.name }}
+                        </div>
+                        <div class="flow-preview__section-content">
+                            {{ flow?.id }}
+                        </div>
+                    </div>
 
-            <p-selectbutton [(ngModel)]="selectPreview.value" [options]="selectPreview.options" size="small"
-                optionLabel="label" optionValue="value" [allowEmpty]="false" />
+                    <div class="flow-preview__section">
+                        <div class="flow-preview__section-title">Description</div>
+                        <div class="flow-preview__section-content">
+                            {{ flow?.description }}
+                        </div>
+                    </div>
 
-            <div class="orgchart-container" (mousedown)="startPan($event)" (mousemove)="pan($event)"
-                (mouseup)="endPan()" (mouseleave)="endPan()" (wheel)="onWheel($event)"
-                (touchstart)="startPanTouch($event)" (touchmove)="panTouch($event)" (touchend)="endPan()">
-                <div class="orgchart-content"
-                    [ngStyle]="{'transform': 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scale + ')'}">
-                    <p-organization-chart [value]="data">
-                        <ng-template let-node pTemplate="default">
-                            <div class="org-item">
-                                <div class="org-item__wrapper">
-                                    <i class="pi" [class.pi-microchip-ai]="node.data.type === 'agent'"
-                                        [class.pi-sitemap]="node.data.type !== 'agent'"
-                                        [class.pi-file]="node.data.type === 'sard'"></i>
-                                    <span class="org-item__label">{{ node.data.label }}</span>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </p-organization-chart>
+                    <div class="flow-preview__section">
+                        <div class="flow-preview__section-title">Document pris en charge</div>
+                        <div class="flow-preview__section-content">
+                            {{ flow.files.join(', ') || 'Tous les documents sont pris en charge' }}
+                        </div>
+                    </div>
+
+                    <div class="flow-preview__section">
+                        <div class="flow-preview__section-title">Statut</div>
+                        <div class="flow-preview__section-content">
+                            {{ flow?.status }}
+                        </div>
+                    </div>
+
+                    <div class="flow-preview__section">
+                        <div class="flow-preview__section-title">Dernière modification</div>
+                        <div class="flow-preview__section-content">
+                            {{ flow?.updatedAt | date: 'dd/MM/yyyy HH:mm' }}
+                        </div>
+                    </div>
+                </div>
+
+                <p-divider />
+
+                <div class="flow-preview__sections">
+                    <div class="flow-preview__row-section">
+                        <div class="flow-preview__section-title">
+                            Statistiques
+                        </div>
+                        <div class="flow-preview__section-content">
+                            Depuis la dernière modification
+                        </div>
+                    </div>
+
+                    <div class="flow-preview__section">
+                        <div class="flow-preview__section-title">Durée moyenne d'exécution</div>
+                        <div class="flow-preview__section-content">
+                            2.5s
+                        </div>
+                    </div>
+
+                    <div class="flow-preview__section">
+                        <div class="flow-preview__section-title">Nombre d'exécutions</div>
+                        <div class="flow-preview__section-content">
+                            56
+                        </div>
+                    </div>
+                </div>
+
+                <p-divider />
+
+                <div class="flow-preview__sections __last">
+                    <div class="flow-preview__row-section">
+                        <div class="flow-preview__section-title">
+                            Structures
+                        </div>
+                    </div>
+
+                    <p-selectbutton [(ngModel)]="selectPreview.value" [options]="selectPreview.options" size="small"
+                        optionLabel="label" optionValue="value" [allowEmpty]="false" />
+
+                    <div class="orgchart-container" (mousedown)="startPan($event)" (mousemove)="pan($event)"
+                        (mouseup)="endPan()" (mouseleave)="endPan()" (wheel)="onWheel($event)"
+                        (touchstart)="startPanTouch($event)" (touchmove)="panTouch($event)" (touchend)="endPan()">
+                        <div class="orgchart-content"
+                            [ngStyle]="{'transform': 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scale + ')'}">
+                            <p-organization-chart [value]="data">
+                                <ng-template let-node pTemplate="default">
+                                    <div class="org-item">
+                                        <div class="org-item__wrapper">
+                                            <i class="pi" *ngIf="node.data.type !== 'alert' && node.data.type !== 'sard'"
+                                                [class.pi-microchip-ai]="node.data.type === 'agent'"
+                                                [class.pi-sitemap]="node.data.type !== 'agent'"></i>
+                                            <span class="org-item__label">{{ node.data.label }}</span>
+                                            <p-tag *ngIf="node.data.version" [value]="node.data.version"
+                                                severity="secondary" class="org-item__tag" [rounded]="true" />
+                                        </div>
+                                        <i *ngIf="node.data.type === 'sard'" class="pi pi-file org-item__animate-logo"></i>
+                                        <i *ngIf="node.data.type === 'agent'" class="pi pi-code org-item__animate-logo"></i>
+                                    </div>
+                                </ng-template>
+                            </p-organization-chart>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
