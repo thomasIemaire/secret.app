@@ -38,6 +38,7 @@
                         align-items: center;
                         justify-content: space-between;
                         font-size: .875rem !important;
+                        font-weight: 600;
 
                         p-tag {
                             font-size: .75rem;
@@ -66,7 +67,8 @@
                         i {
                             padding: .2rem;
                             cursor: pointer;
-                            color: var(--p-text-muted-color);
+                            color: var(--p-button-secondary-active-background);
+                            // color: var(--p-text-muted-color);
                         }
                     }
                 }

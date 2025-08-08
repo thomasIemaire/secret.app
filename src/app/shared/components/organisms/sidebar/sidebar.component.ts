@@ -33,6 +33,11 @@ export class SidebarComponent {
             label: 'Playground',
             icon: 'pi pi-sparkles',
             route: '/playground'
+        },
+        {
+            label: 'Logs',
+            icon: 'pi pi-code',
+            route: '/logs'
         }
     ];
 
