@@ -156,4 +156,14 @@ export class FlowPreviewComponent {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    public resetPan() {
+        this.isPanning = false;
+        this.startX = 0;
+        this.startY = 0;
+        this.translateX = 0;
+        this.translateY = 50;
+        this.scale = 1;
+        this.lastPinchDistance = 0;
+    }
+
 }

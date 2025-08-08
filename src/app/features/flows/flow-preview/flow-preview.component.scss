@@ -108,6 +108,13 @@
                     cursor: grabbing;
                 }
 
+                .orgchart__reset {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    z-index: 10;
+                }
+
                 .orgchart-content {
                     transition: transform 0s;
                     position: relative;

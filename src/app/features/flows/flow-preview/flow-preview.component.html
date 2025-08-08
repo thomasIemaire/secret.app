@@ -89,6 +89,8 @@
                     <div class="orgchart-container" (mousedown)="startPan($event)" (mousemove)="pan($event)"
                         (mouseup)="endPan()" (mouseleave)="endPan()" (wheel)="onWheel($event)"
                         (touchstart)="startPanTouch($event)" (touchmove)="panTouch($event)" (touchend)="endPan()">
+                        <p-button icon="pi pi-refresh" severity="secondary" size="small"
+                            class="orgchart__reset" (click)="resetPan()" />
                         <div class="orgchart-content"
                             [ngStyle]="{'transform': 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scale + ')'}">
                             <p-organization-chart [value]="data">
