@@ -17,17 +17,27 @@
             .train-agents__wrapper {
                 display: flex;
                 flex-direction: column;
-                gap: .5rem;
+                gap: 1rem;
+                padding: 0 1.2rem;
+                user-select: none;
+
+                .train-agents__title {
+                    font-size: .875rem !important;
+                    font-weight: 600;
+                    text-align: center;
+                }
 
                 .train-agent__item {
                     display: flex;
                     flex-direction: column;
                     gap: .25rem;
+                    user-select: none;
 
                     .train-agent__item-head {
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
+                        font-size: .875rem !important;
 
                         p-tag {
                             font-size: .75rem;
@@ -37,6 +47,26 @@
                     .train-agent__item-content {
                         p-progressbar {
                             height: .25rem !important;
+                        }
+                    }
+
+                    .train-agent__item-actions {
+                        margin-top: .5rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 1rem;
+
+                        .train-agent__mains-actions {
+                            display: flex;
+                            align-items: center;
+                            gap: .5rem;
+                        }
+
+                        i {
+                            padding: .2rem;
+                            cursor: pointer;
+                            color: var(--p-text-muted-color);
                         }
                     }
                 }

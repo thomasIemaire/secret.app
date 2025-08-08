@@ -2,20 +2,35 @@
     <div class="sidebar__wrapper">
         <app-menu [items]="navigation" />
         <div class="sidebar__bottom">
+            <app-menu [items]="tools" />
             <div class="train-agents__wrapper">
+                <div class="train-agents__title">
+                    En cours d'entraînement
+                </div>
                 <div class="train-agent__item">
                     <div class="train-agent__item-head">
-                        <span class="train-agent__item-title">adrs</span>
-                        <p-tag class="train-agent__item-tag" severity="secondary" value="1.0" />
+                        <span class="train-agent__item-title">{{ agents[agent].name }}</span>
+                        <p-tag class="train-agent__item-tag" severity="secondary" [value]="agents[agent].version" />
                     </div>
                     <div class="train-agent__item-content">
-                        <p-progressbar [value]="78">
+                        <p-progressbar [value]="agents[agent].progress">
                             <ng-template #content let-value />
                         </p-progressbar>
                     </div>
+                    <div class="train-agent__item-actions">
+                        <i class="pi pi-chevron-circle-left" pTooltip="Précedent" tooltipPosition="top" showDelay="200"
+                            (click)="setAgent(agent - 1)"></i>
+                        <div class="train-agent__mains-actions">
+                            <i class="pi pi-stop-circle" pTooltip="Arrêter" tooltipPosition="top" showDelay="200"></i>
+                            <i class="pi pi-pause-circle" pTooltip="Mettre en pause" tooltipPosition="top"
+                                showDelay="200"></i>
+                            <i class="pi pi-info-circle" pTooltip="Détails" tooltipPosition="top" showDelay="200"></i>
+                        </div>
+                        <i class="pi pi-chevron-circle-right" pTooltip="Suivant" tooltipPosition="top" showDelay="200"
+                            (click)="setAgent(agent + 1)"></i>
+                    </div>
                 </div>
             </div>
-            <app-menu [items]="tools" />
         </div>
     </div>
 </div>

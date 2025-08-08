@@ -65,8 +65,13 @@ p-selectbutton .p-togglebutton {
 p-progressbar .p-progressbar-value {
     background: var(--background-gradient);
     background-size: 800% 800%;
-    animation: gradientMove 10s ease infinite;
+    animation: gradientMove 15s ease infinite;
     color: #fff !important;
+}
+
+.p-tooltip-text {
+    font-size: 0.875rem !important;
+    padding: .3rem .6rem !important;
 }
 
 @media screen and (max-width: 768px) {
