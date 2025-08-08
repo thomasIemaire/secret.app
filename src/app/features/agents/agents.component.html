@@ -1,6 +1,6 @@
 <div class="agents">
     <div class="agents__wrapper">
-        <div class="left__content">
+        <div class="left__content" [class.mobile__section-hide]="router.url !== '/agents'">
             <div class="agents__filters">
                 <input pInputText [(ngModel)]="search" type="text" pSize="small" placeholder="Rechercher un Agent" />
                 <div class="filters__type">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <div class="right__content">
+        <div class="right__content" [class.mobile__section-hide]="router.url === '/agents'">
             @if (router.url === '/agents') {
             <div class="right__content-empty">
                 <span>Aucun Agent sélectionné</span>

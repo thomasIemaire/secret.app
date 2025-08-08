@@ -130,3 +130,13 @@
         }
     }
 }
+
+@media screen and (max-width: 568px) {
+    .agents .agents__wrapper {
+        flex-direction: column;
+
+        .mobile__section-hide {
+            display: none;
+        }
+    }
+}
