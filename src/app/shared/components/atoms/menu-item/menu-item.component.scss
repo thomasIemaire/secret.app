@@ -8,10 +8,12 @@
     user-select: none;
     border-radius: .5rem;
     font-size: .875rem !important;
+    color: var(--p-text-muted-color);
 
     &.active,
     &:hover {
-        background-color: var(--p-button-secondary-background);
+        background-color: var(--secondary-background-color);
+        color: var(--p-text-color);
     }
 
     .menu-item__icon {

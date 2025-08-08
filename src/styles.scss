@@ -14,6 +14,7 @@
     --background-gradient: linear-gradient(270deg, #ff00cc, #3333ff, #00ffcc, #ff00cc);
 
     --background-color: var(--p-surface-50);
+    --secondary-background-color: var(--p-surface-100);
 
     --orgchart-background-line: #1a1a1a0c;
     --p-organizationchart-node-padding: 0 !important;
@@ -21,7 +22,8 @@
 
 .app-dark:root {
     --background-color: var(--p-surface-950);
-
+    --secondary-background-color: var(--p-surface-900);
+    
     --orgchart-background-line: #ebebeb1f;
 }
 
