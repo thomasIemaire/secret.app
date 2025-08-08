@@ -1,0 +1,31 @@
+<div class="agents">
+    <div class="agents__wrapper">
+        <div class="left__content">
+            <div class="agents__filters">
+                <input pInputText [(ngModel)]="search" type="text" pSize="small" placeholder="Rechercher un Agent" />
+                <div class="filters__type">
+                    <span class="filters__type-desc">Trier par</span>
+                    <p-select [(ngModel)]="filterOn" [options]="filters" optionLabel="name" optionValue="value"
+                        size="small" placeholder="Small" class="w-full md:w-56" />
+                    <p-button [icon]="orderBy === 'asc' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'"
+                        [text]="true" severity="secondary" size="small" (click)="toggleOrder()" />
+                </div>
+            </div>
+            <div class="agents__list">
+                <div class="agent__add">
+                    <i class="pi pi-plus"></i>
+                </div>
+                <div class="agent__item" *ngFor="let agent of agents">
+                    <div class="agent__title">
+                        {{ agent.name }}
+                    </div>
+                    <p-tag [value]="agent.status"
+                        [severity]="agent.status === 'active' ? 'success' : agent.status === 'inactive' ? 'warn' : 'danger'" />
+                </div>
+            </div>
+        </div>
+        <div class="right__content">
+
+        </div>
+    </div>
+</div>

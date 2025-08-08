@@ -21,7 +21,7 @@
 
 .app-dark:root {
     --background-color: var(--p-surface-950);
-    
+
     --orgchart-background-line: #ebebeb1f;
 }
 
@@ -60,6 +60,13 @@ p-password input {
 
 p-selectbutton .p-togglebutton {
     flex: 1;
+}
+
+p-progressbar .p-progressbar-value {
+    background: var(--background-gradient);
+    background-size: 800% 800%;
+    animation: gradientMove 10s ease infinite;
+    color: #fff !important;
 }
 
 @media screen and (max-width: 768px) {

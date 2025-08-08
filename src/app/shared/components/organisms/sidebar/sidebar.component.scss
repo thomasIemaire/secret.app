@@ -8,5 +8,39 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+
+        .sidebar__bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            .train-agents__wrapper {
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+
+                .train-agent__item {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .25rem;
+
+                    .train-agent__item-head {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        p-tag {
+                            font-size: .75rem;
+                        }
+                    }
+
+                    .train-agent__item-content {
+                        p-progressbar {
+                            height: .25rem !important;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

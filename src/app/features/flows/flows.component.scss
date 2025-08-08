@@ -6,7 +6,7 @@
         height: 100%;
         width: 100%;
         display: flex;
-        gap: var(--gap-app);
+        gap: 1rem;
 
         .left__content,
         .right__content {
@@ -59,7 +59,7 @@
                 width: 100%;
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(312px, 1fr));
-                gap: 1rem;
+                gap: .5rem;
 
                 .flow__add {
                     height: 100%;

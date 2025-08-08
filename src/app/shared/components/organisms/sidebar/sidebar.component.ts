@@ -4,10 +4,12 @@ import { FormsModule } from "@angular/forms";
 import { MenuComponent } from "../../molecules/menu/menu.component";
 import { IMenuItem } from "../../../../core/models/menu-item.model";
 import { UserService } from "../../../../core/services/user.service";
+import { ProgressBarModule } from 'primeng/progressbar';
+import { Tag } from "primeng/tag";
 
 @Component({
     selector: 'app-sidebar',
-    imports: [CommonModule, FormsModule, MenuComponent],
+    imports: [CommonModule, FormsModule, MenuComponent, ProgressBarModule, Tag],
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss']
 })

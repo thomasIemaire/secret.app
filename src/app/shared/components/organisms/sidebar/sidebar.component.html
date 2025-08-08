@@ -1,6 +1,21 @@
 <div class="sidebar">
     <div class="sidebar__wrapper">
         <app-menu [items]="navigation" />
-        <app-menu [items]="tools" />
+        <div class="sidebar__bottom">
+            <div class="train-agents__wrapper">
+                <div class="train-agent__item">
+                    <div class="train-agent__item-head">
+                        <span class="train-agent__item-title">adrs</span>
+                        <p-tag class="train-agent__item-tag" severity="secondary" value="1.0" />
+                    </div>
+                    <div class="train-agent__item-content">
+                        <p-progressbar [value]="78">
+                            <ng-template #content let-value />
+                        </p-progressbar>
+                    </div>
+                </div>
+            </div>
+            <app-menu [items]="tools" />
+        </div>
     </div>
 </div>
