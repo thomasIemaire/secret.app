@@ -1,3 +1,5 @@
+<p-confirmpopup />
+
 <div class="sidebar">
     <div class="sidebar__wrapper">
         <app-menu [items]="navigation" />
@@ -17,17 +19,19 @@
                             <ng-template #content let-value />
                         </p-progressbar>
                     </div>
-                    <div class="train-agent__item-actions">
-                        <i class="pi pi-chevron-circle-left" pTooltip="Précedent" tooltipPosition="top" showDelay="200"
-                            (click)="setAgent(agent - 1)"></i>
+                    <div class="train-agent__item-actions">                        
+                        <i class="pi pi-chevron-circle-left" pTooltip="Précedent" tooltipPosition="bottom"
+                            showDelay="200" (click)="setAgent(agent - 1)"></i>
                         <div class="train-agent__mains-actions">
-                            <i class="pi pi-stop-circle" pTooltip="Arrêter" tooltipPosition="top" showDelay="200"></i>
-                            <i class="pi pi-pause-circle" pTooltip="Mettre en pause" tooltipPosition="top"
+                            <i class="pi pi-stop-circle" pTooltip="Arrêter" tooltipPosition="bottom" showDelay="200"
+                                (click)="stopTraining($event)"></i>
+                            <i class="pi pi-pause-circle" pTooltip="Mettre en pause" tooltipPosition="bottom"
                                 showDelay="200"></i>
-                            <i class="pi pi-info-circle" pTooltip="Détails" tooltipPosition="top" showDelay="200"></i>
+                            <i class="pi pi-info-circle" pTooltip="Détails" tooltipPosition="bottom"
+                                showDelay="200"></i>
                         </div>
-                        <i class="pi pi-chevron-circle-right" pTooltip="Suivant" tooltipPosition="top" showDelay="200"
-                            (click)="setAgent(agent + 1)"></i>
+                        <i class="pi pi-chevron-circle-right" pTooltip="Suivant" tooltipPosition="bottom"
+                            showDelay="200" (click)="setAgent(agent + 1)"></i>
                     </div>
                 </div>
             </div>

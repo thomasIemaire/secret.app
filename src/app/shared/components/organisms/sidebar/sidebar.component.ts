@@ -7,16 +7,21 @@ import { UserService } from "../../../../core/services/user.service";
 import { ProgressBarModule } from 'primeng/progressbar';
 import { Tag } from "primeng/tag";
 import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmationService, MessageService } from "primeng/api";
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @Component({
     selector: 'app-sidebar',
-    imports: [CommonModule, FormsModule, MenuComponent, ProgressBarModule, Tag, TooltipModule],
+    imports: [CommonModule, FormsModule, MenuComponent, ProgressBarModule, Tag, TooltipModule, ConfirmPopupModule],
     templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.scss']
+    styleUrls: ['./sidebar.component.scss'],
+    providers: [ConfirmationService, MessageService]
 })
 export class SidebarComponent {
 
     public userService = inject(UserService);
+    private confirmationService: ConfirmationService = inject(ConfirmationService);
+    private messageService: MessageService = inject(MessageService);
 
     public navigation: IMenuItem[] = [
         {
@@ -79,5 +84,28 @@ export class SidebarComponent {
             this.agent = this.agents.length - 1;
         else
             this.agent = index % this.agents.length;
+    }
+
+    public stopTraining(event: Event) {
+        this.confirmationService.confirm({
+            target: event.currentTarget as EventTarget,
+            message: 'Do you want to delete this record?',
+            icon: 'pi pi-info-circle',
+            rejectButtonProps: {
+                label: 'Cancel',
+                severity: 'secondary',
+                outlined: true
+            },
+            acceptButtonProps: {
+                label: 'Delete',
+                severity: 'danger'
+            },
+            accept: () => {
+                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted', life: 3000 });
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+            }
+        });
     }
 }
