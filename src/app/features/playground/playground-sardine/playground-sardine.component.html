@@ -14,7 +14,7 @@
                     <span *ngIf="!data.base64">Cliquer pour télécharger un fichier</span>
                     <span *ngIf="!data.base64">ou</span>
                     <span *ngIf="!data.base64">Déposer un fichier ici</span>
-                    <span *ngIf="data.base64">{{ data.base64 ? 'Fichier sélectionné' : '' }}</span>
+                    <span *ngIf="data.base64">{{ data.base64 ? `Document téléchargé : ${filename}` : '' }}</span>
                     <input type="file" #fileInput hidden (change)="onFileSelected($event)">
                 </div>
 

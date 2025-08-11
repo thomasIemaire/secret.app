@@ -27,6 +27,8 @@ export class PlaygroundSardineComponent {
         base64: '',
     };
 
+    public filename: string = '';
+
     onFileSelected(event: Event) {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
@@ -49,6 +51,7 @@ export class PlaygroundSardineComponent {
         const reader = new FileReader();
         reader.onload = (e) => {
             this.data.base64 = (e.target as FileReader).result as string;
+            this.filename = file.name;
         };
         reader.readAsDataURL(file);
     }
