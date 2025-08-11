@@ -27,7 +27,7 @@ export class User implements IUser {
     }
 
     get shortname(): string {
-        return `${Utils.capitalize(this.firstName)}.${Utils.capitalize(this.lastName)[0]}`;
+        return `${Utils.capitalize(this.firstName)} ${Utils.capitalize(this.lastName)[0]}.`;
     }
 
 }

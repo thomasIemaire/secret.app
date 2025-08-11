@@ -1,0 +1,106 @@
+.playground-sardine {
+    width: 100%;
+    height: 100%;
+
+    .playground-sardine__wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .playground-sardine__form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            gap: 1.5rem;
+
+            .playground-sardine__form-title {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+
+                span {
+                    font-size: 1.875rem;
+                    font-weight: 700;
+                }
+
+                p-select {
+                    border: none;
+
+                    .p-select-label {
+                        font-size: 1.875rem;
+                        font-weight: 700;
+                        color: var(--p-text-muted-color);
+                    }
+                }
+            }
+
+            .form__step {
+                flex: 1;
+                display: none;
+                flex-direction: column;
+                gap: .5rem;
+                align-items: center;
+
+                input,
+                p-password,
+                p-select {
+                    width: 265px;
+                }
+
+                .form__upload {
+                    width: 512px;
+                    height: 128px;
+                    border-radius: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    gap: .5rem;
+                    border: 2px dashed var(--p-button-secondary-hover-background);
+                    font-size: .875rem;
+                    color: var(--p-text-muted-color);
+                    cursor: pointer;
+                    user-select: none;
+                }
+
+                &.active {
+                    animation: formFadeIn .5s ease forwards;
+                    display: flex;
+                }
+
+                &.inactive {
+                    position: absolute;
+                }
+
+                .form__actions {
+                    display: flex;
+                    justify-content: center;
+                    gap: .5rem;
+                }
+            }
+        }
+    }
+}
+
+::ng-deep {
+    .p-select {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    p-select .p-select-label {
+        font-size: 1.875rem !important;
+        font-weight: 700;
+        background: var(--background-gradient);
+        background-size: 800% 800%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientMove 10s ease infinite;
+        padding: none !important;
+        padding-block: 0 !important;
+        padding-inline: 0 !important;
+    }
+}
