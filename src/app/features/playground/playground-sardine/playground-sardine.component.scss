@@ -16,7 +16,8 @@
             position: relative;
             gap: 1.5rem;
 
-            .playground-sardine__form-title {
+            .playground-sardine__form-title,
+            .playground-sardine__form-title-mobile {
                 display: flex;
                 align-items: center;
                 gap: .5rem;
@@ -37,6 +38,10 @@
                 }
             }
 
+            .playground-sardine__form-title-mobile {
+                display: none;
+            }
+
             .form__step {
                 flex: 1;
                 display: none;
@@ -51,6 +56,7 @@
                 }
 
                 .form__upload {
+                    max-width: 90dvw;
                     width: 512px;
                     height: 128px;
                     border-radius: 4px;
@@ -64,6 +70,13 @@
                     color: var(--p-text-muted-color);
                     cursor: pointer;
                     user-select: none;
+
+                    .form__upload-filename {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 80%;
+                    }
                 }
 
                 &.active {
@@ -102,5 +115,26 @@
         padding: none !important;
         padding-block: 0 !important;
         padding-inline: 0 !important;
+    }
+}
+
+@media screen and (max-width: 568px) {
+    .playground-sardine .playground-sardine__wrapper .playground-sardine__form {
+
+        .playground-sardine__form-title {
+            display: none;
+        }
+
+        .playground-sardine__form-title-mobile {
+            display: flex;
+            flex-direction: column;
+
+            div {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+            }
+        }
+
     }
 }

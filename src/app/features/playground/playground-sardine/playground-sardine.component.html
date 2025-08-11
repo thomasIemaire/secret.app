@@ -2,8 +2,16 @@
     <div class="playground-sardine__wrapper">
         <div class="playground-sardine__form">
             <div class="playground-sardine__form-title">
-                <span>Télécharger un fichier pour tester Sardine</span>
+                <span>Télécharger un fichier et tester Sardine</span>
                 <p-select [options]="versions" [(ngModel)]="data.version" size="small" />
+            </div>
+
+            <div class="playground-sardine__form-title-mobile">
+                <span>Télécharger un fichier</span>
+                <div>
+                    <span>et tester Sardine</span>
+                    <p-select [options]="versions" [(ngModel)]="data.version" size="small" />
+                </div>
             </div>
 
             <div [class.active]="step === 0" class="form__step" [class.inactive]="step !== 0">
@@ -14,7 +22,7 @@
                     <span *ngIf="!data.base64">Cliquer pour télécharger un fichier</span>
                     <span *ngIf="!data.base64">ou</span>
                     <span *ngIf="!data.base64">Déposer un fichier ici</span>
-                    <span *ngIf="data.base64">{{ data.base64 ? `Document téléchargé : ${filename}` : '' }}</span>
+                    <span class="form__upload-filename" *ngIf="data.base64">{{ data.base64 ? `Document téléchargé : ${filename}` : '' }}</span>
                     <input type="file" #fileInput hidden (change)="onFileSelected($event)">
                 </div>
 
