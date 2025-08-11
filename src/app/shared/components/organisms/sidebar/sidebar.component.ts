@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MenuComponent } from "../../molecules/menu/menu.component";
 import { IMenuItem } from "../../../../core/models/menu-item.model";
@@ -9,6 +9,7 @@ import { Tag } from "primeng/tag";
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmationService, MessageService } from "primeng/api";
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { interval } from "rxjs";
 
 @Component({
     selector: 'app-sidebar',
@@ -17,7 +18,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     styleUrls: ['./sidebar.component.scss'],
     providers: [ConfirmationService, MessageService]
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
 
     public userService = inject(UserService);
     private confirmationService: ConfirmationService = inject(ConfirmationService);
@@ -79,11 +80,30 @@ export class SidebarComponent {
 
     public agent: number = 0;
 
+    private intervalId?: number;
+
+    ngOnInit(): void {
+        this.startInterval();
+    }
+
+    private startInterval(): void {
+        this.clearInterval();
+        this.intervalId = window.setInterval(() => {
+            this.setAgent(this.agent + 1);
+        }, 5000);
+    }
+
+    private clearInterval(): void {
+        if (this.intervalId !== undefined) {
+            clearInterval(this.intervalId);
+            this.intervalId = undefined;
+        }
+    }
+
     public setAgent(index: number): void {
-        if (index < 0)
-            this.agent = this.agents.length - 1;
-        else
-            this.agent = index % this.agents.length;
+        if (index < 0) this.agent = this.agents.length - 1;
+        else this.agent = index % this.agents.length;
+        this.startInterval();
     }
 
     public stopTraining(event: Event) {
