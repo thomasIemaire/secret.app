@@ -1,5 +1,6 @@
 <div class="playground-sardine">
     <div class="playground-sardine__wrapper">
+        @if (router.url === '/playground/sardine') {
         <div class="playground-sardine__form">
             <div class="playground-sardine__form-title">
                 <span>Télécharger un fichier et tester Sardine</span>
@@ -15,23 +16,25 @@
             </div>
 
             <div [class.active]="step === 0" class="form__step" [class.inactive]="step !== 0">
-                <div class="form__upload"
-                    (click)="fileInput.click()"
-                    (drop)="onDropFile($event)"
+                <div class="form__upload" (click)="fileInput.click()" (drop)="onDropFile($event)"
                     (dragover)="onDragOver($event)">
                     <span *ngIf="!data.base64">Cliquer pour télécharger un fichier</span>
                     <span *ngIf="!data.base64">ou</span>
                     <span *ngIf="!data.base64">Déposer un fichier ici</span>
-                    <span class="form__upload-filename" *ngIf="data.base64">{{ data.base64 ? `Document téléchargé : ${filename}` : '' }}</span>
+                    <span class="form__upload-filename" *ngIf="data.base64">{{ data.base64 ? `Fichier téléchargé :
+                        ${filename}` : '' }}</span>
                     <input type="file" #fileInput hidden (change)="onFileSelected($event)">
                 </div>
 
                 <div class="form__actions">
                     <p-button label="Annuler" size="small" severity="secondary" [routerLink]="['/playground']"
                         variant="text" />
-                    <p-button label="Tester" size="small" severity="secondary" [disabled]="!data.base64" />
+                    <p-button label="Tester" size="small" severity="secondary" [disabled]="!data.base64"
+                        (click)="sendTest()" />
                 </div>
             </div>
+
         </div>
+        } @else {}
     </div>
 </div>

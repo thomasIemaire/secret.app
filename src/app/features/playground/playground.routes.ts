@@ -9,7 +9,13 @@ export const playgroundRoutes: Routes = [
         children: [
             {
                 path: 'sardine',
-                component: PlaygroundSardineComponent
+                component: PlaygroundSardineComponent,
+                children: [
+                    {
+                        path: ':version',
+                        component: PlaygroundSardineComponent
+                    }
+                ]
             },
             {
                 path: 'agent',

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { Button } from 'primeng/button';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-playground-sardine',
@@ -13,10 +13,12 @@ import { RouterLink } from '@angular/router';
 })
 export class PlaygroundSardineComponent {
 
+    public router: Router = inject(Router);
+
     public step: number = 0;
 
     public versions: string[] = [
-        'Latest',
+        'latest',
         '1.0',
         '2.0',
         '3.0',
@@ -26,6 +28,36 @@ export class PlaygroundSardineComponent {
         version: this.versions[0],
         base64: '',
     };
+
+    ngOnInit() {
+        if (this.router.url !== '/playground/sardine') {
+
+            const urlParts = this.router.url.split('/');
+            const versionIndex = urlParts.indexOf('sardine') + 1;
+            if (versionIndex < urlParts.length) {
+                this.data.version = urlParts[versionIndex];
+            }
+
+            const queryParams = this.router.parseUrl(this.router.url).queryParams;
+            if (queryParams['base64']) {
+                this.data.base64 = queryParams['base64'];
+            }
+
+            if (!this.data.base64 || !this.data.version) {
+                this.data = {
+                    version: this.versions[0],
+                    base64: '',
+                };
+                this.router.navigate(['/playground/sardine']);
+            }
+
+        }
+    }
+
+    public sendTest() {
+        this.step++;
+        this.router.navigate([`playground/sardine/${this.data.version}`], { queryParams: { base64: this.data.base64 } });
+    }
 
     public filename: string = '';
 
