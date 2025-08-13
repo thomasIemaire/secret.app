@@ -7,6 +7,7 @@
     gap: var(--gap-app);
 
     .header {
+        min-height: var(--header-height);
         height: var(--header-height);
         width: 100%;
 
@@ -23,7 +24,7 @@
         width: 100%;
 
         &.__logged {
-            max-height: calc(100dvh - var(--header-height));
+            max-height: calc(100dvh - var(--header-height) - var(--gap-app)) !important;
         }
 
         .app__main {
@@ -54,7 +55,7 @@
                     flex: 1;
 
                     &.__logged {
-                        max-width: calc(100dvw - var(--sidebar-width));
+                        max-width: calc(100dvw - var(--sidebar-width) - var(--gap-app));
                     }
 
                     .content__wrapper {

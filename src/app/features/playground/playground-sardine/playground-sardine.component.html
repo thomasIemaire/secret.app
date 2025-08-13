@@ -4,37 +4,54 @@
         <div class="playground-sardine__form">
             <div class="playground-sardine__form-title">
                 <span>Télécharger un fichier et tester Sardine</span>
-                <p-select [options]="versions" [(ngModel)]="data.version" size="small" />
+
+                <!-- Lecture via async + écriture via (ngModelChange) -->
+                <p-select [options]="versions" [ngModel]="(data$ | async)?.version"
+                    (ngModelChange)="onVersionChange($event)" size="small" />
             </div>
 
             <div class="playground-sardine__form-title-mobile">
                 <span>Télécharger un fichier</span>
                 <div>
                     <span>et tester Sardine</span>
-                    <p-select [options]="versions" [(ngModel)]="data.version" size="small" />
+                    <p-select [options]="versions" [ngModel]="(data$ | async)?.version"
+                        (ngModelChange)="onVersionChange($event)" size="small" />
                 </div>
             </div>
 
             <div [class.active]="step === 0" class="form__step" [class.inactive]="step !== 0">
                 <div class="form__upload" (click)="fileInput.click()" (drop)="onDropFile($event)"
                     (dragover)="onDragOver($event)">
-                    <span *ngIf="!data.base64">Cliquer pour télécharger un fichier</span>
-                    <span *ngIf="!data.base64">ou</span>
-                    <span *ngIf="!data.base64">Déposer un fichier ici</span>
-                    <span class="form__upload-filename" *ngIf="data.base64">{{ data.base64 ? `Fichier téléchargé :
-                        ${filename}` : '' }}</span>
+                    <span *ngIf="!(data$ | async)?.base64">Cliquer pour télécharger un fichier</span>
+                    <span *ngIf="!(data$ | async)?.base64">ou</span>
+                    <span *ngIf="!(data$ | async)?.base64">Déposer un fichier ici</span>
+
+                    <span class="form__upload-filename" *ngIf="(data$ | async)?.base64">
+                        {{ (data$ | async)?.base64 ? ('Fichier téléchargé : ' + filename) : '' }}
+                    </span>
+
                     <input type="file" #fileInput hidden (change)="onFileSelected($event)">
                 </div>
 
                 <div class="form__actions">
                     <p-button label="Annuler" size="small" severity="secondary" [routerLink]="['/playground']"
                         variant="text" />
-                    <p-button label="Tester" size="small" severity="secondary" [disabled]="!data.base64"
+                    <p-button label="Tester" size="small" severity="secondary" [disabled]="!(data$ | async)?.base64"
                         (click)="sendTest()" />
                 </div>
             </div>
-
         </div>
-        } @else {}
+        } @else {
+        <div class="left__content">
+            <div class="canvas__container">
+                <div *ngIf="!fileIsPDF()" class="canvas__wrapper">
+                    <canvas #image></canvas>
+                </div>
+                <pdf-viewer *ngIf="fileIsPDF()" [src]="(data$ | async)?.base64" [original-size]="false"
+                    zoom-scale="page-fit" [autoresize]="true" style="display: block; height: 100%;" />
+            </div>
+        </div>
+        <div class="right__content"></div>
+        }
     </div>
 </div>

@@ -56,6 +56,11 @@ body {
     color: var(--background-color);
 }
 
+.router-outlet-container >:not(router-outlet, .is-not-router-outlet) {
+    height: 100%;
+    width: 100%;
+}
+
 p-password input {
     width: 100%;
 }

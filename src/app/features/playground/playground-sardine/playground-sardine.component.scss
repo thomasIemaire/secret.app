@@ -8,6 +8,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 1rem;
 
         .playground-sardine__form {
             display: flex;
@@ -95,6 +96,48 @@
                 }
             }
         }
+
+        .left__content,
+        .right__content {
+            height: 100%;
+            border-radius: 1rem;
+        }
+
+        .left__content {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            max-width: calc(100% - 400px);
+
+            .canvas__container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                max-width: inherit;
+                max-height: inherit;
+
+                .canvas__wrapper {
+                    width: fit-content;
+                    height: fit-content;
+                    max-height: -webkit-fill-available;
+                    max-width: -webkit-fill-available;
+                    border-radius: 1rem;
+                    overflow: hidden;
+
+                    canvas {
+                        width: 100% !important;
+                        height: 100% !important;
+                        object-fit: contain;
+                    }
+                }
+            }
+        }
+
+        .right__content {
+            width: 400px;
+            background-color: var(--secondary-background-color);
+        }
     }
 }
 
@@ -136,6 +179,5 @@
                 gap: .5rem;
             }
         }
-
     }
 }
