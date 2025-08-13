@@ -110,7 +110,8 @@
             justify-content: center;
             max-width: calc(100% - 400px);
 
-            .canvas__container {
+            .canvas__container,
+            pdf-viewer {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -142,6 +143,24 @@
 }
 
 ::ng-deep {
+    .pdfViewer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.removePageBorders {
+            .page {
+                margin: 0 !important;
+                border-radius: 1rem;
+
+                .canvasWrapper {
+                    overflow: hidden;
+                    border-radius: 1rem;
+                }
+            }
+        }
+    }
+
     .p-select {
         background: transparent !important;
         box-shadow: none !important;
