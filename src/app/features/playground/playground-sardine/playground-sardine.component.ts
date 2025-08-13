@@ -28,8 +28,8 @@ type DataState = { version: string; base64: string };
 export class PlaygroundSardineComponent implements OnInit, AfterViewInit, OnDestroy {
     public router: Router = inject(Router);
 
-    @ViewChild('image') image!: ElementRef<HTMLCanvasElement>;
-    
+    @ViewChild('image', { static: false }) image!: ElementRef<HTMLCanvasElement>;
+
     public step = 0;
 
     public versions: string[] = ['latest', '1.0', '2.0', '3.0'];
@@ -46,7 +46,7 @@ export class PlaygroundSardineComponent implements OnInit, AfterViewInit, OnDest
     ngOnInit(): void {
         this.data$
             .pipe(takeUntil(this.destroy$))
-            .subscribe(state => { 
+            .subscribe(state => {
                 this.renderImage(state.base64);
             });
 
@@ -91,6 +91,7 @@ export class PlaygroundSardineComponent implements OnInit, AfterViewInit, OnDest
 
         setTimeout(() => {
             this.renderImage(base64);
+            this.renderZones();
         }, 10);
     }
 
@@ -127,7 +128,7 @@ export class PlaygroundSardineComponent implements OnInit, AfterViewInit, OnDest
         return base64.startsWith('data:application/pdf;') || base64.startsWith('data:application/x-pdf;');
     }
 
-    private async renderImage(base64?: string): Promise<void> {
+    private renderImage(base64?: string): void {
         if (!this.image?.nativeElement || !base64) return;
 
         const canvas = this.image.nativeElement;
@@ -145,5 +146,40 @@ export class PlaygroundSardineComponent implements OnInit, AfterViewInit, OnDest
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         };
         img.src = base64;
+    }
+
+    onPageRendered() {
+        setTimeout(() => this.renderZones(), 0);
+    }
+
+    private getCanvas(): HTMLCanvasElement | null {
+        if (this.fileIsPDF()) {
+            return document.querySelector('.canvasWrapper canvas') as HTMLCanvasElement;
+        } else {
+            return this.image.nativeElement;
+        }
+    }
+
+    private renderZones(): void {
+        const canvas = this.getCanvas();
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        ctx.save();
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+
+        const zones = [
+            { x: 50, y: 50, width: 100, height: 100 },
+            { x: 200, y: 200, width: 150, height: 150 },
+        ];
+
+        zones.forEach(zone => {
+            ctx.strokeRect(zone.x, zone.y, zone.width, zone.height);
+        });
+
+        ctx.restore();
     }
 }

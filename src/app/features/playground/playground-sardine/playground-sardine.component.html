@@ -50,9 +50,16 @@
             </div>
             <pdf-viewer *ngIf="fileIsPDF()" [src]="(data$ | async)?.base64" [original-size]="false" [fit-to-page]="true"
                 [zoom-scale]="'page-fit'" [show-all]="false" [page]="1" [autoresize]="true"
+                (page-rendered)="onPageRendered()"
                 style="display: block; height: calc(100% - 5px); width: calc(100% - 5px);" />
         </div>
-        <div class="right__content"></div>
+        <div class="right__content">
+            <div class="right-content__wrapper">
+                <div class="right-content__title">
+                    Aperçu
+                </div>
+            </div>
+        </div>
         }
     </div>
 </div>
