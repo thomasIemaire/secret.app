@@ -67,5 +67,153 @@
                 }
             }
         }
+
+        .playground-agent__history-wrapper {
+            height: 100%;
+            width: 50%;
+            min-width: 512px;
+            max-width: 90dvw !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+
+            .history-wrapper__title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: .5rem;
+
+                span {
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                    line-height: 1.25rem;
+                    color: var(--p-text-color);
+                }
+
+                .history__selects {
+                    display: flex;
+                    align-items: center;
+                    gap: .5rem;
+
+                    p-select {
+                        border: none;
+
+                        .p-select-label {
+                            font-size: 1.5rem;
+                            font-weight: 700;
+                            color: var(--p-text-muted-color);
+                        }
+                    }
+                }
+            }
+
+            .history-wrapper__content {
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+                flex: 1;
+                overflow-y: auto;
+
+                .history_item {
+                    padding: .5rem 1rem;
+                    background-color: var(--p-button-secondary-background);
+                    border-radius: 4px;
+                    width: fit-content;
+                    max-width: 60%;
+                    position: relative;
+
+                    &.me {
+                        align-self: flex-end;
+                        right: .5rem;
+
+                        &::after {
+                            content: '';
+                            display: block;
+                            width: 8px;
+                            height: 8px;
+                            background-color: var(--p-button-secondary-background);
+                            border-radius: 2px;
+                            position: absolute;
+                            top: 50%;
+                            right: -0px;
+                            transform: translateY(-50%);
+                            rotate: 45deg;
+                        }
+
+                        .history__item-actions {
+                            opacity: 0;
+                            position: absolute;
+                            top: 100%;
+                            right: 4px;
+                            display: flex;
+                            gap: .5rem;
+                            // transform: translateY(-50%);
+                            padding-top: .5rem;
+                        }
+
+                        &:hover {
+                            .history__item-actions {
+                                opacity: 1;
+                            }
+                        }
+                    }
+
+                    &.ai {
+                        left: .5rem;
+
+                        &::after {
+                            content: '';
+                            display: block;
+                            width: 8px;
+                            height: 8px;
+                            background-color: var(--p-button-secondary-background);
+                            border-radius: 2px;
+                            position: absolute;
+                            top: 50%;
+                            left: -6px;
+                            transform: translateY(-50%);
+                            rotate: 45deg;
+                        }
+                    }
+                }
+            }
+
+            .history-wrapper__form {
+                display: flex;
+                align-items: flex-end;
+                gap: .5rem;
+                width: 100%;
+
+                textarea {
+                    width: 100% !important;
+                    resize: none;
+                }
+            }
+        }
+    }
+}
+
+::ng-deep {
+    .playground-agent__history-wrapper {
+        .p-select {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        p-select .p-select-label {
+            padding: none !important;
+            padding-block: 0 !important;
+            padding-inline: 0 !important;
+            text-transform: capitalize;
+        }
+    }
+}
+
+@media screen and (max-width: 568px) {
+    .playground-agent .playground-agent__wrapper .playground-agent__history-wrapper {
+        max-width: 90dvw !important;
+        width: 90dvw !important;
+        min-width: 0 !important;
     }
 }

@@ -1,5 +1,7 @@
+<p-toast position="bottom-right" />
 <div class="playground-agent">
     <div class="playground-agent__wrapper">
+        @if (router.url === '/playground/agent') {
         <div class="playground-agent__form">
             <div class="playground-agent__form-title">
                 <span>Quel Agent voulez-vous tester ?</span>
@@ -10,10 +12,10 @@
                     <p-select [options]="agents" optionLabel="label" [ngModel]="(data$ | async)?.agent" size="small"
                         (ngModelChange)="onAgentChange($event)" />
                     <p-select [options]="(data$ | async)?.agent?.versions" [ngModel]="(data$ | async)?.version"
-                        size="small" />
+                        size="small" (ngModelChange)="onVersionChange($event)" />
                 </div>
 
-                <textarea rows="7" pTextarea [ngModel]="(data$ | async)?.value" pSize="small" 
+                <textarea rows="7" pTextarea [ngModel]="(data$ | async)?.value" pSize="small"
                     (ngModelChange)="onValueChange($event)" resize="none"></textarea>
 
                 <div class="form__actions">
@@ -23,5 +25,39 @@
                 </div>
             </div>
         </div>
+        } @else {
+        <div class="playground-agent__history-wrapper">
+            <div class="history-wrapper__title">
+                <span>Historique des tests</span>
+                <div class="history__selects">
+                    <p-select [options]="agents" optionLabel="label" [ngModel]="(data$ | async)?.agent" size="small"
+                        (ngModelChange)="onAgentChange($event)" />
+                    <p-select [options]="(data$ | async)?.agent?.versions" [ngModel]="(data$ | async)?.version"
+                        size="small" (ngModelChange)="onVersionChange($event)" />
+                </div>
+            </div>
+            <div class="history-wrapper__content">
+                <div class="history_item" *ngFor="let item of history" [class.me]="item.sender === 'me'"
+                    [class.ai]="item.sender === 'ai'">
+                    {{ item.content }}
+                    @if (item.sender === 'me') {
+                    <div class="history__item-actions">
+                        <p-button icon="pi pi-reply" pTooltip="Répondre" tooltipPosition="bottom" size="small"
+                            severity="secondary" variant="text" (onClick)="reply(item.content)" />
+                        <p-button icon="pi pi-copy" pTooltip="Copier" tooltipPosition="bottom" size="small"
+                            severity="secondary" variant="text" (onClick)="copy(item.content)" />
+                        <p-button icon="pi pi-link" pTooltip="Partager" tooltipPosition="bottom" size="small"
+                            severity="secondary" variant="text" (onClick)="share(item.content)" />
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="history-wrapper__form">
+                <textarea rows="7" pTextarea [ngModel]="(data$ | async)?.value" pSize="small"
+                    (ngModelChange)="onValueChange($event)" resize="none"></textarea>
+                <p-button label="Tester" size="small" severity="secondary" (onClick)="sendTest()" />
+            </div>
+        </div>
+        }
     </div>
 </div>
