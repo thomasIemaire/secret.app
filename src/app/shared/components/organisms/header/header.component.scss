@@ -67,14 +67,15 @@
                         flex-direction: column;
                         justify-content: space-between;
 
-                        .subtitle {
-                            font-size: 1rem;
-                            line-height: .875rem;
+                        .subtitle,
+                        p-breadcrumb {
+                            font-size: 1rem !important;
+                            line-height: normal !important;
                             color: var(--p-text-muted-color);
                         }
 
                         .title {
-                            font-size: 1.75rem;
+                            font-size: 1.5rem;
                             font-weight: 600;
                             line-height: 1.5rem;
                             color: var(--p-text-color);

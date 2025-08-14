@@ -6,10 +6,12 @@ export const playgroundRoutes: Routes = [
     {
         path: '',
         component: PlaygroundComponent,
+        data: { title: 'Playground' },
         children: [
             {
                 path: 'sardine',
                 component: PlaygroundSardineComponent,
+                data: { title: 'Tester Sardine' },
                 children: [
                     {
                         path: ':version',

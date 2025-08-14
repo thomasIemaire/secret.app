@@ -91,7 +91,6 @@ export class PlaygroundSardineComponent implements OnInit, AfterViewInit, OnDest
 
         setTimeout(() => {
             this.renderImage(base64);
-            this.renderZones();
         }, 10);
     }
 
@@ -144,6 +143,8 @@ export class PlaygroundSardineComponent implements OnInit, AfterViewInit, OnDest
             canvas.height = Math.floor(img.height * dpr);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+            this.renderZones();
         };
         img.src = base64;
     }

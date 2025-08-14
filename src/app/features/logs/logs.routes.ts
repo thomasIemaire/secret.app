@@ -5,6 +5,7 @@ export const logsRoutes: Routes = [
     {
         path: '',
         component: LogsComponent,
+        data: { title: 'Logs serveur' },
         children: []
     }
 ];

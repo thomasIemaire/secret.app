@@ -12,8 +12,10 @@
             <div class="content__wrapper">
                 <div class="left__content">
                     <div class="left__content-wrapper">
-                        <span class="subtitle">Dashboard</span>
-                        <span class="title">Bienvenue {{ userService.user?.shortname }}</span>
+                        <span class="subtitle">
+                            <p-breadcrumb [model]="breadcrumbs" class="breadcrumb"></p-breadcrumb>
+                        </span>
+                        <span class="title">{{ title }}</span>
                     </div>
                 </div>
                 <div class="right__content">
