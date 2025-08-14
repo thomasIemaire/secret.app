@@ -1,0 +1,27 @@
+<div class="playground-agent">
+    <div class="playground-agent__wrapper">
+        <div class="playground-agent__form">
+            <div class="playground-agent__form-title">
+                <span>Quel Agent voulez-vous tester ?</span>
+            </div>
+
+            <div [class.active]="step === 0" class="form__step" [class.inactive]="step !== 0">
+                <div class="form__group">
+                    <p-select [options]="agents" optionLabel="label" [ngModel]="(data$ | async)?.agent" size="small"
+                        (ngModelChange)="onAgentChange($event)" />
+                    <p-select [options]="(data$ | async)?.agent?.versions" [ngModel]="(data$ | async)?.version"
+                        size="small" />
+                </div>
+
+                <textarea rows="7" pTextarea [ngModel]="(data$ | async)?.value" pSize="small" 
+                    (ngModelChange)="onValueChange($event)" resize="none"></textarea>
+
+                <div class="form__actions">
+                    <p-button label="Annuler" size="small" severity="secondary" [routerLink]="['/playground']"
+                        variant="text" />
+                    <p-button label="Tester" size="small" severity="secondary" (onClick)="sendTest()" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

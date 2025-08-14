@@ -79,6 +79,11 @@ p-progressbar .p-progressbar-value {
 p-breadcrumb .p-breadcrumb {
     background: transparent !important;
     padding: 0 !important;
+
+    .p-icon {
+        height: .5rem !important;
+        width: .5rem !important;
+    }
 }
 
 .p-tooltip-text {

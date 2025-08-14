@@ -1,0 +1,71 @@
+.playground-agent {
+    width: 100%;
+    height: 100%;
+
+    .playground-agent__wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        .playground-agent__form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            gap: 1.5rem;
+
+            .playground-agent__form-title {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+
+                span {
+                    font-size: 1.875rem;
+                    font-weight: 700;
+                }
+            }
+
+            .form__step {
+                flex: 1;
+                display: none;
+                flex-direction: column;
+                gap: .5rem;
+                align-items: center;
+
+                .form__group {
+                    display: flex;
+                    gap: .5rem;
+                    width: 100%;
+
+                    p-select {
+                        flex: 1;
+                    }
+                }
+
+                input,
+                textarea {
+                    width: 512px;
+                    resize: none;
+                }
+
+                &.active {
+                    animation: formFadeIn .5s ease forwards;
+                    display: flex;
+                }
+
+                &.inactive {
+                    position: absolute;
+                }
+
+                .form__actions {
+                    display: flex;
+                    justify-content: center;
+                    gap: .5rem;
+                }
+            }
+        }
+    }
+}
