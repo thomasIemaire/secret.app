@@ -27,6 +27,7 @@ export class PlaygroundAgentComponent {
     public router: Router = inject(Router);
     private messageService: MessageService = inject(MessageService);
 
+    public messageSended: boolean = false;
     public step = 0;
 
     public agents: any[] = [
@@ -72,6 +73,10 @@ export class PlaygroundAgentComponent {
         } else {
             this.onAgentChange(this.agents[0]);
         }
+
+        this.data$.subscribe(data => {
+            this.updateUrl();
+        });
     }
 
     onAgentChange(agent: any): void {
@@ -87,6 +92,11 @@ export class PlaygroundAgentComponent {
     }
 
     public sendTest(): void {
+        this.messageSended = true;
+        this.updateUrl();
+    }
+
+    private updateUrl(): void {
         const { agent, version, value } = this.data$.value;
         this.router.navigate([`playground/agent/${agent.label}/${version}`], {
             queryParams: { value }

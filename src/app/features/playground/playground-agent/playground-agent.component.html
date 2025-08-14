@@ -1,7 +1,7 @@
 <p-toast position="bottom-right" />
 <div class="playground-agent">
     <div class="playground-agent__wrapper">
-        @if (router.url === '/playground/agent') {
+        @if (!messageSended) {
         <div class="playground-agent__form">
             <div class="playground-agent__form-title">
                 <span>Quel Agent voulez-vous tester ?</span>
@@ -27,14 +27,6 @@
         </div>
         } @else {
         <div class="playground-agent__history-wrapper">
-            <div class="history-wrapper__title">
-                <div class="history__selects">
-                    <p-select [options]="agents" optionLabel="label" [ngModel]="(data$ | async)?.agent" size="small"
-                        (ngModelChange)="onAgentChange($event)" />
-                    <p-select [options]="(data$ | async)?.agent?.versions" [ngModel]="(data$ | async)?.version"
-                        size="small" (ngModelChange)="onVersionChange($event)" />
-                </div>
-            </div>
             <div class="history-wrapper__content">
                 <div class="history_item" *ngFor="let item of history" [class.me]="item.sender === 'me'"
                     [class.ai]="item.sender === 'ai'">
@@ -49,6 +41,14 @@
                             severity="secondary" variant="text" (onClick)="share(item.content)" />
                     </div>
                     }
+                </div>
+            </div>
+            <div class="history-wrapper__title">
+                <div class="history__selects">
+                    <p-select [options]="agents" optionLabel="label" [ngModel]="(data$ | async)?.agent" size="small"
+                        (ngModelChange)="onAgentChange($event)" />
+                    <p-select [options]="(data$ | async)?.agent?.versions" [ngModel]="(data$ | async)?.version"
+                        size="small" (ngModelChange)="onVersionChange($event)" />
                 </div>
             </div>
             <div class="history-wrapper__form">
