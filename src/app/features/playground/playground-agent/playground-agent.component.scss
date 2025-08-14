@@ -81,7 +81,7 @@
             .history-wrapper__title {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
+                justify-content: center;
                 gap: .5rem;
 
                 span {
@@ -148,7 +148,6 @@
                             right: 4px;
                             display: flex;
                             gap: .5rem;
-                            // transform: translateY(-50%);
                             padding-top: .5rem;
                         }
 

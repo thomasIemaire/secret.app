@@ -27,7 +27,8 @@ export const playgroundRoutes: Routes = [
                 children: [
                     {
                         path: ':agent/:version',
-                        component: PlaygroundAgentComponent
+                        component: PlaygroundAgentComponent,
+                        data: { title: 'Historique des tests' }
                     }
                 ]
             },

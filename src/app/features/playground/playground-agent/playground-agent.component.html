@@ -28,7 +28,6 @@
         } @else {
         <div class="playground-agent__history-wrapper">
             <div class="history-wrapper__title">
-                <span>Historique des tests</span>
                 <div class="history__selects">
                     <p-select [options]="agents" optionLabel="label" [ngModel]="(data$ | async)?.agent" size="small"
                         (ngModelChange)="onAgentChange($event)" />
