@@ -10,13 +10,14 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { TooltipModule } from 'primeng/tooltip';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { JsonViewerComponent } from '../../../shared/components/atoms/json-viewer/json-viewer.component';
 
 type DataState = { agent: any; version: string; value: string; };
-type HistoryItem = { sender: 'ai' | 'me'; content: string };
+type HistoryItem = { sender: 'ai' | 'me'; content: string | any };
 
 @Component({
     selector: 'app-playground-agent',
-    imports: [CommonModule, FormsModule, RouterLink, Button, TextareaModule, SelectModule, TextFieldModule, TooltipModule, Toast],
+    imports: [CommonModule, FormsModule, RouterLink, Button, TextareaModule, SelectModule, TextFieldModule, TooltipModule, Toast, JsonViewerComponent],
     templateUrl: './playground-agent.component.html',
     styleUrls: ['./playground-agent.component.scss'],
     providers: [MessageService],
@@ -43,11 +44,20 @@ export class PlaygroundAgentComponent {
     });
 
     public history: HistoryItem[] = [
-        { sender: 'me', content: 'Hello, how can I help you?' },
-        { sender: 'ai', content: 'I need assistance with my account.' },
-        { sender: 'me', content: 'Sure, I can help with that.' },
-        { sender: 'ai', content: 'What seems to be the problem?' },
-        { sender: 'me', content: 'long text message that exceeds the usual length and goes on for a bit to simulate a real conversation. This is just a placeholder text to show how the conversation might look like in a real scenario.' },
+        { sender: 'me', content: 'Thomas Lemaire\n464 Boulevard des Tamaris\nOnet Le Chateau\n12850\nFrance' },
+        {
+            sender: 'ai', content: {
+                "customer": {
+                    "address": {
+                        "name": "Thomas Lemaire",
+                        "street": "464 Boulevard des Tamaris",
+                        "city": "Onet Le Chateau",
+                        "zip_code": "12850",
+                        "country": "France"
+                    }
+                }
+            }
+        },
     ];
 
     ngOnInit(): void {
@@ -119,6 +129,14 @@ export class PlaygroundAgentComponent {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Texte copié dans le presse-papiers' });
         }).catch(err => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Échec de la copie du texte' });
+        });
+    }
+
+    public copyJson(json: any): void {
+        navigator.clipboard.writeText(JSON.stringify(json)).then(() => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'JSON copié dans le presse-papiers' });
+        }).catch(err => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Échec de la copie du JSON' });
         });
     }
 

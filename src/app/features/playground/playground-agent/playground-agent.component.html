@@ -30,31 +30,42 @@
             <div class="history-wrapper__content">
                 <div class="history_item" *ngFor="let item of history" [class.me]="item.sender === 'me'"
                     [class.ai]="item.sender === 'ai'">
-                    {{ item.content }}
-                    @if (item.sender === 'me') {
+                    <span *ngIf="item.sender === 'me'">{{ item.content }}</span>
+                    <app-json-viewer *ngIf="item.sender === 'ai'" [json]="item.content" />
                     <div class="history__item-actions">
+                        @if (item.sender === 'me') {
                         <p-button icon="pi pi-reply" pTooltip="Répondre" tooltipPosition="bottom" size="small"
                             severity="secondary" variant="text" (onClick)="reply(item.content)" />
                         <p-button icon="pi pi-copy" pTooltip="Copier" tooltipPosition="bottom" size="small"
                             severity="secondary" variant="text" (onClick)="copy(item.content)" />
                         <p-button icon="pi pi-link" pTooltip="Partager" tooltipPosition="bottom" size="small"
                             severity="secondary" variant="text" (onClick)="share(item.content)" />
+                        } @else {
+                        <p-button icon="pi pi-thumbs-up" pTooltip="Bonne réponse" tooltipPosition="bottom" size="small"
+                            severity="secondary" variant="text" />
+                        <p-button icon="pi pi-thumbs-down" pTooltip="Mauvaise réponse" tooltipPosition="bottom"
+                            size="small" severity="secondary" variant="text" />
+                        <p-button icon="pi pi-copy" pTooltip="Copier au format JSON" tooltipPosition="bottom"
+                            size="small" severity="secondary" variant="text" (onClick)="copyJson(item.content)" />
+                        }
                     </div>
-                    }
                 </div>
             </div>
-            <div class="history-wrapper__title">
-                <div class="history__selects">
-                    <p-select [options]="agents" optionLabel="label" [ngModel]="(data$ | async)?.agent" size="small"
-                        (ngModelChange)="onAgentChange($event)" />
-                    <p-select [options]="(data$ | async)?.agent?.versions" [ngModel]="(data$ | async)?.version"
-                        size="small" (ngModelChange)="onVersionChange($event)" />
-                </div>
+            <div class="history-wrapper__agent-selects">
+                <p-select [options]="agents" optionLabel="label" [ngModel]="(data$ | async)?.agent" size="small"
+                    (ngModelChange)="onAgentChange($event)" />
+                <p-select [options]="(data$ | async)?.agent?.versions" [ngModel]="(data$ | async)?.version" size="small"
+                    (ngModelChange)="onVersionChange($event)" />
             </div>
             <div class="history-wrapper__form">
                 <textarea rows="7" pTextarea [ngModel]="(data$ | async)?.value" pSize="small"
                     (ngModelChange)="onValueChange($event)" resize="none"></textarea>
-                <p-button label="Tester" size="small" severity="secondary" (onClick)="sendTest()" />
+
+                <div class="history-wrapper__actions">
+                    <p-button label="Effacer" size="small" variant="text" severity="secondary"
+                        (onClick)="onValueChange('')" />
+                    <p-button label="Tester" size="small" severity="secondary" (onClick)="sendTest()" />
+                </div>
             </div>
         </div>
         }
