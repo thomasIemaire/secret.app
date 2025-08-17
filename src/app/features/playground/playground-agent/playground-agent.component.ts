@@ -58,6 +58,17 @@ export class PlaygroundAgentComponent {
                 }
             }
         },
+        {
+            sender: 'ai', content: {
+                "lines": [
+                    { "product": "Souris sans fil", "quantity": 1, "price": 29.99, "total": 29.99 },
+                    { "product": "Clavier mécanique", "quantity": 1, "price": 99.99, "total": 99.99 },
+                    { "product": "Webcam HD", "quantity": 1, "price": 79.99, "total": 79.99 },
+                    { "product": "Support de moniteur", "quantity": 1, "price": 49.99, "total": 49.99 },
+                    { "product": "Écran 27 pouces", "quantity": 2, "price": 129.99, "total": 259.98 }
+                ]
+            }
+        },
     ];
 
     ngOnInit(): void {
