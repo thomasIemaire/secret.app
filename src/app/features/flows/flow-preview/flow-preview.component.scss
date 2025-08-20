@@ -94,74 +94,8 @@
                 grid-column: 1 / -1;
                 border-radius: 1rem;
                 overflow: hidden;
-                cursor: grab;
                 position: relative;
-
-                border: 1px solid var(--p-button-secondary-active-background);
-                background-color: var(--background-color);
-                background-image:
-                    linear-gradient(var(--orgchart-background-line) .2px, transparent 1px),
-                    linear-gradient(90deg, var(--orgchart-background-line) .2px, transparent 1px);
-                background-size: 1rem 1rem;
-
-                &:active {
-                    cursor: grabbing;
-                }
-
-                .orgchart__reset {
-                    position: absolute;
-                    top: 1rem;
-                    right: 1rem;
-                    z-index: 10;
-                }
-
-                .orgchart-content {
-                    transition: transform 0s;
-                    position: relative;
-
-                    .org-item {
-                        position: relative;
-
-                        .org-item__wrapper {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            padding: .5rem .75rem;
-                            gap: .5rem;
-
-                            i {
-                                font-size: .75rem;
-                            }
-
-                            .org-item__label {
-                                font-size: .875rem;
-                                line-height: 1rem;
-                            }
-
-                            .org-item__tag {
-                                font-size: .5rem;
-                            }
-                        }
-                        
-                        .org-item__animate-logo {
-                            position: absolute;
-                            transform: translate(-50%, -50%);
-                            left: 50%;
-                            z-index: -1;
-
-                            &.pi-file {
-                                top: 50%;
-                                animation: toNode 6s linear infinite;
-                                animation-delay: 1s;
-                            }
-
-                            &.pi-code {
-                                bottom: 10px;
-                                animation: fromNode 6s linear infinite;
-                            }
-                        }
-                    }
-                }
+                border: 1px solid var(--p-button-secondary-active-background);                
             }
         }
     }

@@ -86,30 +86,8 @@
                     <p-selectbutton [(ngModel)]="selectPreview.value" [options]="selectPreview.options" size="small"
                         optionLabel="label" optionValue="value" [allowEmpty]="false" />
 
-                    <div class="orgchart-container" (mousedown)="startPan($event)" (mousemove)="pan($event)"
-                        (mouseup)="endPan()" (mouseleave)="endPan()" (wheel)="onWheel($event)"
-                        (touchstart)="startPanTouch($event)" (touchmove)="panTouch($event)" (touchend)="endPan()">
-                        <p-button icon="pi pi-refresh" severity="secondary" size="small"
-                            class="orgchart__reset" (click)="resetPan()" />
-                        <div class="orgchart-content"
-                            [ngStyle]="{'transform': 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scale + ')'}">
-                            <p-organization-chart [value]="data">
-                                <ng-template let-node pTemplate="default">
-                                    <div class="org-item">
-                                        <div class="org-item__wrapper">
-                                            <i class="pi" *ngIf="node.data.type !== 'alert' && node.data.type !== 'sard'"
-                                                [class.pi-microchip-ai]="node.data.type === 'agent'"
-                                                [class.pi-sitemap]="node.data.type !== 'agent'"></i>
-                                            <span class="org-item__label">{{ node.data.label }}</span>
-                                            <p-tag *ngIf="node.data.version" [value]="node.data.version"
-                                                severity="secondary" class="org-item__tag" [rounded]="true" />
-                                        </div>
-                                        <i *ngIf="node.data.type === 'sard'" class="pi pi-file org-item__animate-logo"></i>
-                                        <i *ngIf="node.data.type === 'agent'" class="pi pi-code org-item__animate-logo"></i>
-                                    </div>
-                                </ng-template>
-                            </p-organization-chart>
-                        </div>
+                    <div class="orgchart-container">
+                        <app-gflow />
                     </div>
                 </div>
             </div>

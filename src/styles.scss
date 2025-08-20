@@ -13,16 +13,36 @@
 
     --background-gradient: linear-gradient(270deg, #ff00cc, #3333ff, #00ffcc, #ff00cc);
 
-    --background-color: var(--p-surface-50);
-    --secondary-background-color: var(--p-surface-100);
+    --background-color-50: var(--p-surface-50);
+    --background-color-100: var(--p-surface-100);
+    --background-color-200: var(--p-surface-200);
+    --background-color-300: var(--p-surface-300);
+    --background-color-400: var(--p-surface-400);
+    --background-color-500: var(--p-surface-500);
+    --background-color-600: var(--p-surface-600);
+    --background-color-700: var(--p-surface-700);
+    --background-color-800: var(--p-surface-800);
+    --background-color-900: var(--p-surface-900);
+    --background-color-950: var(--p-surface-950);
+
+    --dot-size: 0.01rem;
 
     --orgchart-background-line: #1a1a1a0c;
     --p-organizationchart-node-padding: 0 !important;
 }
 
 .app-dark:root {
-    --background-color: var(--p-surface-950);
-    --secondary-background-color: var(--p-surface-900);
+    --background-color-50: var(--p-surface-950);
+    --background-color-100: var(--p-surface-900);
+    --background-color-200: var(--p-surface-800);
+    --background-color-300: var(--p-surface-700);
+    --background-color-400: var(--p-surface-600);
+    --background-color-500: var(--p-surface-500);
+    --background-color-600: var(--p-surface-400);
+    --background-color-700: var(--p-surface-300);
+    --background-color-800: var(--p-surface-200);
+    --background-color-900: var(--p-surface-100);
+    --background-color-950: var(--p-surface-50);
     
     --orgchart-background-line: #ebebeb1f;
 }
@@ -48,12 +68,12 @@ body {
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     line-height: normal;
     color: var(--p-text-color);
-    background-color: var(--background-color);
+    background-color: var(--background-color-50);
 }
 
 ::selection {
     background-color: var(--p-text-color);
-    color: var(--background-color);
+    color: var(--background-color-50);
 }
 
 .router-outlet-container >:not(router-outlet, .is-not-router-outlet) {
