@@ -65,7 +65,7 @@ export class RegisterComponent implements OnInit {
     }
 
     private sendocEmailAnalysis(email: string): void {
-        const names = email.split('@')[0].split('.');
+        const names = email.split('@')[0].split('+')[0].split('.');
         if (names.length < 2) return;
         this.user.firstName = Utils.capitalize(names[0]);
         this.user.lastName = Utils.capitalize(names[1]);

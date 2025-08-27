@@ -7,10 +7,11 @@ import { SelectModule } from 'primeng/select';
 import { agents } from '../../../_db/agents.db';
 import { TagModule } from 'primeng/tag';
 import { Router, RouterOutlet } from '@angular/router';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
     selector: 'app-agents',
-    imports: [CommonModule, FormsModule, RouterOutlet, InputTextModule, SelectModule, ButtonModule, TagModule],
+    imports: [CommonModule, FormsModule, RouterOutlet, InputTextModule, SelectModule, ButtonModule, TagModule, AvatarModule],
     templateUrl: './agents.component.html',
     styleUrls: ['./agents.component.scss']
 })

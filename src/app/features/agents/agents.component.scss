@@ -44,6 +44,7 @@
         }
 
         .agent-kaban__wrapper {
+            height: 100%;
             display: flex;
             gap: 1rem;
 
@@ -51,55 +52,130 @@
                 flex: 1;
             }
 
-            .agents__list {
+            .kanban-item__wrapper {
+                height: 100%;
                 display: flex;
                 flex-direction: column;
-                gap: .5rem;
+                gap: 1rem;
+                padding: 1rem;
+                border: 1px solid var(--background-color-100);
+                border-radius: 1rem;
 
-                .agent__add {
-                    height: 100%;
-                    min-height: 35px;
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: var(--p-inputtext-border-radius);
-                    border: 2px dashed var(--p-button-secondary-hover-background);
-                    color: var(--p-text-muted-color);
-                    user-select: none;
-                    cursor: pointer;
+                &.draggable {
+                    border-color: var(--background-color-200);
+                    background-color: var(--background-color-100);
                 }
 
-                .agent__item {
+                .kanban-header {
                     display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    font-size: var(--p-inputtext-sm-font-size);
-                    padding: .5rem 1rem;
-                    background-color: var(--p-button-secondary-background);
-                    border-radius: var(--p-inputtext-border-radius);
-                    cursor: pointer;
-                    user-select: none;
+                    flex-direction: column;
+                    gap: .25rem;
 
-                    font-size: .75rem;
-
-                    .agent__title {
-                        font-size: 1rem;
+                    .title {
+                        font-size: 1.25rem;
                         font-weight: 600;
                     }
 
-                    p-tag {
-                        font-size: .75rem;
-                        font-weight: 500;
+                    .description {
+                        font-size: .875rem;
+                        color: var(--p-text-muted-color);
+                    }
+                }
+
+                .kanban-content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .5rem;
+                    flex: 1;
+                    overflow-y: auto;
+
+                    .agent__add {
+                        min-height: 35px;
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: var(--p-inputtext-border-radius);
+                        border: 2px dashed var(--p-button-secondary-hover-background);
+                        color: var(--p-text-muted-color);
+                        user-select: none;
+                        cursor: pointer;
                     }
 
-                    &.active,
-                    &:hover {
-                        background-color: var(--p-button-secondary-hover-background) !important;
+                    .agent__item {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        gap: .25rem;
+                        padding: .75rem 1rem;
+                        background-color: var(--background-color-100);
+                        border-radius: var(--p-inputtext-border-radius);
+                        cursor: pointer;
+                        user-select: none;
+                        font-size: .75rem;
 
-                        &:active {
-                            background-color: var(--p-button-secondary-active-background);
+                        .agent__header {
+                            width: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+
+                            .agent-header__left {
+                                display: flex;
+                                align-items: flex-end;
+                                gap: .5rem;
+                                line-height: normal;
+
+                                .agent-header__name {
+                                    font-size: 1rem;
+                                    font-weight: 600;
+                                }
+
+                                .agent-header__reference {
+                                    font-weight: 500;
+                                }
+                            }
+
+                            p-tag {
+                                font-size: .5rem;
+                            }
+                        }
+
+                        .agent__description {
+                            font-size: .75rem;
+                            color: var(--p-text-muted-color);
+                        }
+
+                        .agent__footer {
+                            margin-top: .25rem;
+                            width: 100%;
+                            display: flex;
+                            align-items: flex-end;
+                            justify-content: space-between;
+                            font-size: .6rem;
+                            color: var(--p-text-muted-color);
+
+                            .agent-footer__left {
+                                display: flex;
+                                align-items: center;
+                                gap: .5rem;
+
+                                .agent-footer__info {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: .125rem;
+                                }
+                            }
+                        }
+
+                        &.active,
+                        &:hover {
+                            background-color: var(--p-button-secondary-hover-background) !important;
+
+                            &:active {
+                                background-color: var(--p-button-secondary-active-background);
+                            }
                         }
                     }
                 }
