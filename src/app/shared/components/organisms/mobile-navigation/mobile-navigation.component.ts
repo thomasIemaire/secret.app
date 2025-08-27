@@ -28,11 +28,6 @@ export class MobileNavigationComponent {
             route: '/playground'
         },
         {
-            label: 'Logs',
-            icon: 'pi pi-code',
-            route: '/logs'
-        },
-        {
             label: 'Profil',
             icon: 'pi pi-user',
             route: '/profile'
