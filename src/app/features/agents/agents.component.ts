@@ -15,6 +15,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ConfirmActionDialogComponent } from '../../shared/components/molecules/confirm-action-dialog/confirm-action-dialog.component';
 import { SelectActionDialogComponent } from '../../shared/components/molecules/select-acrion-dialog/select-acrion-dialog.component';
+import { ConfirmDatasetDialogComponent } from '../../shared/components/molecules/confirm-dataset-dialog/confirm-dataset-dialog.component';
 
 @Component({
     selector: 'app-agents',
@@ -145,13 +146,29 @@ export class AgentsComponent {
 
         const agent = this.elementDragged;
         if (agent) {
-            this.ref = this.dialogService.open(ConfirmActionDialogComponent, {
-                header: "Confirmer l'ajout",
+            this.ref = this.dialogService.open(ConfirmDatasetDialogComponent, {
+                header: "Valider le jeu de données",
                 width: '400px',
                 contentStyle: { overflow: 'auto' },
                 modal: true,
                 appendTo: 'body',
-                data: { message: `Êtes-vous sûr de vouloir entrainer le modèle "${agent.name}" ?` }
+                data: {
+                    example: {
+                        "entities": [
+                            {
+                                "key": "name",
+                                "start": 14,
+                                "end": 18,
+                            },
+                            {
+                                "key": "age",
+                                "start": 26,
+                                "end": 28,
+                            }
+                        ],
+                        "text": "Quel age as-tu Joe ? J'ai 35 ans"
+                    }
+                }
             });
 
             this.ref.onClose.subscribe((confirmed: boolean) => {
