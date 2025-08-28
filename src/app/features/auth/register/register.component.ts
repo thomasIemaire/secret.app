@@ -19,8 +19,8 @@ import { Utils } from '../../../core/models/utils.model';
 export class RegisterComponent implements OnInit {
 
     private USER_DEFAULT: IUser = {
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         email: '',
         password: ''
     };
@@ -67,8 +67,8 @@ export class RegisterComponent implements OnInit {
     private sendocEmailAnalysis(email: string): void {
         const names = email.split('@')[0].split('+')[0].split('.');
         if (names.length < 2) return;
-        this.user.firstName = Utils.capitalize(names[0]);
-        this.user.lastName = Utils.capitalize(names[1]);
+        this.user.firstname = Utils.capitalize(names[0]);
+        this.user.lastname = Utils.capitalize(names[1]);
     }
 
 }

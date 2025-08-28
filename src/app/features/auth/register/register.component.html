@@ -21,15 +21,15 @@
             </div>
 
             <div [class.active]="step === 2" class="form__step" [class.inactive]="step !== 2">
-                <input pInputText [(ngModel)]="user.firstName" placeholder="Votre prénom" [disabled]="!user"
+                <input pInputText [(ngModel)]="user.firstname" placeholder="Votre prénom" [disabled]="!user"
                     pSize="small" />
-                <input pInputText [(ngModel)]="user.lastName" placeholder="Votre nom" [disabled]="!user"
+                <input pInputText [(ngModel)]="user.lastname" placeholder="Votre nom" [disabled]="!user"
                     pSize="small" />
                 <div class="form__actions">
                     <p-button label="Retour" size="small" severity="secondary" (onClick)="changeStep(1)"
                         variant="text" />
                     <p-button label="Continuer" size="small" severity="secondary" (onClick)="changeStep(3)"
-                        [disabled]="!user.firstName || !user.lastName" />
+                        [disabled]="!user.firstname || !user.lastname" />
                 </div>
             </div>
 

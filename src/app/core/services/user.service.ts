@@ -1,13 +1,16 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { IUser, User } from "../models/user.model";
 import { users } from "../../../_db/users.db";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { Utils } from "../models/utils.model";
+import { ApiService } from "./api.service";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
     public user: User | null = null;
     public user$ = new BehaviorSubject<IUser | null>(null);
+
+    private api: ApiService = inject(ApiService);
 
     constructor() {
         this.login('thomas.lemaire@sendoc.fr', 'Sendoc24!');
@@ -30,12 +33,19 @@ export class UserService {
         return of(false);
     }
 
-    register(user: IUser): Observable<boolean> {
-        user.id = (users.length + 1).toString();
-        users.push(user);
-        this.user = new User(user);
-        this.user$.next(user);
-        return of(true);
+    register(user: IUser): Observable<any> {
+        this.api.post('auth/register', user).subscribe({
+            next: (res: any) => {
+                console.log(res);
+                
+                this.user = res.user;
+                return of(true);
+            },
+            error: (err) => {
+                return of(false);
+            }
+        });
+        return of(false);
     }
 
     logout(): void {

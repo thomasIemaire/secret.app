@@ -18,8 +18,8 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
 
     private USER_DEFAULT: IUser = {
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         email: '',
         password: ''
     };
