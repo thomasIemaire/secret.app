@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
     develop: false,
-    apiUrl: ''
+    apiUrl: 'https://dev-sardine.sendoc.fr'
 };
