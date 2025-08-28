@@ -66,6 +66,10 @@
                     background-color: var(--background-color-100);
                 }
 
+                &.dropping {
+                    border-color: var(--p-primary-color) !important;
+                }
+
                 .kanban-header {
                     display: flex;
                     flex-direction: column;
@@ -114,6 +118,15 @@
                         cursor: pointer;
                         user-select: none;
                         font-size: .75rem;
+
+                        &.draggable {
+                            background-color: var(--background-color-200);
+                            
+                            &:hover,
+                            &:active {
+                                background-color: var(--background-color-300) !important;
+                            }
+                        }
 
                         .agent__header {
                             width: 100%;

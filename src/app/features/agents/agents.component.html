@@ -25,7 +25,8 @@
                     <div class="agent__add">
                         <i class="pi pi-plus"></i>
                     </div>
-                    <div class="agent__item" *ngFor="let agent of agents">
+                    <div class="agent__item" *ngFor="let agent of filtered(models)" pDraggable (onDragStart)="onDragStart(agent)"
+                        (onDragEnd)="onDragEnd()" draggable="true">
                         <div class="agent__header">
                             <div class="agent-header__left">
                                 <div class="agent-header__name">{{ agent.name }}</div>
@@ -38,7 +39,7 @@
                         </div>
                         <div class="agent__footer">
                             <div class="agent-footer__left">
-                                <p-avatar shape="circle" size="normal"/>
+                                <p-avatar shape="circle" size="normal" />
                                 <div class="agent-footer__info">
                                     <div>Créé par {{ agent.created_by.fullname }}</div>
                                     <div>Le {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}</div>
@@ -52,7 +53,8 @@
                 </div>
             </div>
 
-            <div class="kanban-item__wrapper draggable">
+            <div class="kanban-item__wrapper draggable" pDroppable (onDrop)="onDropToDataset()"
+                (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
                 <div class="kanban-header">
                     <div class="title">
                         En validation
@@ -61,15 +63,69 @@
                         Liste des modèles en validation
                     </div>
                 </div>
+                <div class="kanban-content">
+                    <div class="agent__item draggable" *ngFor="let agent of filtered(modelsGenerated)" pDraggable
+                        (onDragStart)="onDragStart(agent)" (onDragEnd)="onDragEnd()" draggable="true">
+                        <div class="agent__header">
+                            <div class="agent-header__left">
+                                <div class="agent-header__name">{{ agent.name }}</div>
+                                <div class="agent-header__reference">{{ agent.reference }}</div>
+                            </div>
+                            <p-tag [value]="agent.version" severity="contrast" />
+                        </div>
+                        <div class="agent__description">
+                            {{ agent.description }}
+                        </div>
+                        <div class="agent__footer">
+                            <div class="agent-footer__left">
+                                <p-avatar shape="circle" size="normal" />
+                                <div class="agent-footer__info">
+                                    <div>Créé par {{ agent.created_by.fullname }}</div>
+                                    <div>Le {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}</div>
+                                </div>
+                            </div>
+                            <div>
+                                MAJ {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="kanban-item__wrapper draggable">
+            <div class="kanban-item__wrapper draggable" pDroppable (onDrop)="onDropToTrain()"
+                (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
                 <div class="kanban-header">
                     <div class="title">
                         En entrainement
                     </div>
                     <div class="description">
                         Liste des modèles en entrainement
+                    </div>
+                </div>
+                <div class="kanban-content">
+                    <div class="agent__item draggable" *ngFor="let agent of filtered(modelsToTrain)">
+                        <div class="agent__header">
+                            <div class="agent-header__left">
+                                <div class="agent-header__name">{{ agent.name }}</div>
+                                <div class="agent-header__reference">{{ agent.reference }}</div>
+                            </div>
+                            <p-tag [value]="agent.version" severity="contrast" />
+                        </div>
+                        <div class="agent__description">
+                            {{ agent.description }}
+                        </div>
+                        <div class="agent__footer">
+                            <div class="agent-footer__left">
+                                <p-avatar shape="circle" size="normal" />
+                                <div class="agent-footer__info">
+                                    <div>Créé par {{ agent.created_by.fullname }}</div>
+                                    <div>Le {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}</div>
+                                </div>
+                            </div>
+                            <div>
+                                MAJ {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
