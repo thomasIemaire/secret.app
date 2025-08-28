@@ -27,7 +27,7 @@ export class FlowsComponent {
     public filters: Array<{ [key: string]: string }> = [
         { name: 'Nom', value: 'name' },
         { name: 'État', value: 'status' },
-        { name: 'Mis à jour', value: 'updatedAt' }
+        { name: 'Mise à jour', value: 'updatedAt' }
     ];
 
     public orderBy: 'asc' | 'desc' = 'desc';

@@ -70,6 +70,10 @@
                     border-color: var(--p-primary-color) !important;
                 }
 
+                &.dropping-error {
+                    border-color: var(--p-red-500) !important;
+                }
+
                 .kanban-header {
                     display: flex;
                     flex-direction: column;
@@ -126,6 +130,10 @@
                             &:active {
                                 background-color: var(--background-color-300) !important;
                             }
+                        }
+
+                        &.droppable {
+                            cursor: grab;
                         }
 
                         .agent__header {

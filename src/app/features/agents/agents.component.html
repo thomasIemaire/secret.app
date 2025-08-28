@@ -1,3 +1,5 @@
+<p-toast />
+
 <div class="agents">
     <div class="agents__wrapper">
         <div class="agents__filters">
@@ -25,7 +27,7 @@
                     <div class="agent__add">
                         <i class="pi pi-plus"></i>
                     </div>
-                    <div class="agent__item" *ngFor="let agent of filtered(models)" pDraggable (onDragStart)="onDragStart(agent)"
+                    <div class="agent__item droppable" *ngFor="let agent of filtered(models)" pDraggable (onDragStart)="onDragStart(agent, 'models')"
                         (onDragEnd)="onDragEnd()" draggable="true">
                         <div class="agent__header">
                             <div class="agent-header__left">
@@ -54,7 +56,7 @@
             </div>
 
             <div class="kanban-item__wrapper draggable" pDroppable (onDrop)="onDropToDataset()"
-                (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+                (dragover)="onDragOver($event, ['models'])" (dragleave)="onDragLeave($event)">
                 <div class="kanban-header">
                     <div class="title">
                         En validation
@@ -64,8 +66,8 @@
                     </div>
                 </div>
                 <div class="kanban-content">
-                    <div class="agent__item draggable" *ngFor="let agent of filtered(modelsGenerated)" pDraggable
-                        (onDragStart)="onDragStart(agent)" (onDragEnd)="onDragEnd()" draggable="true">
+                    <div class="agent__item droppable draggable" *ngFor="let agent of filtered(modelsGenerated)" pDraggable
+                        (onDragStart)="onDragStart(agent, 'generated')" (onDragEnd)="onDragEnd()" draggable="true">
                         <div class="agent__header">
                             <div class="agent-header__left">
                                 <div class="agent-header__name">{{ agent.name }}</div>
@@ -93,7 +95,7 @@
             </div>
 
             <div class="kanban-item__wrapper draggable" pDroppable (onDrop)="onDropToTrain()"
-                (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+                (dragover)="onDragOver($event, ['generated'])" (dragleave)="onDragLeave($event)">
                 <div class="kanban-header">
                     <div class="title">
                         En entrainement
