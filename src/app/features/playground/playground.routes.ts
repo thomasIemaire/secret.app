@@ -7,7 +7,6 @@ export const playgroundRoutes: Routes = [
     {
         path: '',
         component: PlaygroundComponent,
-        data: { title: 'Playground' },
         children: [
             {
                 path: 'sardine',

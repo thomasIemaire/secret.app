@@ -5,7 +5,6 @@ export const agentsRoutes: Routes = [
     {
         path: '',
         component: AgentsComponent,
-        data: { title: 'Gestion des Agents' },
         children: []
     }
 ];

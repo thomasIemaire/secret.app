@@ -3,18 +3,21 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     {
         path: 'auth',
-        loadChildren: () => import('./features/auth/auth.routes').then(m => m.authRoutes)
+        loadChildren: () => import('./features/auth/auth.routes').then(m => m.authRoutes),
     },
     {
         path: 'agents',
-        loadChildren: () => import('./features/agents/agents.routes').then(m => m.agentsRoutes)
+        loadChildren: () => import('./features/agents/agents.routes').then(m => m.agentsRoutes),
+        data: { title: 'Gestion des Agents' }
     },
     {
         path: 'playground',
-        loadChildren: () => import('./features/playground/playground.routes').then(m => m.playgroundRoutes)
+        loadChildren: () => import('./features/playground/playground.routes').then(m => m.playgroundRoutes),
+        data: { title: 'Playground' }
     },
     {
         path: 'flows',
-        loadChildren: () => import('./features/flows/flows.routes').then(m => m.flowsRoutes)
+        loadChildren: () => import('./features/flows/flows.routes').then(m => m.flowsRoutes),
+        data: { title: 'Gestion des Flows' }
     }
 ];

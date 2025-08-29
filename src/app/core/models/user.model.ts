@@ -1,29 +1,26 @@
 import { Utils } from "./utils.model";
 
 export interface IUser {
-    id?: string;
+    _id?: string;
     firstname: string;
     lastname: string;
     email: string;
     password?: string;
-    token?: string;
 }
 
 export class User implements IUser {
-    id?: string | undefined;
+    _id?: string | undefined;
     firstname: string;
     lastname: string;
     email: string;
     password?: string | undefined;
-    token?: string | undefined;
 
     constructor(user: IUser) {
-        this.id = user.id;
+        this._id = user._id;
         this.firstname = user.firstname;
         this.lastname = user.lastname;
         this.email = user.email;
         this.password = user.password;
-        this.token = user.token;
     }
 
     get shortname(): string {

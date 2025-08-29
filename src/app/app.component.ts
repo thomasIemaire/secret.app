@@ -6,6 +6,7 @@ import { HeaderComponent } from './shared/components/organisms/header/header.com
 import { SidebarComponent } from "./shared/components/organisms/sidebar/sidebar.component";
 import { ThemeService } from './core/services/theme.service';
 import { MobileNavigationComponent } from './shared/components/organisms/mobile-navigation/mobile-navigation.component';
+import { TokenService } from './core/services/token.service';
 
 @Component({
   selector: 'app-root',
@@ -15,18 +16,44 @@ import { MobileNavigationComponent } from './shared/components/organisms/mobile-
 })
 export class App implements OnInit {
 
+  public loading: boolean = true;
   public user: IUser | null = null;
 
+  private tokenService = inject(TokenService);
   private themeService = inject(ThemeService);
   private userService = inject(UserService);
-  private router = inject(Router);
+
+  public router = inject(Router);
 
   ngOnInit(): void {
+
     this.userService.user$.subscribe(user => {
       this.user = user;
-      if (!user)
+      if (!this.loading && !user && !this.router.url.startsWith('/auth'))
         this.router.navigate(['/auth/login']);
     });
+
+    const token = this.tokenService.getToken();
+    if (token)
+      this.userService.token(token).subscribe({
+        next: (success: any) => {
+          const user = success.user;
+          if (user) {
+            this.userService.setUser(user, success.token, success.refresh_token);
+            this.user = this.userService.user;
+          }
+        },
+        error: (err) => {
+          console.error(err.error);
+          this.router.navigate(['/auth/login']);
+        },
+        complete: () => {
+          this.loading = false;
+        }
+      });
+    else {
+      this.router.navigate(['/auth/login']);
+      this.loading = false;
+    }
   }
 }
- 

@@ -28,7 +28,7 @@
                         <i class="pi pi-plus"></i>
                     </div>
                     <div class="agent__item droppable" *ngFor="let agent of filtered(models)" pDraggable (onDragStart)="onDragStart(agent, 'models')"
-                        (onDragEnd)="onDragEnd()" draggable="true">
+                        (onDragEnd)="onDragEnd()" draggable="true" (click)="viewAgent(agent)">
                         <div class="agent__header">
                             <div class="agent-header__left">
                                 <div class="agent-header__name">{{ agent.name }}</div>
@@ -41,14 +41,14 @@
                         </div>
                         <div class="agent__footer">
                             <div class="agent-footer__left">
-                                <p-avatar shape="circle" size="normal" />
+                                <p-avatar [image]="`http://localhost:8888/public/avatars/${agent.created_by.id}.png`" shape="circle" size="normal" />
                                 <div class="agent-footer__info">
                                     <div>Créé par {{ agent.created_by.fullname }}</div>
-                                    <div>Le {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}</div>
+                                    <div>Le {{ agent.created_at | date: 'dd/MM/yyyy à HH:mm' }}</div>
                                 </div>
                             </div>
-                            <div>
-                                MAJ {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}
+                            <div *ngIf="agent.updated_at">
+                                MAJ {{ agent.updated_at | date: 'dd/MM/yyyy à HH:mm' }}
                             </div>
                         </div>
                     </div>
@@ -59,10 +59,10 @@
                 (dragover)="onDragOver($event, ['models'])" (dragleave)="onDragLeave($event)">
                 <div class="kanban-header">
                     <div class="title">
-                        En validation
+                        Modélisations des données
                     </div>
                     <div class="description">
-                        Liste des modèles en validation
+                        Liste des jeux de données
                     </div>
                 </div>
                 <div class="kanban-content">

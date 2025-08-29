@@ -58,12 +58,21 @@ export class RegisterComponent implements OnInit {
     }
 
     public register(): void {
-        this.userService.register(this.user).subscribe(success => {
-            if (success)
-                this.router.navigate(['/']);
+        this.userService.register(this.user).subscribe({
+            next: (success: any) => {
+                const user = success.user;
+                if (user) {
+                    this.userService.setUser(user, success.token, success.refresh_token);
+                    this.router.navigate(['/playground']);
+                }
+            },
+            error: (err) => {
+                console.error(err);
+                this.error = 'Une erreur est survenue';
+            }
         });
     }
-
+        
     private sendocEmailAnalysis(email: string): void {
         const names = email.split('@')[0].split('+')[0].split('.');
         if (names.length < 2) return;

@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { agents } from '../../../_db/agents.db';
 import { TagModule } from 'primeng/tag';
 import { Router, RouterOutlet } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
@@ -13,9 +12,9 @@ import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ConfirmActionDialogComponent } from '../../shared/components/molecules/confirm-action-dialog/confirm-action-dialog.component';
 import { SelectActionDialogComponent } from '../../shared/components/molecules/select-acrion-dialog/select-acrion-dialog.component';
 import { ConfirmDatasetDialogComponent } from '../../shared/components/molecules/confirm-dataset-dialog/confirm-dataset-dialog.component';
+import { ApiService } from '../../core/services/api.service';
 
 @Component({
     selector: 'app-agents',
@@ -26,12 +25,13 @@ import { ConfirmDatasetDialogComponent } from '../../shared/components/molecules
 })
 export class AgentsComponent {
 
+    private api: ApiService = inject(ApiService);
     public router: Router = inject(Router);
     private messageService: MessageService = inject(MessageService);
     private dialogService: DialogService = inject(DialogService);
     private ref: DynamicDialogRef | undefined;
 
-    public models = agents;
+    public models: any[] = [];
     public modelsGenerated: any[] = [];
     public modelsToTrain: any[] = [];
 
@@ -40,15 +40,33 @@ export class AgentsComponent {
 
     public search: string = '';
 
-    public filterOn: string = 'updatedAt';
+    public filterOn: string = 'name';
 
     public filters: Array<{ [key: string]: string }> = [
         { name: 'Nom', value: 'name' },
+        { name: 'Référence', value: 'reference' },
         { name: 'Version', value: 'version' },
-        { name: 'Mise à jour', value: 'updatedAt' }
+        { name: 'Mise à jour', value: 'updated_at' },
+        { name: 'Création', value: 'created_at' },
     ];
 
     public orderBy: 'asc' | 'desc' = 'desc';
+
+    ngOnInit() {
+        this.getModels();
+    }
+
+    public getModels() {
+        this.api.get('models/').subscribe({
+            next: (res: any) => {                
+                this.models = res;
+            },
+            error: (err) => {
+                console.error(err);
+                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de récupérer les modèles.' });
+            }
+        });
+    }
 
     public filtered(list: any[]) {
         return list
@@ -68,6 +86,10 @@ export class AgentsComponent {
 
                 return aValue < bValue ? 1 : -1;
             });
+    }
+
+    public viewAgent(agent: any) {
+        console.log('Viewing agent', agent);
     }
 
     public toggleOrder() {
@@ -130,7 +152,6 @@ export class AgentsComponent {
 
             this.ref.onClose.subscribe((res: any) => {
                 if (res?.close) {
-                    console.log(res?.option);   
                     this.modelsGenerated.push(agent);
                     // this.addModelToDataset(agent);
                 }

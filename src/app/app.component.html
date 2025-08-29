@@ -1,4 +1,4 @@
-@if (user) {
+@if (!loading && user) {
 <div class="app">
     <div class="header">
         <div class="header__wrapper">
@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-} @else {
+} @else if (!loading && router.url.startsWith('/auth')) {
 <div class="app">
     <div class="app__layout">
         <div class="app__main">

@@ -43,7 +43,7 @@
     --background-color-800: var(--p-surface-200);
     --background-color-900: var(--p-surface-100);
     --background-color-950: var(--p-surface-50);
-    
+
     --orgchart-background-line: #ebebeb1f;
 }
 
@@ -76,7 +76,7 @@ body {
     color: var(--background-color-50);
 }
 
-.router-outlet-container >:not(router-outlet, .is-not-router-outlet) {
+.router-outlet-container>:not(router-outlet, .is-not-router-outlet) {
     height: 100%;
     width: 100%;
 }
@@ -116,4 +116,27 @@ p-breadcrumb .p-breadcrumb {
         --sidebar-width: auto;
         --padding-app: .75rem;
     }
+}
+
+/* ta customisation */
+::-webkit-scrollbar {
+    width: .25rem;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--background-color-300);
+    border-radius: 4px;
+    transition: background-color .3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--background-color-400);
+}
+
+::-webkit-scrollbar-button {
+    display: none;
 }

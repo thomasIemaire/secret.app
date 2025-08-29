@@ -44,11 +44,18 @@ export class LoginComponent {
     }
 
     public login(): void {
-        this.userService.login(this.user.email, this.user.password!).subscribe(success => {
-            if (success)
-                this.router.navigate(['/']);
-            else
-                this.error = 'Identifiant ou mot de passe invalide';
+        this.userService.login(this.user.email, this.user.password!).subscribe({
+            next: (success: any) => {
+                const user = success.user;
+                if (user) {
+                    this.userService.setUser(user, success.token, success.refresh_token);
+                    this.router.navigate(['/playground']);
+                }
+            },
+            error: (err) => {
+                console.error(err.error);
+                this.error = err.error.error || 'Une erreur est survenue';
+            }
         });
     }
 }

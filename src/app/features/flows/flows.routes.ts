@@ -6,7 +6,6 @@ export const flowsRoutes: Routes = [
     {
         path: '',
         component: FlowsComponent,
-        data: { title: 'Gestion des Flows' },
         children: [
             {
                 path: ':id',
