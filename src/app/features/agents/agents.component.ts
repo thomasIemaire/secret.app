@@ -15,6 +15,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SelectActionDialogComponent } from '../../shared/components/molecules/select-acrion-dialog/select-acrion-dialog.component';
 import { ConfirmDatasetDialogComponent } from '../../shared/components/molecules/confirm-dataset-dialog/confirm-dataset-dialog.component';
 import { ApiService } from '../../core/services/api.service';
+import { agents } from '../../../_db/agents.db';
 
 @Component({
     selector: 'app-agents',
@@ -32,6 +33,14 @@ export class AgentsComponent {
     private ref: DynamicDialogRef | undefined;
 
     public models: any[] = [];
+    public datasets: any = {
+        generating: [],
+        generated: [],
+        ready: [],
+        training: []
+    }
+    public agents: any[] = [];
+
     public modelsGenerated: any[] = [];
     public modelsToTrain: any[] = [];
 
@@ -54,6 +63,11 @@ export class AgentsComponent {
 
     ngOnInit() {
         this.getModels();
+        this.getDatasets();
+
+        setInterval(() => {
+            this.getDatasets();
+        }, 5000);
     }
 
     public getModels() {
@@ -64,11 +78,34 @@ export class AgentsComponent {
             error: (err) => {
                 console.error(err);
                 this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de récupérer les modèles.' });
+                this.models = agents;
+            }
+        });
+    }
+
+    public getDatasets() {
+        this.api.get('datasets/').subscribe({
+            next: (res: any) => {
+                this.datasets.generating = res.filter((d: any) => d.status === 'generating');
+                this.datasets.generated = res.filter((d: any) => d.status === 'generated');
+                this.datasets.ready = res.filter((d: any) => d.status === 'ready');
+                this.datasets.training = res.filter((d: any) => d.status === 'training');
+            },
+            error: (err) => {
+                console.error(err);
+                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de récupérer les jeux de données.' });
+                this.datasets = {
+                    generating: [],
+                    generated: [],
+                    ready: [],
+                    training: []
+                };
             }
         });
     }
 
     public filtered(list: any[]) {
+        if (list.length === 0) return [];
         return list
             .filter(a => {
                 const searchTerm = this.search.toLowerCase();
@@ -89,7 +126,7 @@ export class AgentsComponent {
     }
 
     public viewAgent(agent: any) {
-        console.log('Viewing agent', agent);
+        // console.log('Viewing agent', agent);s
     }
 
     public toggleOrder() {
@@ -152,8 +189,8 @@ export class AgentsComponent {
 
             this.ref.onClose.subscribe((res: any) => {
                 if (res?.close) {
-                    this.modelsGenerated.push(agent);
-                    // this.addModelToDataset(agent);
+                    this.datasets.generating.push(agent);
+                    this.api.post(`models/build/${agent._id}`, { size: res.option }).subscribe({})
                 }
             });
         }
@@ -196,7 +233,7 @@ export class AgentsComponent {
                 if (confirmed) {
                     this.modelsGenerated = this.modelsGenerated.filter(a => a._id !== agent._id);
                     this.modelsToTrain.push(agent);
-                    // this.startTraining(agent);
+                    this.api.post(`datasets/train/${agent.dataset}`, {}).subscribe();
                 }
             });
         }

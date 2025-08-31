@@ -92,24 +92,43 @@
                 .kanban-content {
                     display: flex;
                     flex-direction: column;
-                    gap: .5rem;
+                    gap: .75rem;
                     flex: 1;
                     overflow-y: auto;
-                    padding-inline-end: .25rem;
 
-                    .agent__add {
-                        min-height: 40px;
-                        height: 40px;
-                        width: 100%;
+                    .kanban-content__section {
+                        &:nth-last-child(1) {
+                            flex: 1 1 auto;
+                        }                        
+
                         display: flex;
                         flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        border-radius: var(--p-inputtext-border-radius);
-                        border: 2px dashed var(--p-button-secondary-hover-background);
-                        color: var(--p-text-muted-color);
-                        user-select: none;
-                        cursor: pointer;
+                        gap: .5rem;
+                        min-height: auto;
+
+                        .kanban-content__title {
+                            color: var(--background-color-600);
+                            font-size: .875rem;
+                            font-weight: 600;
+                        }
+
+                        .kanban-content__empty,
+                        .kanban-content__add {
+                            width: 100%;
+                            min-height: 40px;
+                            font-size: .75rem;
+                            color: var(--p-text-muted-color);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
+                        .kanban-content__add {
+                            border-radius: var(--p-inputtext-border-radius);
+                            border: 2px dashed var(--p-button-secondary-hover-background);
+                            user-select: none;
+                            cursor: pointer;
+                        }
                     }
 
                     .agent__item {
