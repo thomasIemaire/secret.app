@@ -14,8 +14,8 @@ type Token = { text: string; key?: string };
     template: `
     <div>
         <div class="dialog-content">
-            <div class="example-line">
-                <ng-container *ngFor="let t of tokens">
+            <div class="example-line" *ngFor="let token of tokens">
+                <ng-container *ngFor="let t of token">
                 <span *ngIf="t.key; else plain"
                         class="entity-in-example"
                         [pTooltip]="t.key"
@@ -28,18 +28,25 @@ type Token = { text: string; key?: string };
         </div>
 
       <div class="dialog-footer">
-            <p-button size="small" variant="text" severity="secondary" label="Annuler" (click)="ref.close(false)"></p-button>
-            <p-button size="small" severity="secondary" label="Confirmer" (click)="ref.close(true)"></p-button>
+        <div>
+            <p-button variant="text" severity="secondary" label="Générer" size="small" (click)="other()"></p-button>
+        </div>
+        <div>
+            <p-button variant="text" severity="secondary" label="Annuler" size="small" (click)="ref.close(false)"></p-button>
+            <p-button severity="secondary" label="Valider" size="small" (click)="ref.close(true)"></p-button>
+        </div>
       </div>
     </div>
   `,
     styles: [`
     .dialog-content {
+        width: 100%;
         display: flex;
         flex-direction: column;
         gap: 1rem;
 
         .example-line {
+            width: 100%;
             display:flex;
             gap:.25rem;
             align-items:center;
@@ -59,20 +66,36 @@ type Token = { text: string; key?: string };
 
     .dialog-footer {
         display: flex;
-        justify-content: flex-end;
-        gap: 0.5rem;
-        margin-top: 1rem;
+        justify-content: space-between;
+        align-items: center;
+
+        div {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
     }
     `]
 })
 export class ConfirmDatasetDialogComponent {
     constructor(public ref: DynamicDialogRef, public cfg: DynamicDialogConfig) { }
 
-    tokens: Token[] = [];
+    tokens: any[] = [];
 
     ngOnInit() {
-        const ex = this.cfg.data?.example;
-        this.tokens = this.buildTokens(ex?.text ?? '', ex?.entities ?? []);
+        this.other();
+    }
+
+    other() {
+        this.cfg.data?.examples().subscribe({
+            next: (res: any[]) => {
+                this.tokens = [];
+                for (const ex of res || []) {
+                    this.tokens.push(this.buildTokens(ex?.text ?? '', ex?.entities ?? []));
+                }
+            }
+        });
     }
 
     buildTokens(text: string, entities: Entity[]): Token[] {

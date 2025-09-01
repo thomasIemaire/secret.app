@@ -43,11 +43,11 @@
                             </div>
                             <div class="agent__footer">
                                 <div class="agent-footer__left">
-                                    <p-avatar
-                                        [image]="`http://localhost:8888/public/avatars/${agent.created_by.id}.png`"
+                                    <p-avatar [image]="`${this.api.publicUrl}/avatars/${agent.created_by._id}.png`"
                                         shape="circle" size="normal" />
                                     <div class="agent-footer__info">
-                                        <div>Créé par {{ agent.created_by.email }}</div>
+                                        <div>Créé par {{ agent.created_by.firstname }} {{ agent.created_by.lastname }}
+                                        </div>
                                         <div>Le {{ agent.created_at | date: 'dd/MM/yyyy à HH:mm' }}</div>
                                     </div>
                                 </div>
@@ -93,7 +93,8 @@
                             </div>
                             <div class="agent__footer">
                                 <div class="agent-footer__left">
-                                    <p-avatar shape="circle" size="normal" />
+                                    <p-avatar [image]="`${this.api.publicUrl}/avatars/${agent.created_by._id}.png`"
+                                        shape="circle" size="normal" />
                                     <div class="agent-footer__info">
                                         <div>Créé par {{ agent.created_by.email }}</div>
                                         <div>Le {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}</div>
@@ -125,9 +126,11 @@
                             </div>
                             <div class="agent__footer">
                                 <div class="agent-footer__left">
-                                    <p-avatar shape="circle" size="normal" />
+                                    <p-avatar [image]="`${this.api.publicUrl}/avatars/${agent.created_by._id}.png`"
+                                        shape="circle" size="normal" />
                                     <div class="agent-footer__info">
-                                        <div>Créé par {{ agent.created_by.email }}</div>
+                                        <div>Créé par {{ agent.created_by.firstname }} {{ agent.created_by.lastname }}
+                                        </div>
                                         <div>Le {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}</div>
                                     </div>
                                 </div>
@@ -144,10 +147,10 @@
                 (dragover)="onDragOver($event, ['generated'])" (dragleave)="onDragLeave($event)">
                 <div class="kanban-header">
                     <div class="title">
-                        En entrainement
+                        Entrainement
                     </div>
                     <div class="description">
-                        Liste des modèles en entrainement
+                        Liste des modèles entrainables
                     </div>
                 </div>
                 <div class="kanban-content">
@@ -167,11 +170,19 @@
                                 <p-tag [value]="agent.version" severity="contrast" />
                             </div>
                             <div class="agent__description">
-                                {{ agent.description }}
+                                <div>
+                                    <p-progressbar [value]="getProgress(agent.progress)">
+                                        <ng-template #content let-value />
+                                    </p-progressbar>
+                                </div>
+                                <div class="progress">
+                                    {{ getProgress(agent.progress) }}%
+                                </div>
                             </div>
                             <div class="agent__footer">
                                 <div class="agent-footer__left">
-                                    <p-avatar shape="circle" size="normal" />
+                                    <p-avatar [image]="`${this.api.publicUrl}/avatars/${agent.created_by._id}.png`"
+                                        shape="circle" size="normal" />
                                     <div class="agent-footer__info">
                                         <div>Créé par {{ agent.created_by.email }}</div>
                                         <div>Le {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}</div>
@@ -204,7 +215,8 @@
                             </div>
                             <div class="agent__footer">
                                 <div class="agent-footer__left">
-                                    <p-avatar shape="circle" size="normal" />
+                                    <p-avatar [image]="`${this.api.publicUrl}/avatars/${agent.created_by._id}.png`"
+                                        shape="circle" size="normal" />
                                     <div class="agent-footer__info">
                                         <div>Créé par {{ agent.created_by.email }}</div>
                                         <div>Le {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}</div>
@@ -230,8 +242,33 @@
                 </div>
                 <div class="kanban-content">
                     <div class="kanban-content__section">
-                        <div class="kanban-content__empty">
+                        <div class="kanban-content__empty" *ngIf="filtered(agents).length === 0">
                             Aucun modèle n'est en entrainement
+                        </div>
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(agents)">
+                            <div class="agent__header">
+                                <div class="agent-header__left">
+                                    <div class="agent-header__name">{{ agent.name }}</div>
+                                    <div class="agent-header__reference">{{ agent.reference }}</div>
+                                </div>
+                                <p-tag [value]="agent.version" severity="contrast" />
+                            </div>
+                            <div class="agent__description">
+                                {{ agent.description }}
+                            </div>
+                            <div class="agent__footer">
+                                <div class="agent-footer__left">
+                                    <p-avatar [image]="`${this.api.publicUrl}/avatars/${agent.created_by._id}.png`"
+                                        shape="circle" size="normal" />
+                                    <div class="agent-footer__info">
+                                        <div>Créé par {{ agent.created_by.email }}</div>
+                                        <div>Le {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    MAJ {{ agent.updated_at | date: 'dd/MM/yyyy HH:mm' }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

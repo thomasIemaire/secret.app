@@ -46,6 +46,7 @@ export class App implements OnInit {
         error: (err) => {
           console.error(err.error);
           this.router.navigate(['/auth/login']);
+          this.tokenService.clearTokens();
         },
         complete: () => {
           this.loading = false;

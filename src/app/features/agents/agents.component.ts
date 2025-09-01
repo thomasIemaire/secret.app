@@ -15,18 +15,18 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SelectActionDialogComponent } from '../../shared/components/molecules/select-acrion-dialog/select-acrion-dialog.component';
 import { ConfirmDatasetDialogComponent } from '../../shared/components/molecules/confirm-dataset-dialog/confirm-dataset-dialog.component';
 import { ApiService } from '../../core/services/api.service';
-import { agents } from '../../../_db/agents.db';
+import { ProgressBar } from 'primeng/progressbar';
 
 @Component({
     selector: 'app-agents',
-    imports: [CommonModule, FormsModule, Toast, RouterOutlet, DynamicDialogModule, InputTextModule, SelectModule, ButtonModule, TagModule, AvatarModule, DragDropModule],
+    imports: [CommonModule, FormsModule, Toast, RouterOutlet, DynamicDialogModule, InputTextModule, SelectModule, ButtonModule, TagModule, AvatarModule, DragDropModule, ProgressBar],
     templateUrl: './agents.component.html',
     styleUrls: ['./agents.component.scss'],
     providers: [MessageService, DialogService]
 })
 export class AgentsComponent {
 
-    private api: ApiService = inject(ApiService);
+    public api: ApiService = inject(ApiService);
     public router: Router = inject(Router);
     private messageService: MessageService = inject(MessageService);
     private dialogService: DialogService = inject(DialogService);
@@ -40,9 +40,6 @@ export class AgentsComponent {
         training: []
     }
     public agents: any[] = [];
-
-    public modelsGenerated: any[] = [];
-    public modelsToTrain: any[] = [];
 
     public elementDragged: any = null;
     public draggedFrom: 'models' | 'generated' | null = null;
@@ -64,10 +61,16 @@ export class AgentsComponent {
     ngOnInit() {
         this.getModels();
         this.getDatasets();
+        this.getAgents();
 
         setInterval(() => {
             this.getDatasets();
         }, 5000);
+    }
+
+    getProgress(progress: number) {
+        if (!progress) return 0;
+        return Math.min(100, Math.max(0, Math.round(progress * 100)));
     }
 
     public getModels() {
@@ -77,11 +80,11 @@ export class AgentsComponent {
             },
             error: (err) => {
                 console.error(err);
-                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de récupérer les modèles.' });
-                this.models = agents;
             }
         });
     }
+
+    private lastDatasetCheck: number | null = null;
 
     public getDatasets() {
         this.api.get('datasets/').subscribe({
@@ -90,16 +93,31 @@ export class AgentsComponent {
                 this.datasets.generated = res.filter((d: any) => d.status === 'generated');
                 this.datasets.ready = res.filter((d: any) => d.status === 'ready');
                 this.datasets.training = res.filter((d: any) => d.status === 'training');
+
+                if (this.lastDatasetCheck !== null && this.lastDatasetCheck > res.length) 
+                    this.getAgents();
+
+                this.lastDatasetCheck = res.length;
             },
             error: (err) => {
                 console.error(err);
-                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de récupérer les jeux de données.' });
                 this.datasets = {
                     generating: [],
                     generated: [],
                     ready: [],
                     training: []
                 };
+            }
+        });
+    }
+
+    public getAgents() {
+        this.api.get('agents/').subscribe({
+            next: (res: any) => {
+                this.agents = res;
+            },
+            error: (err) => {
+                console.error(err);
             }
         });
     }
@@ -190,7 +208,12 @@ export class AgentsComponent {
             this.ref.onClose.subscribe((res: any) => {
                 if (res?.close) {
                     this.datasets.generating.push(agent);
-                    this.api.post(`models/build/${agent._id}`, { size: res.option }).subscribe({})
+                    this.api.post(`models/build/${agent._id}`, { size: res.option }).subscribe(
+                        next => {
+                            this.getModels();
+                            this.getDatasets();
+                        }
+                    );
                 }
             });
         }
@@ -211,28 +234,16 @@ export class AgentsComponent {
                 modal: true,
                 appendTo: 'body',
                 data: {
-                    example: {
-                        "entities": [
-                            {
-                                "key": "name",
-                                "start": 14,
-                                "end": 18,
-                            },
-                            {
-                                "key": "age",
-                                "start": 26,
-                                "end": 28,
-                            }
-                        ],
-                        "text": "Quel age as-tu Joe ? J'ai 35 ans"
+                    examples: () => {
+                        return this.api.get(`datasets/${agent.dataset}/examples?size=3`);
                     }
                 }
             });
 
             this.ref.onClose.subscribe((confirmed: boolean) => {
                 if (confirmed) {
-                    this.modelsGenerated = this.modelsGenerated.filter(a => a._id !== agent._id);
-                    this.modelsToTrain.push(agent);
+                    this.datasets.generated = this.datasets.generated.filter((a: any) => a._id !== agent._id);
+                    this.datasets.ready.push(agent);
                     this.api.post(`datasets/train/${agent.dataset}`, {}).subscribe();
                 }
             });
