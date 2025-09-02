@@ -122,7 +122,14 @@
                                 <p-tag [value]="agent.version" severity="contrast" />
                             </div>
                             <div class="agent__description">
-                                {{ agent.description }}
+                                <div>
+                                    <p-progressbar [value]="getProgress(agent.progress)">
+                                        <ng-template #content let-value />
+                                    </p-progressbar>
+                                </div>
+                                <div class="progress">
+                                    {{ getProgress(agent.progress) }}%
+                                </div>
                             </div>
                             <div class="agent__footer">
                                 <div class="agent-footer__left">

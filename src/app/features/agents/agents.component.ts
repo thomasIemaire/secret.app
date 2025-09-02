@@ -65,7 +65,7 @@ export class AgentsComponent {
 
         setInterval(() => {
             this.getDatasets();
-        }, 5000);
+        }, 2000);
     }
 
     getProgress(progress: number) {
@@ -89,7 +89,7 @@ export class AgentsComponent {
     public getDatasets() {
         this.api.get('datasets/').subscribe({
             next: (res: any) => {
-                this.datasets.generating = res.filter((d: any) => d.status === 'generating');
+                this.datasets.generating = res.filter((d: any) => (d.status === 'generating' || d.status === 'empty'));
                 this.datasets.generated = res.filter((d: any) => d.status === 'generated');
                 this.datasets.ready = res.filter((d: any) => d.status === 'ready');
                 this.datasets.training = res.filter((d: any) => d.status === 'training');
@@ -211,7 +211,6 @@ export class AgentsComponent {
                     this.api.post(`models/build/${agent._id}`, { size: res.option }).subscribe(
                         next => {
                             this.getModels();
-                            this.getDatasets();
                         }
                     );
                 }
