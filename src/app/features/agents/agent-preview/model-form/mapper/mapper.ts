@@ -1,12 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { TooltipModule } from 'primeng/tooltip';
 
 class Node {
-  constructor(public label: string = '', public children: Node[] = []) { }
+  constructor(public parent: Node | null, public label: string = '', public children: Node[] = []) { }
+
+  get key(): string {
+    return (`${(this.parent?.key ?? 'root')}_${this.label}`).toUpperCase();
+  }
 }
 
 type JsonObj = Record<string, unknown>;
@@ -21,7 +26,7 @@ function buildJson(nodes: Node[]): JsonObj {
     if (!key) return acc;
 
     const children = node.children ?? [];
-    const value: unknown = children.length ? buildJson(children) : '';
+    const value: unknown = children.length ? buildJson(children) : node.key;
 
     if (key in acc && isPlainObject(acc[key]) && isPlainObject(value)) {
       acc[key] = { ...(acc[key] as JsonObj), ...(value as JsonObj) };
@@ -34,14 +39,12 @@ function buildJson(nodes: Node[]): JsonObj {
 
 @Component({
   selector: 'app-mapper',
-  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, AutoFocusModule],
+  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, AutoFocusModule, TooltipModule],
   templateUrl: './mapper.html',
   styleUrl: './mapper.scss'
 })
 export class Mapper {
-  @Input() mapper: Node[] = [
-    new Node('', [])
-  ];
+  @Input() mapper: Node[] = [new Node(null)];
 
   @Input() json?: any;
 
@@ -50,32 +53,41 @@ export class Mapper {
   @Output() jsonChange = new EventEmitter<Record<string, unknown>>();
 
   ngOnInit() {
-    console.log(this.json);
-    
+    this.reloadJson();
+  }
 
-    if (this.json && Object.keys(this.json).length) {
-      this.mapper = this.buildMapper(this.json);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['json']) this.reloadJson();
+  }
+
+  private reloadJson() {
+    if (this.json) {
+      if (Object.keys(this.json).length)
+        this.mapper = this.buildMapper(this.json);
+      else if (this.isRoot)
+        this.mapper = [new Node(null)];
     }
   }
 
-  private buildMapper(obj: Record<string, unknown>): Node[] {
+  private buildMapper(
+    obj: Record<string, unknown>,
+    parent: Node | null = null
+  ): Node[] {
     return Object.entries(obj).map(([key, value]) => {
+      const node = new Node(parent, key);
       if (value && typeof value === 'object' && !Array.isArray(value)) {
-        return new Node(key, this.buildMapper(value as Record<string, unknown>));
-      } else {
-        return new Node(key, []);
+        node.children = this.buildMapper(value as Record<string, unknown>, node);
       }
+      return node;
     });
   }
 
-  public addNode(): void {
-    this.mapper.push(new Node(''));
-    this.emitJson();
+  public addNode(parent: Node | null): void {
+    this.mapper.push(new Node(parent));
   }
 
   public addChild(node: Node): void {
-    (node.children ??= []).push(new Node(''));
-    this.emitJson();
+    (node.children ??= []).push(new Node(node));
   }
 
   public removeNodeIfEmpty(node: Node): void {

@@ -15,13 +15,13 @@ export class AgentPreview {
   private route: ActivatedRoute = inject(ActivatedRoute);
   private api = inject(ApiService);
 
-  model: Observable<any> | any = null;
+  model: any = null;
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       const modelId = params['id'];
       this.api.get(`models/${modelId}`).subscribe((data: any) => {
-        this.model = data;
+        this.model = { ...data, mapper: data.mapper ?? {} };
       });
     });
   }
