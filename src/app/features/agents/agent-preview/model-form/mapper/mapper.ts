@@ -7,10 +7,10 @@ import { AutoFocusModule } from 'primeng/autofocus';
 import { TooltipModule } from 'primeng/tooltip';
 
 class Node {
-  constructor(public parent: Node | null, public label: string = '', public children: Node[] = []) { }
+  constructor(public parent: Node | null, public label: string = '', public children: Node[] = [], public root: string = '') { }
 
   get key(): string {
-    return (`${(this.parent?.key ?? 'root')}_${this.label}`).toUpperCase();
+    return (`${(this.parent?.key ?? this.root)}_${this.label}`).toUpperCase();
   }
 }
 
@@ -44,7 +44,11 @@ function buildJson(nodes: Node[]): JsonObj {
   styleUrl: './mapper.scss'
 })
 export class Mapper {
-  @Input() mapper: Node[] = [new Node(null)];
+  @Input() root: string = 'root';
+
+  private rootNode: Node = new Node(null, '', [], this.root);
+
+  @Input() mapper: Node[] = [ this.rootNode ];
 
   @Input() json?: any;
 
@@ -57,7 +61,8 @@ export class Mapper {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['json']) this.reloadJson();
+    if (changes['root'] && this.isRoot) this.rootNode = new Node(null, '', [], this.root);
+      this.reloadJson();
   }
 
   private reloadJson() {
@@ -65,7 +70,7 @@ export class Mapper {
       if (Object.keys(this.json).length)
         this.mapper = this.buildMapper(this.json);
       else if (this.isRoot)
-        this.mapper = [new Node(null)];
+        this.mapper = [ this.rootNode ];
     }
   }
 
@@ -74,7 +79,7 @@ export class Mapper {
     parent: Node | null = null
   ): Node[] {
     return Object.entries(obj).map(([key, value]) => {
-      const node = new Node(parent, key);
+      const node = new Node(parent, key, [], this.root);
       if (value && typeof value === 'object' && !Array.isArray(value)) {
         node.children = this.buildMapper(value as Record<string, unknown>, node);
       }

@@ -16,6 +16,6 @@
             Mapper
         </p-divider>
 
-        <app-mapper [json]="model.mapper" [isRoot]="true" (jsonChange)="model.mapper = $event" />
+        <app-mapper [json]="model.mapper" [root]="model.reference ?? 'root'" [isRoot]="true" (jsonChange)="model.mapper = $event" />
     </div>
 </div>
