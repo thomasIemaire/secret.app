@@ -41,17 +41,14 @@ export class App implements OnInit {
           if (user) {
             this.userService.setUser(user, success.token, success.refresh_token);
             this.user = this.userService.user;
+            this.loading = false;
           }
         },
         error: (err) => {
           console.error(err.error);
-        },
-        complete: () => {
           this.loading = false;
-          if (!this.user) {
-            this.router.navigate(['/auth/login']);
-            this.tokenService.clearTokens();
-          }
+          this.tokenService.clearTokens();
+          this.router.navigate(['/auth/login']);
         }
       });
     else {
