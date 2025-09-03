@@ -5,7 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { DragDropModule } from 'primeng/dragdrop';
 import { MessageService } from 'primeng/api';
@@ -28,6 +28,7 @@ export class AgentsComponent {
 
     public api: ApiService = inject(ApiService);
     public router: Router = inject(Router);
+    private route: ActivatedRoute = inject(ActivatedRoute);
     private messageService: MessageService = inject(MessageService);
     private dialogService: DialogService = inject(DialogService);
     private ref: DynamicDialogRef | undefined;
@@ -58,14 +59,32 @@ export class AgentsComponent {
 
     public orderBy: 'asc' | 'desc' = 'desc';
 
+    public displayModels: boolean = true;
+    public displayGenerating: boolean = true;
+    public displayTraining: boolean = true;
+    public displayAgents: boolean = true;
+
     ngOnInit() {
         this.getModels();
         this.getDatasets();
         this.getAgents();
 
+        this.getActiveTab();
+
+        this.router.events.subscribe(() => {
+            this.getActiveTab();
+        });
+
         setInterval(() => {
             this.getDatasets();
         }, 2000);
+    }
+
+    public getActiveTab(tab: string | null = this.route.snapshot.queryParamMap.get('tab') || null) {
+        this.displayModels = tab ? tab === 'models' : true;
+        this.displayGenerating = tab ? tab === 'generating' : true;
+        this.displayTraining = tab ? tab === 'training' : true;
+        this.displayAgents = tab ? tab === 'agents' : true;
     }
 
     getProgress(progress: number) {
@@ -86,6 +105,17 @@ export class AgentsComponent {
 
     private lastDatasetCheck: number | null = null;
 
+    public createModel() {
+        this.api.post('models/', {}).subscribe({
+            next: (res: any) => {
+                this.router.navigate([`/agents/${res._id}`], { queryParams: { tab: 'models' } });
+            },
+            error: (err) => {
+                console.error(err);
+            }
+        });
+    }
+
     public getDatasets() {
         this.api.get('datasets/').subscribe({
             next: (res: any) => {
@@ -100,7 +130,7 @@ export class AgentsComponent {
                 this.lastDatasetCheck = res.length;
             },
             error: (err) => {
-                console.error(err);
+                // console.error(err);
                 this.datasets = {
                     generating: [],
                     generated: [],
@@ -143,8 +173,8 @@ export class AgentsComponent {
             });
     }
 
-    public viewAgent(agent: any) {
-        // console.log('Viewing agent', agent);s
+    public viewAgent(agent: any, tab: string) {
+        this.router.navigate([`/agents/${agent._id}`], { queryParams: { tab: tab } });
     }
 
     public toggleOrder() {

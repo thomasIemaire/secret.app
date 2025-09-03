@@ -1,0 +1,13 @@
+.agent-preview__container {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    background-color: var(--background-color-100);
+    border: 1px solid var(--background-color-200);
+    border-radius: 1rem;
+
+    .model-form__wrapper {
+        height: 100%;
+        width: 50%;
+    }
+}

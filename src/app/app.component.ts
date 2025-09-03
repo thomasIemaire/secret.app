@@ -45,11 +45,13 @@ export class App implements OnInit {
         },
         error: (err) => {
           console.error(err.error);
-          this.router.navigate(['/auth/login']);
-          this.tokenService.clearTokens();
         },
         complete: () => {
           this.loading = false;
+          if (!this.user) {
+            this.router.navigate(['/auth/login']);
+            this.tokenService.clearTokens();
+          }
         }
       });
     else {

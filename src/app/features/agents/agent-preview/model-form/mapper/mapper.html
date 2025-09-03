@@ -1,0 +1,14 @@
+<div class="form__wrapper" *ngFor="let node of mapper; index as i; trackBy: trackByIndex">
+    <div class="group-inputs">
+        <input pInputText type="text" [(ngModel)]="node.label" (ngModelChange)="emitJson()" pSize="small"
+            style="max-width: 256px;" [pAutoFocus]="isLastNode(node)" (blur)="removeNodeIfEmpty(node)" />
+        <p-button icon="pi pi-plus" variant="text" severity="secondary" size="small"
+            (click)="addChild(node)"></p-button>
+    </div>
+
+    <app-mapper style="padding-left: 4rem;" [mapper]="node.children" (jsonChange)="onChildJsonChange()">
+    </app-mapper>
+
+    <p-button *ngIf="isLastNode(node)" icon="pi pi-plus" variant="text" severity="secondary" size="small"
+        (click)="addNode()"></p-button>
+</div>

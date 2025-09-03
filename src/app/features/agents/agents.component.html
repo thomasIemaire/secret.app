@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="agent-kaban__wrapper">
-            <div class="kanban-item__wrapper">
+            <div class="kanban-item__wrapper" *ngIf="displayModels">
                 <div class="kanban-header">
                     <div class="title">
                         Modèles
@@ -25,12 +25,12 @@
                 </div>
                 <div class="kanban-content">
                     <div class="kanban-content__section">
-                        <div class="kanban-content__add">
+                        <div class="kanban-content__add" (click)="createModel()">
                             <i class="pi pi-plus"></i>
                         </div>
                         <div class="agent__item droppable" *ngFor="let agent of filtered(models)" pDraggable
                             (onDragStart)="onDragStart(agent, 'models')" (onDragEnd)="onDragEnd()" draggable="true"
-                            (click)="viewAgent(agent)">
+                            (click)="viewAgent(agent, 'models')">
                             <div class="agent__header">
                                 <div class="agent-header__left">
                                     <div class="agent-header__name">{{ agent.name }}</div>
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="kanban-item__wrapper draggable" pDroppable (onDrop)="onDropToDataset()"
+            <div class="kanban-item__wrapper draggable" *ngIf="displayGenerating" pDroppable (onDrop)="onDropToDataset()"
                 (dragover)="onDragOver($event, ['models'])" (dragleave)="onDragLeave($event)">
                 <div class="kanban-header">
                     <div class="title">
@@ -80,7 +80,7 @@
                         </div>
                         <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.generated)" pDraggable
                             (onDragStart)="onDragStart(agent, 'generated')" (onDragEnd)="onDragEnd()" draggable="true"
-                            (click)="viewAgent(agent)">
+                            (click)="viewAgent(agent, 'generating')">
                             <div class="agent__header">
                                 <div class="agent-header__left">
                                     <div class="agent-header__name">{{ agent.name }}</div>
@@ -113,7 +113,8 @@
                         <div class="kanban-content__empty" *ngIf="filtered(datasets.generating).length === 0">
                             Aucun modèle n'est en cours de génération
                         </div>
-                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.generating)">
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.generating)"
+                            (click)="viewAgent(agent, 'generating')">
                             <div class="agent__header">
                                 <div class="agent-header__left">
                                     <div class="agent-header__name">{{ agent.name }}</div>
@@ -150,7 +151,7 @@
                 </div>
             </div>
 
-            <div class="kanban-item__wrapper draggable" pDroppable (onDrop)="onDropToTrain()"
+            <div class="kanban-item__wrapper draggable" *ngIf="displayTraining" pDroppable (onDrop)="onDropToTrain()"
                 (dragover)="onDragOver($event, ['generated'])" (dragleave)="onDragLeave($event)">
                 <div class="kanban-header">
                     <div class="title">
@@ -168,7 +169,8 @@
                         <div class="kanban-content__empty" *ngIf="filtered(datasets.training).length === 0">
                             Aucun modèle n'est en entrainement
                         </div>
-                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.training)">
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.training)"
+                        (click)="viewAgent(agent, 'training')">
                             <div class="agent__header">
                                 <div class="agent-header__left">
                                     <div class="agent-header__name">{{ agent.name }}</div>
@@ -209,7 +211,8 @@
                         <div class="kanban-content__empty" *ngIf="filtered(datasets.ready).length === 0">
                             Aucun modèle n'est en attente
                         </div>
-                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.ready)">
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.ready)"
+                        (click)="viewAgent(agent, 'training')">
                             <div class="agent__header">
                                 <div class="agent-header__left">
                                     <div class="agent-header__name">{{ agent.name }}</div>
@@ -238,7 +241,7 @@
                 </div>
             </div>
 
-            <div class="kanban-item__wrapper">
+            <div class="kanban-item__wrapper" *ngIf="displayAgents">
                 <div class="kanban-header">
                     <div class="title">
                         Agents
@@ -252,7 +255,8 @@
                         <div class="kanban-content__empty" *ngIf="filtered(agents).length === 0">
                             Aucun modèle n'est en entrainement
                         </div>
-                        <div class="agent__item draggable" *ngFor="let agent of filtered(agents)">
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(agents)"
+                        (click)="viewAgent(agent, 'agents')">
                             <div class="agent__header">
                                 <div class="agent-header__left">
                                     <div class="agent-header__name">{{ agent.name }}</div>
@@ -280,6 +284,10 @@
                     </div>
                 </div>
             </div>
+
+            <router-outlet>
+
+            </router-outlet>
         </div>
     </div>
 </div>
