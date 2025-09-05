@@ -1,0 +1,57 @@
+.attributes-form__wrapper {
+    width: 100%;
+
+    .form__wrapper .group-inputs {
+        .attribute-type,
+        .attribute-rule,
+        .attribute-requirements {
+            width: 192px;
+            min-width: 192px;
+            max-width: 192px;
+        }
+
+        .attribute-frequency {
+            width: 48px;
+            min-width: 48px;
+            max-width: 48px;
+        }
+        
+        .attribute-rule-randint-param {
+            width: 96px;
+            min-width: 96px;
+            max-width: 96px;
+        }
+
+        .attribute-rule-param-objectid {
+            width: calc(2 *  96px - 28px);
+            min-width: calc(2 *  96px - 28px);
+            max-width: calc(2 *  96px - 28px);
+        }
+
+        .unified-inputs {
+            display: flex;
+            gap: .25rem;
+            padding: .25rem;
+            background-color: var(--background-color-200);
+            border-radius: var(--p-inputtext-border-radius);
+        }
+
+        p-multiSelect {
+            .group-inputs {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .item-label {
+                pointer-events: none;
+            }
+            
+            .item-action {
+                cursor: pointer;
+                margin-left: 8px;
+                pointer-events: auto;
+            }
+        }
+    }
+}

@@ -6,7 +6,7 @@
 
         <div class="group-inputs">
             <input pInputText [(ngModel)]="model.name" type="text" pSize="small" placeholder="Nom" />
-            <input pInputText [(ngModel)]="model.reference" type="text" pSize="small" placeholder="Référence" />
+            <input pInputText [(ngModel)]="model.reference" type="text" pSize="small" placeholder="Référence" [pKeyFilter]="referenceRegex" />
         </div>
         <div class="group-inputs">
             <input pInputText [(ngModel)]="model.description" type="text" pSize="small" placeholder="Description" />
@@ -17,5 +17,11 @@
         </p-divider>
 
         <app-mapper [json]="model.mapper" [root]="model.reference ?? 'root'" [isRoot]="true" (jsonChange)="model.mapper = $event" />
+
+        <p-divider align="left" type="solid">
+            Configuration
+        </p-divider>
+
+        <app-configuration-form />
     </div>
 </div>

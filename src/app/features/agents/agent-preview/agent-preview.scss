@@ -5,9 +5,18 @@
     background-color: var(--background-color-100);
     border: 1px solid var(--background-color-200);
     border-radius: 1rem;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
 
     .model-form__wrapper {
-        height: 100%;
-        width: 50%;
+        flex: 1;
+        width: 100%;
+    }
+
+    .agent-preview__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
     }
 }

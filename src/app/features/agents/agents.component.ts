@@ -16,6 +16,7 @@ import { SelectActionDialogComponent } from '../../shared/components/molecules/s
 import { ConfirmDatasetDialogComponent } from '../../shared/components/molecules/confirm-dataset-dialog/confirm-dataset-dialog.component';
 import { ApiService } from '../../core/services/api.service';
 import { ProgressBar } from 'primeng/progressbar';
+import { AppService } from '../../core/services/app.service';
 
 @Component({
     selector: 'app-agents',
@@ -26,21 +27,13 @@ import { ProgressBar } from 'primeng/progressbar';
 })
 export class AgentsComponent {
 
+    public app: AppService = inject(AppService);
     public api: ApiService = inject(ApiService);
     public router: Router = inject(Router);
     private route: ActivatedRoute = inject(ActivatedRoute);
     private messageService: MessageService = inject(MessageService);
     private dialogService: DialogService = inject(DialogService);
     private ref: DynamicDialogRef | undefined;
-
-    public models: any[] = [];
-    public datasets: any = {
-        generating: [],
-        generated: [],
-        ready: [],
-        training: []
-    }
-    public agents: any[] = [];
 
     public elementDragged: any = null;
     public draggedFrom: 'models' | 'generated' | null = null;
@@ -95,7 +88,7 @@ export class AgentsComponent {
     public getModels() {
         this.api.get('models/').subscribe({
             next: (res: any) => {                
-                this.models = res;
+                this.app.models = res;
             },
             error: (err) => {
                 console.error(err);
@@ -119,10 +112,10 @@ export class AgentsComponent {
     public getDatasets() {
         this.api.get('datasets/').subscribe({
             next: (res: any) => {
-                this.datasets.generating = res.filter((d: any) => (d.status === 'generating' || d.status === 'empty'));
-                this.datasets.generated = res.filter((d: any) => d.status === 'generated');
-                this.datasets.ready = res.filter((d: any) => d.status === 'ready');
-                this.datasets.training = res.filter((d: any) => d.status === 'training');
+                this.app.datasets.generating = res.filter((d: any) => (d.status === 'generating' || d.status === 'empty'));
+                this.app.datasets.generated = res.filter((d: any) => d.status === 'generated');
+                this.app.datasets.ready = res.filter((d: any) => d.status === 'ready');
+                this.app.datasets.training = res.filter((d: any) => d.status === 'training');
 
                 if (this.lastDatasetCheck !== null && this.lastDatasetCheck > res.length) 
                     this.getAgents();
@@ -131,11 +124,11 @@ export class AgentsComponent {
             },
             error: (err) => {
                 // console.error(err);
-                this.datasets = {
-                    generating: [],
-                    generated: [],
-                    ready: [],
-                    training: []
+                this.app.datasets = {
+                    generating: [] as any[],
+                    generated: [] as any[],
+                    ready: [] as any[],
+                    training: [] as any[]
                 };
             }
         });
@@ -144,7 +137,7 @@ export class AgentsComponent {
     public getAgents() {
         this.api.get('agents/').subscribe({
             next: (res: any) => {
-                this.agents = res;
+                this.app.agents = res;
             },
             error: (err) => {
                 console.error(err);
@@ -237,7 +230,7 @@ export class AgentsComponent {
 
             this.ref.onClose.subscribe((res: any) => {
                 if (res?.close) {
-                    this.datasets.generating.push(agent);
+                    this.app.datasets.generating.push(agent);
                     this.api.post(`models/build/${agent._id}`, { size: res.option }).subscribe(
                         next => {
                             this.getModels();
@@ -271,8 +264,8 @@ export class AgentsComponent {
 
             this.ref.onClose.subscribe((confirmed: boolean) => {
                 if (confirmed) {
-                    this.datasets.generated = this.datasets.generated.filter((a: any) => a._id !== agent._id);
-                    this.datasets.ready.push(agent);
+                    this.app.datasets.generated = this.app.datasets.generated.filter((a: any) => a._id !== agent._id);
+                    this.app.datasets.ready.push(agent);
                     this.api.post(`datasets/train/${agent.dataset}`, {}).subscribe();
                 }
             });

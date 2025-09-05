@@ -1,5 +1,14 @@
 <div class="agent-preview__container">
+    <div>
+        <p-breadcrumb [model]="breadcrumb"></p-breadcrumb>
+    </div>
+
     <div class="model-form__wrapper">
         <app-model-form [model]="model" (modelChange)="model = $event" />
+    </div>
+
+    <div class="agent-preview__actions">
+        <p-button size="small" label="Annuler" severity="secondary" variant="text" (click)="cancel()"></p-button>
+        <p-button size="small" label="Sauvegarder" severity="secondary" (click)="saveModel()"></p-button>
     </div>
 </div>

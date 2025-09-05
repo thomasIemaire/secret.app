@@ -1,0 +1,71 @@
+<div class="attributes-form__wrapper">
+    <div class="form__wrapper">
+        <div *ngFor="let attribute of attributes" class="group-inputs attribute-item">
+            <input class="attribute-key" pInputText type="text" pSize="small" [(ngModel)]="attribute.key"
+                placeholder="Attribute Key" />
+            <p-select class="attribute-type" size="small" [options]="typeOptions" [(ngModel)]="attribute.value.type"
+                optionLabel="label" optionValue="value" placeholder="Select Type" />
+
+            <div class="unified-inputs">
+                <p-select class="attribute-rule" size="small" [options]="ruleOptions" [(ngModel)]="attribute.value.rule"
+                    optionLabel="label" optionValue="value" placeholder="Select rule" />
+                @switch (attribute.value.rule) {
+                @case('randint') {
+                <input class="attribute-rule-randint-param" pInputText type="text" pSize="small"
+                    [(ngModel)]="attribute.value.parameters.min" placeholder="Min" />
+                <input class="attribute-rule-randint-param" pInputText type="text" pSize="small"
+                    [(ngModel)]="attribute.value.parameters.max" placeholder="Max" />
+                }
+                @case ('data') {
+                <p-select class="attribute-rule-param-objectid" size="small" [options]="dataOptions"
+                    [(ngModel)]="attribute.value.parameters.object_id" optionLabel="label" optionValue="value"
+                    placeholder="Select Object">
+                    <ng-template pTemplate="footer">
+                        <p-button label="Nouveau" severity="secondary" text size="small" icon="pi pi-plus" />
+                    </ng-template>
+                </p-select>
+                <p-button class="attribute-rule-param-column" icon="pi pi-eye" severity="secondary" text size="small"
+                    pTooltip="Voir la data" appendTo="body"
+                    (click)="openDataDialog(attribute.value.parameters.object_id)"></p-button>
+                }
+                @case ('configuration') {
+                <p-select class="attribute-rule-param-objectid" size="small" [options]="configurationOptions"
+                    [(ngModel)]="attribute.value.parameters.object_id" optionLabel="label" optionValue="value"
+                    placeholder="Select Object">
+                    <ng-template pTemplate="footer">
+                        <p-button label="Nouveau" severity="secondary" text size="small" icon="pi pi-plus" />
+                    </ng-template>
+                </p-select>
+                <p-button class="attribute-rule-param-column" icon="pi pi-eye" severity="secondary" text size="small"
+                    pTooltip="Voir la configuration" appendTo="body"></p-button>
+                }
+                }
+            </div>
+
+            <p-multiselect class="attribute-requirements" [(ngModel)]="attribute.requirements"
+                [options]="attribute.requirements" optionLabel="rule" display="chip" [filter]="false"
+                [showToggleAll]="false" size="small" placeholder="Requirements">
+                <ng-template let-requirement #item>
+                    <div class="group-inputs">
+                        <span class="item-label">{{ requirement.rule }}</span>
+                        <i class="pi pi-eye" variant="text" severity="secondary" size="small"
+                            (click)="$event.stopPropagation(); openRequirementDialog(attribute, requirement, 'edit')"
+                            (mousedown)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
+                            (keydown.space)="$event.stopPropagation()"></i>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <p-button label="Nouveau" severity="secondary" text size="small" icon="pi pi-plus"
+                        (click)="openRequirementDialog(attribute)" />
+                </ng-template>
+            </p-multiselect>
+
+            <input class="attribute-frequency" pInputText type="text" pSize="small" [(ngModel)]="attribute.frequency"
+                placeholder="Frequency" />
+            <p-button icon="pi pi-trash" variant="text" severity="danger" size="small"
+                [pTooltip]="`Supprimer ${attribute.key}`" (click)="removeAttribute(attribute)"></p-button>
+        </div>
+        <p-button icon="pi pi-plus" text severity="secondary" size="small" pTooltip="Ajouter un attribut"
+            (click)="addAttribute()"></p-button>
+    </div>
+</div>

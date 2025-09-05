@@ -28,7 +28,7 @@
                         <div class="kanban-content__add" (click)="createModel()">
                             <i class="pi pi-plus"></i>
                         </div>
-                        <div class="agent__item droppable" *ngFor="let agent of filtered(models)" pDraggable
+                        <div class="agent__item droppable" *ngFor="let agent of filtered(app.models)" pDraggable
                             (onDragStart)="onDragStart(agent, 'models')" (onDragEnd)="onDragEnd()" draggable="true"
                             (click)="viewAgent(agent, 'models')">
                             <div class="agent__header">
@@ -75,10 +75,10 @@
                         <div class="kanban-content__title">
                             Prêt à l'entrainement
                         </div>
-                        <div class="kanban-content__empty" *ngIf="filtered(datasets.generated).length === 0">
+                        <div class="kanban-content__empty" *ngIf="filtered(app.datasets.generated).length === 0">
                             Aucun modèle n'est prêt pour l'entrainement
                         </div>
-                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.generated)" pDraggable
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(app.datasets.generated)" pDraggable
                             (onDragStart)="onDragStart(agent, 'generated')" (onDragEnd)="onDragEnd()" draggable="true"
                             (click)="viewAgent(agent, 'generating')">
                             <div class="agent__header">
@@ -110,10 +110,10 @@
                         <div class="kanban-content__title">
                             Génération en cours
                         </div>
-                        <div class="kanban-content__empty" *ngIf="filtered(datasets.generating).length === 0">
+                        <div class="kanban-content__empty" *ngIf="filtered(app.datasets.generating).length === 0">
                             Aucun modèle n'est en cours de génération
                         </div>
-                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.generating)"
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(app.datasets.generating)"
                             (click)="viewAgent(agent, 'generating')">
                             <div class="agent__header">
                                 <div class="agent-header__left">
@@ -166,10 +166,10 @@
                         <div class="kanban-content__title">
                             En entrainement
                         </div>
-                        <div class="kanban-content__empty" *ngIf="filtered(datasets.training).length === 0">
+                        <div class="kanban-content__empty" *ngIf="filtered(app.datasets.training).length === 0">
                             Aucun modèle n'est en entrainement
                         </div>
-                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.training)"
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(app.datasets.training)"
                         (click)="viewAgent(agent, 'training')">
                             <div class="agent__header">
                                 <div class="agent-header__left">
@@ -208,10 +208,10 @@
                         <div class="kanban-content__title">
                             En attente
                         </div>
-                        <div class="kanban-content__empty" *ngIf="filtered(datasets.ready).length === 0">
+                        <div class="kanban-content__empty" *ngIf="filtered(app.datasets.ready).length === 0">
                             Aucun modèle n'est en attente
                         </div>
-                        <div class="agent__item draggable" *ngFor="let agent of filtered(datasets.ready)"
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(app.datasets.ready)"
                         (click)="viewAgent(agent, 'training')">
                             <div class="agent__header">
                                 <div class="agent-header__left">
@@ -252,10 +252,10 @@
                 </div>
                 <div class="kanban-content">
                     <div class="kanban-content__section">
-                        <div class="kanban-content__empty" *ngIf="filtered(agents).length === 0">
+                        <div class="kanban-content__empty" *ngIf="filtered(app.agents).length === 0">
                             Aucun modèle n'est en entrainement
                         </div>
-                        <div class="agent__item draggable" *ngFor="let agent of filtered(agents)"
+                        <div class="agent__item draggable" *ngFor="let agent of filtered(app.agents)"
                         (click)="viewAgent(agent, 'agents')">
                             <div class="agent__header">
                                 <div class="agent-header__left">

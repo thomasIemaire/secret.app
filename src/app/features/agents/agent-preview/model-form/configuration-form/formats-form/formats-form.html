@@ -1,0 +1,11 @@
+<div class="formats-form__wrapper">
+    <div class="form__wrapper">
+        <div class="group-inputs" *ngFor="let format of formats; let i = index">
+            <input pInputText pSize="small" type="text" [(ngModel)]="format!" placeholder="Format name" />
+            <p-button icon="pi pi-trash" variant="text" severity="danger" size="small" pTooltip="Supprimer"
+                (click)="removeFormat(i)"></p-button>
+        </div>
+        <p-button icon="pi pi-plus" text severity="secondary" size="small" pTooltip="Ajouter un format"
+            (click)="addFormat()"></p-button>
+    </div>
+</div>

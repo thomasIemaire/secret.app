@@ -5,6 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { TooltipModule } from 'primeng/tooltip';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 class Node {
   constructor(public parent: Node | null, public label: string = '', public children: Node[] = [], public root: string = '') { }
@@ -39,9 +40,9 @@ function buildJson(nodes: Node[]): JsonObj {
 
 @Component({
   selector: 'app-mapper',
-  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, AutoFocusModule, TooltipModule],
+  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, AutoFocusModule, TooltipModule, KeyFilterModule],
   templateUrl: './mapper.html',
-  styleUrl: './mapper.scss'
+  styleUrls: [ './mapper.scss' ]
 })
 export class Mapper {
   @Input() root: string = 'root';
@@ -55,6 +56,8 @@ export class Mapper {
   @Input() isRoot: boolean = false;
 
   @Output() jsonChange = new EventEmitter<Record<string, unknown>>();
+
+  labelRegex: RegExp = /^[a-z_]+$/;
 
   ngOnInit() {
     this.reloadJson();

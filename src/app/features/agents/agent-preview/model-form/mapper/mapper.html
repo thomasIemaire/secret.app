@@ -1,7 +1,7 @@
 <div class="form__wrapper" *ngFor="let node of mapper; index as i; trackBy: trackByIndex">
     <div class="group-inputs">
         <input pInputText type="text" [(ngModel)]="node.label" pSize="small" style="max-width: 256px;"
-            [pAutoFocus]="isLastNode(node)" (blur)="removeNodeIfEmpty(node); emitJson()" />
+            [pAutoFocus]="isLastNode(node)" (blur)="removeNodeIfEmpty(node); emitJson()" [pKeyFilter]="labelRegex" />
         <p-button *ngIf="!node.children.length && node.label" icon="pi pi-plus" variant="text" severity="secondary"
             size="small" (click)="addChild(node)" [pTooltip]="`Ajouter un enfant à ${node.label}`"></p-button>
 
