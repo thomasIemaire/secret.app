@@ -37,7 +37,8 @@
                     </ng-template>
                 </p-select>
                 <p-button class="attribute-rule-param-column" icon="pi pi-eye" severity="secondary" text size="small"
-                    pTooltip="Voir la configuration" appendTo="body"></p-button>
+                    pTooltip="Voir la configuration" appendTo="body"
+                    (click)="openConfigurationDialog(attribute.value.parameters.object_id)"></p-button>
                 }
                 }
             </div>

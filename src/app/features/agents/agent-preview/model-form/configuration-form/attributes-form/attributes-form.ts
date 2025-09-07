@@ -10,13 +10,16 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AttributeRequirementDialog } from './attribute-requirement-dialog/attribute-requirement-dialog';
 import { ApiService } from '../../../../../../core/services/api.service';
 import { DataDialog } from './data-dialog/data-dialog';
+import { ConfigurationDialog } from './configuration-dialog/configuration-dialog';
+import { ConfigurationForm } from '../configuration-form';
 
 @Component({
   selector: 'app-attributes-form',
   imports: [CommonModule, FormsModule, InputText, Select, Button, TooltipModule, MultiSelectModule],
   templateUrl: './attributes-form.html',
   styleUrls: ['./attributes-form.scss', './../../../form-wrapper.scss'],
-  providers: [DialogService]
+  providers: [DialogService],
+  standalone: true,
 })
 export class AttributesForm {
   @Input() attributes: any[] = [];
@@ -48,7 +51,7 @@ export class AttributesForm {
     this.api.get('models/data/').subscribe((data: any) => {
       this.dataOptions = data.map((d: any) => ({ label: d.name, value: d._id }));
     });
-    
+
     this.api.get('models/configurations/').subscribe((data: any) => {
       this.configurationOptions = data.map((d: any) => ({ label: d.name, value: d._id }));
     });
@@ -100,6 +103,23 @@ export class AttributesForm {
     this.ref = this.dialogService.open(DataDialog, {
       header: "Données",
       width: '600px',
+      contentStyle: { overflow: 'auto' },
+      modal: true,
+      appendTo: 'body',
+      data: { object_id }
+    });
+
+    this.ref.onClose.subscribe((data: any) => {
+      if (data) {
+        // Handle the data returned from the dialog
+      }
+    });
+  }
+
+  public openConfigurationDialog(object_id: string) {
+    this.ref = this.dialogService.open(ConfigurationForm, {
+      header: "Configuration",
+      width: '70vw',
       contentStyle: { overflow: 'auto' },
       modal: true,
       appendTo: 'body',

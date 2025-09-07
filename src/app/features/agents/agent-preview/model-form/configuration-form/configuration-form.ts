@@ -9,7 +9,8 @@ import { FormatsForm } from "./formats-form/formats-form";
   selector: 'app-configuration-form',
   imports: [CommonModule, FormsModule, InputTextModule, AttributesForm, FormatsForm],
   templateUrl: './configuration-form.html',
-  styleUrls: [ './configuration-form.scss', './../../form-wrapper.scss' ]
+  styleUrls: [ './configuration-form.scss', './../../form-wrapper.scss' ],
+  standalone: true,
 })
 export class ConfigurationForm {
   @Input() configuration: any = {
