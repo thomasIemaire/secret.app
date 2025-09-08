@@ -3,8 +3,8 @@ import { inject, Injectable } from "@angular/core";
 @Injectable({ providedIn: 'root' })
 export class AppService {
 
-    public models = []
-    public agents = []
+    public models: any[] = []
+    public agents: any[] = []
     public datasets = {
         generating: [] as any[],
         generated: [] as any[],

@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { Breadcrumb } from "primeng/breadcrumb";
 import { AppService } from '../../../core/services/app.service';
-import { ModelService } from '../../../core/services/model.service';
 
 @Component({
   selector: 'app-agent-preview',
@@ -16,7 +15,7 @@ import { ModelService } from '../../../core/services/model.service';
 })
 export class AgentPreview {
 
-  public modelService: ModelService = inject(ModelService);
+  public model: any = {};
 
   public app = inject(AppService);
   private router = inject(Router);
@@ -31,12 +30,21 @@ export class AgentPreview {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const modelId = params['id'];
-      this.modelService.getModel(modelId);
+      this.api.get(`models/${modelId}`).subscribe({
+        next: (model) => {
+          this.model = model;
+        }
+      });
     });
   }
 
   public saveModel() {
-    this.modelService.saveModel();
+    this.api.put(`models/${this.model._id}`, this.model).subscribe({
+      next: () => {
+        this.router.navigate(['/agents']);
+        this.app.models.push(this.model);
+      }
+    });
   }
 
   public cancel() {

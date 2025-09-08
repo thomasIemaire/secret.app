@@ -6,7 +6,6 @@ import { AttributesForm } from "./attributes-form/attributes-form";
 import { FormatsForm } from "./formats-form/formats-form";
 import { ApiService } from '../../../../../core/services/api.service';
 import { AppService } from '../../../../../core/services/app.service';
-import { ModelService } from '../../../../../core/services/model.service';
 
 @Component({
   selector: 'app-configuration-form',
@@ -17,8 +16,6 @@ import { ModelService } from '../../../../../core/services/model.service';
 })
 export class ConfigurationForm {
   @Input() id: string | undefined = undefined;
-
-  public modelService: ModelService = inject(ModelService);
 
   private api: ApiService = inject(ApiService);
   private app: AppService = inject(AppService);
@@ -41,6 +38,15 @@ export class ConfigurationForm {
   }
 
   private refreshConfiguration() {
-    this.modelService.getConfiguration();
+    this.api.get(`models/configurations/${this.id}`).subscribe((data: any) => {
+      this.configuration = data;
+    }, error => {
+      this.configuration = {
+        name: '',
+        description: '',
+        attributes: [],
+        formats: []
+      };
+    });
   }
 }
