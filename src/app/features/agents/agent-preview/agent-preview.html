@@ -4,7 +4,7 @@
     </div>
 
     <div class="model-form__wrapper">
-        <app-model-form [model]="model" (modelChange)="model = $event" />
+        <app-model-form [model]="modelService.model" (modelChange)="modelService.model = $event" />
     </div>
 
     <div class="agent-preview__actions">

@@ -12,6 +12,8 @@ import { ApiService } from '../../../../../../core/services/api.service';
 import { DataDialog } from './data-dialog/data-dialog';
 import { ConfigurationDialog } from './configuration-dialog/configuration-dialog';
 import { ConfigurationForm } from '../configuration-form';
+import { DialogFooterComponent } from '../../../../../../shared/components/atoms/dialog-footer/dialog-footer.component';
+import { AppService } from '../../../../../../core/services/app.service';
 
 @Component({
   selector: 'app-attributes-form',
@@ -27,6 +29,7 @@ export class AttributesForm {
   private dialogService: DialogService = inject(DialogService);
   private ref: DynamicDialogRef | undefined;
   private api: ApiService = inject(ApiService);
+  public app: AppService = inject(AppService);
 
   public typeOptions = [
     { label: 'String', value: 'string' },
@@ -39,21 +42,9 @@ export class AttributesForm {
     { label: 'Randint', value: 'randint' }
   ]
 
-  public dataOptions = []
-
-  public configurationOptions = []
-
   ngOnInit() {
     this.attributes.forEach(attribute => {
       attribute.requirements = attribute.requirements ?? [];
-    });
-
-    this.api.get('models/data/').subscribe((data: any) => {
-      this.dataOptions = data.map((d: any) => ({ label: d.name, value: d._id }));
-    });
-
-    this.api.get('models/configurations/').subscribe((data: any) => {
-      this.configurationOptions = data.map((d: any) => ({ label: d.name, value: d._id }));
     });
   }
 
@@ -99,36 +90,67 @@ export class AttributesForm {
     });
   }
 
-  public openDataDialog(object_id: string) {
+  public openDataDialog(object_id: string, attribute: any, method: 'add' | 'edit' = 'add') {
     this.ref = this.dialogService.open(DataDialog, {
       header: "Données",
       width: '600px',
       contentStyle: { overflow: 'auto' },
       modal: true,
       appendTo: 'body',
-      data: { object_id }
+      data: { object_id: method === 'edit' ? object_id : undefined },
     });
 
     this.ref.onClose.subscribe((data: any) => {
       if (data) {
-        // Handle the data returned from the dialog
+        if (method === 'add') {
+          this.api.post(`models/data/`, data).subscribe({
+            next: (newData: any) => {
+              this.app.data.push(newData);
+              attribute.value.parameters.object_id = newData._id;
+            }
+          });
+        } else {
+          this.api.put(`models/data/${object_id}`, data).subscribe({
+            next: (newData: any) => {
+              this.app.data.push(newData);
+              attribute.value.parameters.object_id = newData._id;
+            }
+          });
+        }
       }
     });
   }
 
-  public openConfigurationDialog(object_id: string) {
+  public openConfigurationDialog(object_id: string, attribute: any, method: 'add' | 'edit' = 'add') {
     this.ref = this.dialogService.open(ConfigurationForm, {
       header: "Configuration",
       width: '70vw',
       contentStyle: { overflow: 'auto' },
       modal: true,
       appendTo: 'body',
-      data: { object_id }
+      inputValues: { id: method === 'edit' ? object_id : undefined },
+      templates: {
+        footer: DialogFooterComponent
+      }
     });
 
-    this.ref.onClose.subscribe((data: any) => {
-      if (data) {
-        // Handle the data returned from the dialog
+    this.ref.onClose.subscribe((configuration: any) => {
+      if (configuration) {
+        if (method === 'add') {
+          this.api.post(`models/configurations/`, configuration).subscribe({
+            next: (newConfiguration: any) => {
+              this.app.configurations.push(newConfiguration);
+              attribute.value.parameters.object_id = newConfiguration._id;
+            }
+          });
+        } else {
+          this.api.put(`models/configurations/${object_id}`, configuration).subscribe({
+            next: (newConfiguration: any) => {
+              this.app.configurations.push(newConfiguration);
+              attribute.value.parameters.object_id = newConfiguration._id;
+            }
+          });
+        }
       }
     });
   }

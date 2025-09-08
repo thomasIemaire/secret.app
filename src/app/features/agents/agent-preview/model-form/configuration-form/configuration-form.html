@@ -1,10 +1,13 @@
 <div class="configuration-form__wrapper">
     <div class="form__wrapper">
         <div class="group-inputs">
-            <app-attributes-form [attributes]="configuration?.attributes" />
+            <input pInputText [(ngModel)]="modelService.configuration.name" type="text" pSize="small" placeholder="Nom" />
         </div>
         <div class="group-inputs">
-            <app-formats-form [formats]="configuration?.formats" />
+            <app-attributes-form [attributes]="modelService.configuration?.attributes" />
+        </div>
+        <div class="group-inputs">
+            <app-formats-form [formats]="modelService.configuration?.formats" />
         </div>
     </div>
 </div>

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { Breadcrumb } from "primeng/breadcrumb";
 import { AppService } from '../../../core/services/app.service';
+import { ModelService } from '../../../core/services/model.service';
 
 @Component({
   selector: 'app-agent-preview',
@@ -15,12 +16,12 @@ import { AppService } from '../../../core/services/app.service';
 })
 export class AgentPreview {
 
+  public modelService: ModelService = inject(ModelService);
+
   public app = inject(AppService);
   private router = inject(Router);
   private route: ActivatedRoute = inject(ActivatedRoute);
   private api = inject(ApiService);
-
-  model: any = null;
 
   breadcrumb = [
     { label: 'Retour', url: '/agents' },
@@ -30,19 +31,12 @@ export class AgentPreview {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const modelId = params['id'];
-      this.api.get(`models/${modelId}`).subscribe((data: any) => {
-        this.model = { ...data, mapper: data.mapper ?? {}, randomizers: data.randomizers ?? [] };
-      });
+      this.modelService.getModel(modelId);
     });
   }
 
   public saveModel() {
-    this.api.put(`models/${this.model._id}`, this.model).subscribe((data: any) => {
-      this.model = { ...data, mapper: data.mapper ?? {}, randomizers: data.randomizers ?? [] };
-      this.api.get('models/').subscribe((models: any) => {
-        this.app.models = models;
-      });
-    });
+    this.modelService.saveModel();
   }
 
   public cancel() {

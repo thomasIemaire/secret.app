@@ -12,6 +12,9 @@ export class AppService {
         training: [] as any[]
     }
 
+    public configurations: any[] = []
+    public data: any[] = []
+
     constructor() { }
 
 }
