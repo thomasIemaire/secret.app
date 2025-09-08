@@ -8,9 +8,7 @@
                 <ng-container *ngIf="formats[i]?.format; else emptyFormat">
                     <ng-container *ngFor="let t of tokens[i]">
                         <span *ngIf="t.key; else plain" class="entity-in-example" [pTooltip]="t.key"
-                            tooltipPosition="top">
-                            {{ t.text }}
-                        </span>
+                            tooltipPosition="top">{{ t.text }}</span>
                         <ng-template #plain>{{ t.text }}</ng-template>
                     </ng-container>
                 </ng-container>

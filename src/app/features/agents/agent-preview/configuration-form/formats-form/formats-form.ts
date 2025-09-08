@@ -82,23 +82,25 @@ export class FormatsForm implements OnChanges {
     if (!format) return [];
     const out: Token[] = [];
     const re = /\{([^{}]+)\}/g;
-    let lastIdx = 0;
-    let m: RegExpExecArray | null;
+    let lastIdx = 0, m: RegExpExecArray | null;
 
     while ((m = re.exec(format)) !== null) {
-      const start = m.index;
-      const end = re.lastIndex;
-      if (start > lastIdx) out.push({ text: format.slice(lastIdx, start) });
+      let plain = format.slice(lastIdx, m.index);
+      if (plain) out.push({ text: plain });
 
       const key = m[1].trim();
       const value = this.keys.find(k => k.value === key)?.label || key;
       out.push({ text: this.keyToLabel(value), key });
-      lastIdx = end;
+
+      lastIdx = re.lastIndex;
     }
 
     if (lastIdx < format.length) {
-      out.push({ text: format.slice(lastIdx) });
+      let tail = format.slice(lastIdx);
+      tail = tail.replace(/^\s+/, ' ');
+      out.push({ text: tail });
     }
+
     return out;
   }
 
