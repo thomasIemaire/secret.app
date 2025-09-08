@@ -10,9 +10,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AttributeRequirementDialog } from './attribute-requirement-dialog/attribute-requirement-dialog';
 import { ApiService } from '../../../../../../core/services/api.service';
 import { DataDialog } from './data-dialog/data-dialog';
-import { ConfigurationDialog } from './configuration-dialog/configuration-dialog';
 import { ConfigurationForm } from '../configuration-form';
-import { DialogFooterComponent } from '../../../../../../shared/components/atoms/dialog-footer/dialog-footer.component';
 import { AppService } from '../../../../../../core/services/app.service';
 
 @Component({
@@ -25,6 +23,7 @@ import { AppService } from '../../../../../../core/services/app.service';
 })
 export class AttributesForm {
   @Input() attributes: any[] = [];
+  @Input() keys: string[] = [];
 
   private dialogService: DialogService = inject(DialogService);
   private ref: DynamicDialogRef | undefined;
@@ -128,9 +127,9 @@ export class AttributesForm {
       contentStyle: { overflow: 'auto' },
       modal: true,
       appendTo: 'body',
-      inputValues: { id: method === 'edit' ? object_id : undefined },
-      templates: {
-        footer: DialogFooterComponent
+      inputValues: { 
+        id: method === 'edit' ? object_id : undefined,
+        dialog: true
       }
     });
 

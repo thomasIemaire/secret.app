@@ -1,8 +1,9 @@
 <div class="attributes-form__wrapper">
     <div class="form__wrapper">
         <div *ngFor="let attribute of attributes" class="group-inputs attribute-item">
-            <input class="attribute-key" pInputText type="text" pSize="small" [(ngModel)]="attribute.key"
+            <p-select class="attribute-key" type="text" size="small" [(ngModel)]="attribute.key" [options]="keys"
                 placeholder="Attribute Key" />
+
             <p-select class="attribute-type" size="small" [options]="typeOptions" [(ngModel)]="attribute.value.type"
                 optionLabel="label" optionValue="value" placeholder="Select Type" />
 

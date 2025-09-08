@@ -7,7 +7,10 @@
             <app-attributes-form [attributes]="configuration?.attributes" />
         </div>
         <div class="group-inputs">
-            <app-formats-form [formats]="configuration?.formats" />
+            <app-formats-form [(formats)]="configuration.formats" />
+        </div>
+        <div class="actions" *ngIf="dialog">
+            <p-button size="small" label="Sauvegarder" severity="secondary" (click)="saveConfiguration()"></p-button>
         </div>
     </div>
 </div>

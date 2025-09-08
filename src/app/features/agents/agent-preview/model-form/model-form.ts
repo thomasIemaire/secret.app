@@ -5,16 +5,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Mapper } from "./mapper/mapper";
 import { DividerModule } from 'primeng/divider';
 import { KeyFilterModule } from 'primeng/keyfilter';
-import { ConfigurationForm } from "./configuration-form/configuration-form";
 
 @Component({
   selector: 'app-model-form',
-  imports: [CommonModule, FormsModule, InputTextModule, Mapper, DividerModule, KeyFilterModule, ConfigurationForm],
+  imports: [CommonModule, FormsModule, InputTextModule, Mapper, DividerModule, KeyFilterModule],
   templateUrl: './model-form.html',
   styleUrls: [ './model-form.scss', './../form-wrapper.scss' ]
 })
 export class ModelForm {
   @Input() model: any;
 
-  referenceRegex: RegExp = /^[a-z]+$/;
+  referenceRegex: RegExp = /^[a-z-]+$/;
 }

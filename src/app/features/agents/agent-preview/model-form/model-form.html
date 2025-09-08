@@ -17,11 +17,5 @@
         </p-divider>
 
         <app-mapper [json]="model.mapper" [root]="model.reference ?? 'root'" [isRoot]="true" (jsonChange)="model.mapper = $event" />
-
-        <p-divider align="left" type="solid">
-            Configuration
-        </p-divider>
-
-        <app-configuration-form [id]="model.configuration" />
     </div>
 </div>

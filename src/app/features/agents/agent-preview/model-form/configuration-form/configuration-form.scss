@@ -1,10 +1,19 @@
 .configuration-form__wrapper {
     width: 100%;
 
-    .form__wrapper .group-inputs {
-        app-attributes-form,
-        app-formats-form {
-            width: 100%;
+    .form__wrapper {
+
+        .group-inputs {
+            app-attributes-form,
+            app-formats-form {
+                width: 100%;
+            }
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: .5rem;
         }
     }
 }

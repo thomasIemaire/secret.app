@@ -6,16 +6,20 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { Breadcrumb } from "primeng/breadcrumb";
 import { AppService } from '../../../core/services/app.service';
+import { DividerModule } from 'primeng/divider';
+import { ConfigurationForm } from "./model-form/configuration-form/configuration-form";
 
 @Component({
   selector: 'app-agent-preview',
-  imports: [ModelForm, CommonModule, ButtonModule, Breadcrumb],
+  imports: [ModelForm, CommonModule, ButtonModule, Breadcrumb, ConfigurationForm, DividerModule],
   templateUrl: './agent-preview.html',
-  styleUrls: ['./agent-preview.scss' ]
+  styleUrls: ['./agent-preview.scss']
 })
 export class AgentPreview {
 
   public model: any = {};
+
+  public configuration: any = {};
 
   public app = inject(AppService);
   private router = inject(Router);
@@ -33,6 +37,17 @@ export class AgentPreview {
       this.api.get(`models/${modelId}`).subscribe({
         next: (model) => {
           this.model = model;
+
+          this.api.get(`models/configurations/${this.model.configuration}`).subscribe((data: any) => {
+            this.configuration = data;
+          }, error => {
+            this.configuration = {
+              name: '',
+              description: '',
+              attributes: [],
+              formats: []
+            };
+          });
         }
       });
     });
@@ -41,8 +56,11 @@ export class AgentPreview {
   public saveModel() {
     this.api.put(`models/${this.model._id}`, this.model).subscribe({
       next: () => {
-        this.router.navigate(['/agents']);
-        this.app.models.push(this.model);
+        this.api.put(`models/configurations/${this.configuration._id}`, this.configuration).subscribe({
+          next: () => {
+            this.router.navigate(['/agents']);
+          }
+        });
       }
     });
   }

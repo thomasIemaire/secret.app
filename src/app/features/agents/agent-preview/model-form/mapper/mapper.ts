@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,6 +6,8 @@ import { ButtonModule } from 'primeng/button';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { TooltipModule } from 'primeng/tooltip';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { Toast } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 class Node {
   constructor(public parent: Node | null, public label: string = '', public children: Node[] = [], public root: string = '') { }
@@ -40,9 +42,11 @@ function buildJson(nodes: Node[]): JsonObj {
 
 @Component({
   selector: 'app-mapper',
-  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, AutoFocusModule, TooltipModule, KeyFilterModule],
+  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, AutoFocusModule, TooltipModule, KeyFilterModule, Toast],
   templateUrl: './mapper.html',
-  styleUrls: [ './mapper.scss' ]
+  styleUrls: [ './mapper.scss' ],
+  standalone: true,
+  providers: [MessageService]
 })
 export class Mapper {
   @Input() root: string = 'root';
@@ -57,7 +61,9 @@ export class Mapper {
 
   @Output() jsonChange = new EventEmitter<Record<string, unknown>>();
 
-  labelRegex: RegExp = /^[a-z_]+$/;
+  labelRegex: RegExp = /^[a-z-]+$/;
+
+  private messageService: MessageService = inject(MessageService);
 
   ngOnInit() {
     this.reloadJson();
@@ -96,6 +102,11 @@ export class Mapper {
 
   public addChild(node: Node): void {
     (node.children ??= []).push(new Node(node));
+  }
+
+  public copyNode(node: Node): void {
+    window.navigator.clipboard.writeText(node.key);
+    this.messageService.add({severity:'success', summary: 'Clé copiée', detail: `${node.key} a été copié dans le presse-papier.`});
   }
 
   public removeNodeIfEmpty(node: Node): void {

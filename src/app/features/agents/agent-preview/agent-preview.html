@@ -5,6 +5,12 @@
 
     <div class="model-form__wrapper">
         <app-model-form [model]="model" (modelChange)="model = $event" />
+
+        <p-divider align="left" type="solid">
+            Configuration
+        </p-divider>
+        
+        <app-configuration-form [configuration]="configuration" [model]="model" />
     </div>
 
     <div class="agent-preview__actions">

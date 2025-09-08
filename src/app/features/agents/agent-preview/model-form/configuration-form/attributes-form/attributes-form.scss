@@ -2,6 +2,10 @@
     width: 100%;
 
     .form__wrapper .group-inputs {
+        .attribute-key {
+            width: 100%;
+        }
+        
         .attribute-type,
         .attribute-rule,
         .attribute-requirements {
