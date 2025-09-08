@@ -17,7 +17,7 @@ type Token = { text: string; key?: string };
   styleUrls: ['./formats-form.scss', './../../../form-wrapper.scss'],
 })
 export class FormatsForm {
-  public edit = false;
+  public edit: number = -1;
 
   private _items: FormatObj[] = [];
 

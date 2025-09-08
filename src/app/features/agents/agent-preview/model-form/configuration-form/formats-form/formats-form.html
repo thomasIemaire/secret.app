@@ -1,11 +1,11 @@
 <div class="formats-form__wrapper">
     <div class="form__wrapper">
         <div class="group-inputs" *ngFor="let format of formats; let i = index">
-            <input pInputText [(ngModel)]="formats[i].format" (blur)="onItemChange(); edit = false" [pAutoFocus]="true"
-                type="text" placeholder="Format" pSize="small" *ngIf="edit" />
+            <input pInputText [(ngModel)]="formats[i].format" (blur)="onItemChange(); edit = -1" [pAutoFocus]="true"
+                type="text" placeholder="Format" pSize="small" *ngIf="edit === i" />
 
             <!-- Affichage tokenisé en lecture -->
-            <div class="format-token" *ngIf="!edit" (click)="edit = true">
+            <div class="format-token" *ngIf="edit !== i" (click)="edit = i">
                 <ng-container *ngIf="formats[i]?.format; else emptyFormat">
                     <ng-container *ngFor="let t of tokensOf(formats[i].format)">
                         <span *ngIf="t.key; else plain" class="entity-in-example" [pTooltip]="t.key"
