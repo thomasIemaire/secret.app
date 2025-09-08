@@ -11,7 +11,6 @@ import { AttributeRequirementDialog } from './attribute-requirement-dialog/attri
 import { ApiService } from '../../../../../../core/services/api.service';
 import { DataDialog } from './data-dialog/data-dialog';
 import { ConfigurationDialog } from './configuration-dialog/configuration-dialog';
-import { ConfigurationForm } from '../configuration-form';
 
 @Component({
   selector: 'app-attributes-form',
@@ -116,8 +115,9 @@ export class AttributesForm {
     });
   }
 
-  public openConfigurationDialog(object_id: string) {
-    this.ref = this.dialogService.open(ConfigurationForm, {
+  public openConfigurationDialog(attribute: any) {
+    const object_id = attribute.value.parameters.object_id;
+    this.ref = this.dialogService.open(ConfigurationDialog, {
       header: "Configuration",
       width: '70vw',
       contentStyle: { overflow: 'auto' },
@@ -127,8 +127,14 @@ export class AttributesForm {
     });
 
     this.ref.onClose.subscribe((data: any) => {
-      if (data) {
-        // Handle the data returned from the dialog
+      if (data?._id) {
+        attribute.value.parameters.object_id = data._id;
+        const existing = this.configurationOptions.find((o: any) => o.value === data._id);
+        if (existing) {
+          existing.label = data.name;
+        } else {
+          this.configurationOptions = [...this.configurationOptions, { label: data.name, value: data._id }];
+        }
       }
     });
   }
