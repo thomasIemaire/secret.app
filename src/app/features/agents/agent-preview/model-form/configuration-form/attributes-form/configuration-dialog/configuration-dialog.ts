@@ -13,13 +13,13 @@ import { ConfigurationForm } from "../../configuration-form";
     <div *ngIf="loaded; else loadingTpl">
       <div class="form__wrapper">
         <div class="group-inputs">
-          <app-configuration-form />
+          <app-configuration-form [configuration]="configuration" />
         </div>
       </div>
 
       <div class="dialog-footer">
         <p-button size="small" variant="text" severity="secondary" label="Annuler" (click)="ref.close(false)"></p-button>
-        <p-button size="small" severity="secondary" label="Confirmer" (click)="ref.close(true)"></p-button>
+        <p-button size="small" severity="secondary" label="Confirmer" (click)="onConfirm()"></p-button>
       </div>
     </div>
 
@@ -41,6 +41,7 @@ import { ConfigurationForm } from "../../configuration-form";
 })
 export class ConfigurationDialog implements OnInit {
 
+  public configuration: any;
   public loaded = false;
 
   private api: ApiService = inject(ApiService);
@@ -48,5 +49,30 @@ export class ConfigurationDialog implements OnInit {
   constructor(public ref: DynamicDialogRef, public cfg: DynamicDialogConfig) { }
 
   ngOnInit(): void {
+    const id = this.cfg?.data?.object_id;
+    if (!id) {
+      this.configuration = { name: '', description: '', attributes: [], formats: [], randomizers: [] };
+      this.loaded = true;
+      return;
+    }
+
+    this.api.get(`models/configurations/${id}`).subscribe({
+      next: (res: any) => {
+        this.configuration = res ?? { name: '', description: '', attributes: [], formats: [], randomizers: [] };
+        this.loaded = true;
+      },
+      error: () => {
+        this.configuration = { name: '', description: '', attributes: [], formats: [], randomizers: [] };
+        this.loaded = true;
+      }
+    });
+  }
+
+  public onConfirm(): void {
+    const req = this.configuration?._id
+      ? this.api.put(`models/configurations/${this.configuration._id}`, this.configuration)
+      : this.api.post('models/configurations/', this.configuration);
+
+    req.subscribe((res: any) => this.ref.close(res));
   }
 }

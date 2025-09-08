@@ -31,16 +31,34 @@ export class AgentPreview {
     this.route.params.subscribe(params => {
       const modelId = params['id'];
       this.api.get(`models/${modelId}`).subscribe((data: any) => {
-        this.model = { ...data, mapper: data.mapper ?? {}, randomizers: data.randomizers ?? [] };
+        this.model = {
+          ...data,
+          mapper: data.mapper ?? {},
+          randomizers: data.randomizers ?? [],
+          configuration: data.configuration ?? { attributes: [], formats: [], randomizers: [] }
+        };
       });
     });
   }
 
   public saveModel() {
-    this.api.put(`models/${this.model._id}`, this.model).subscribe((data: any) => {
-      this.model = { ...data, mapper: data.mapper ?? {}, randomizers: data.randomizers ?? [] };
-      this.api.get('models/').subscribe((models: any) => {
-        this.app.models = models;
+    const config = this.model.configuration;
+    const config$ = config?._id
+      ? this.api.put(`models/configurations/${config._id}`, config)
+      : this.api.post('models/configurations/', config);
+
+    config$.subscribe((savedCfg: any) => {
+      this.model.configuration = savedCfg;
+      this.api.put(`models/${this.model._id}`, this.model).subscribe((data: any) => {
+        this.model = {
+          ...data,
+          mapper: data.mapper ?? {},
+          randomizers: data.randomizers ?? [],
+          configuration: data.configuration ?? savedCfg
+        };
+        this.api.get('models/').subscribe((models: any) => {
+          this.app.models = models;
+        });
       });
     });
   }
