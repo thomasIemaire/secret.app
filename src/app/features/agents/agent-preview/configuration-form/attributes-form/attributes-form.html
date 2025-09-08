@@ -1,8 +1,8 @@
 <div class="attributes-form__wrapper">
     <div class="form__wrapper">
-        <div *ngFor="let attribute of attributes" class="group-inputs attribute-item">
+        <div *ngFor="let attribute of attributes; let i = index" class="group-inputs attribute-item">
             <p-select class="attribute-key" type="text" size="small" [(ngModel)]="attribute.key" [options]="keys"
-                placeholder="Attribute Key" />
+                optionLabel="value" optionValue="value" [editable]="true" placeholder="Attribute Key" />
 
             <p-select class="attribute-type" size="small" [options]="typeOptions" [(ngModel)]="attribute.value.type"
                 optionLabel="label" optionValue="value" placeholder="Select Type" />
@@ -67,7 +67,7 @@
             <input class="attribute-frequency" pInputText type="text" pSize="small" [(ngModel)]="attribute.frequency"
                 placeholder="Frequency" />
             <p-button icon="pi pi-trash" variant="text" severity="danger" size="small"
-                [pTooltip]="`Supprimer ${attribute.key}`" (click)="removeAttribute(attribute)"></p-button>
+                [pTooltip]="`Supprimer ${attribute.key}`" (click)="removeAttribute(i)"></p-button>
         </div>
         <p-button icon="pi pi-plus" text severity="secondary" size="small" pTooltip="Ajouter un attribut"
             (click)="addAttribute()"></p-button>

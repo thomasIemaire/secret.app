@@ -1,9 +1,5 @@
 <div class="model-form__wrapper" *ngIf="model">
     <div class="form__wrapper">
-        <p-divider align="left" type="solid">
-            Informations générales
-        </p-divider>
-
         <div class="group-inputs">
             <input pInputText [(ngModel)]="model.name" type="text" pSize="small" placeholder="Nom" />
             <input pInputText [(ngModel)]="model.reference" type="text" pSize="small" placeholder="Référence" [pKeyFilter]="referenceRegex" />
@@ -11,11 +7,5 @@
         <div class="group-inputs">
             <input pInputText [(ngModel)]="model.description" type="text" pSize="small" placeholder="Description" />
         </div>
-
-        <p-divider align="left" type="solid">
-            Mapper
-        </p-divider>
-
-        <app-mapper [json]="model.mapper" [root]="model.reference ?? 'root'" [isRoot]="true" (jsonChange)="model.mapper = $event" />
     </div>
 </div>

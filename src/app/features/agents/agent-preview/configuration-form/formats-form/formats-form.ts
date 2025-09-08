@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
@@ -14,14 +14,17 @@ type Token = { text: string; key?: string };
   standalone: true,
   imports: [CommonModule, FormsModule, InputText, Button, AutoFocusModule, TooltipModule],
   templateUrl: './formats-form.html',
-  styleUrls: ['./formats-form.scss', './../../../form-wrapper.scss'],
+  styleUrls: ['./formats-form.scss', './../../form-wrapper.scss'],
 })
-export class FormatsForm {
-  public edit: number = -1;
+export class FormatsForm implements OnChanges {
+  public edit = -1;
 
   private _items: FormatObj[] = [];
+  public tokens: Token[][] = [];
 
   @Output() formatsChange = new EventEmitter<string[]>();
+
+  @Input() keys: any[] = []; // quand ceci change, il faut regénérer les tokens
 
   @Input() set formats(value: string[] | FormatObj[] | null | undefined) {
     const arr = Array.isArray(value) ? value : [];
@@ -30,22 +33,44 @@ export class FormatsForm {
         : (v && typeof v === 'object' && 'format' in v) ? (v as FormatObj)
           : { format: String(v ?? '') }
     );
+    // Recalcule immédiat quand formats est assigné
+    this.recomputeAllTokens();
   }
+
   get formats(): FormatObj[] {
     return this._items;
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['keys'] && !changes['keys'].firstChange) {
+      // si les labels ont changé, on régénère
+      this.recomputeAllTokens();
+    }
+  }
+
+  private recomputeAllTokens() {
+    this.tokens = this._items.map(it => this.tokensOf(it.format));
+  }
+
+  private recomputeOneToken(index: number) {
+    this.tokens[index] = this.tokensOf(this._items[index]?.format ?? '');
+  }
+
   addFormat() {
     this._items = [...this._items, { format: '' }];
+    this.tokens = [...this.tokens, []]; // garder les tableaux alignés
     this.emit();
   }
 
   removeFormat(index: number) {
     this._items = this._items.filter((_, i) => i !== index);
+    this.tokens = this.tokens.filter((_, i) => i !== index);
     this.emit();
   }
 
-  onItemChange() {
+  // Passez l’index depuis le template pour recalculer les tokens de la ligne éditée
+  onItemChange(index: number) {
+    this.recomputeOneToken(index);
     this.emit();
   }
 
@@ -53,13 +78,10 @@ export class FormatsForm {
     this.formatsChange.emit(this._items.map(i => i.format));
   }
 
-  /** ---------- Affichage tokenisé des formats ---------- */
-
-  /** Convertit une chaîne avec {CLE} en tokens (texte + placeholders) */
   tokensOf(format: string): Token[] {
     if (!format) return [];
     const out: Token[] = [];
-    const re = /\{([^{}]+)\}/g; // {KEY} sans imbrication
+    const re = /\{([^{}]+)\}/g;
     let lastIdx = 0;
     let m: RegExpExecArray | null;
 
@@ -69,7 +91,8 @@ export class FormatsForm {
       if (start > lastIdx) out.push({ text: format.slice(lastIdx, start) });
 
       const key = m[1].trim();
-      out.push({ text: this.keyToLabel(key), key });
+      const value = this.keys.find(k => k.value === key)?.label || key;
+      out.push({ text: this.keyToLabel(value), key });
       lastIdx = end;
     }
 
@@ -79,12 +102,6 @@ export class FormatsForm {
     return out;
   }
 
-  /**
-   * Transforme la clé en libellé affichable.
-   * Ex: "HELLO_HELLO_NOM" -> "nom"
-   * Règle simple: on prend le dernier segment (séparateur _ ou espace) et on le met en minuscule.
-   * Tu peux ajuster selon tes conventions (capitalisation, mapping, etc.).
-   */
   private keyToLabel(key: string): string {
     const parts = key.split(/[_\s]+/).filter(Boolean);
     const last = parts[parts.length - 1] ?? key;

@@ -4,13 +4,24 @@
     </div>
 
     <div class="model-form__wrapper">
+        <p-divider align="left" type="solid">
+            Informations générales
+        </p-divider>
+
         <app-model-form [model]="model" (modelChange)="model = $event" />
+
+        <p-divider align="left" type="solid">
+            Mapper
+        </p-divider>
+
+        <app-mapper [json]="model.mapper" [root]="model.reference ?? 'root'" [isRoot]="true"
+            (jsonChange)="model.mapper = $event" (keysChange)="updateKeys($event)" />
 
         <p-divider align="left" type="solid">
             Configuration
         </p-divider>
-        
-        <app-configuration-form [configuration]="configuration" [model]="model" />
+
+        <app-configuration-form [configuration]="configuration" [keys]="keys" />
     </div>
 
     <div class="agent-preview__actions">

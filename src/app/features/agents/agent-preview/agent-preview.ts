@@ -7,18 +7,19 @@ import { ButtonModule } from 'primeng/button';
 import { Breadcrumb } from "primeng/breadcrumb";
 import { AppService } from '../../../core/services/app.service';
 import { DividerModule } from 'primeng/divider';
-import { ConfigurationForm } from "./model-form/configuration-form/configuration-form";
+import { ConfigurationForm } from "./configuration-form/configuration-form";
+import { Mapper } from './model-form/mapper/mapper';
 
 @Component({
   selector: 'app-agent-preview',
-  imports: [ModelForm, CommonModule, ButtonModule, Breadcrumb, ConfigurationForm, DividerModule],
+  imports: [ModelForm, CommonModule, ButtonModule, Breadcrumb, ConfigurationForm, DividerModule, Mapper],
   templateUrl: './agent-preview.html',
   styleUrls: ['./agent-preview.scss']
 })
 export class AgentPreview {
 
   public model: any = {};
-
+  public keys: string[] = [];
   public configuration: any = {};
 
   public app = inject(AppService);
@@ -51,6 +52,10 @@ export class AgentPreview {
         }
       });
     });
+  }
+
+  public updateKeys(keys: string[]) {
+    this.keys = keys;
   }
 
   public saveModel() {

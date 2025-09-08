@@ -4,10 +4,10 @@
             <input pInputText [(ngModel)]="configuration.name" type="text" pSize="small" placeholder="Nom" />
         </div>
         <div class="group-inputs">
-            <app-attributes-form [attributes]="configuration?.attributes" />
+            <app-attributes-form [attributes]="configuration?.attributes" [keys]="keys" />
         </div>
         <div class="group-inputs">
-            <app-formats-form [(formats)]="configuration.formats" />
+            <app-formats-form [(formats)]="configuration.formats" [keys]="keys" />
         </div>
         <div class="actions" *ngIf="dialog">
             <p-button size="small" label="Sauvegarder" severity="secondary" (click)="saveConfiguration()"></p-button>

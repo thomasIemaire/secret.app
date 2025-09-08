@@ -8,22 +8,22 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AttributeRequirementDialog } from './attribute-requirement-dialog/attribute-requirement-dialog';
-import { ApiService } from '../../../../../../core/services/api.service';
+import { ApiService } from '../../../../../core/services/api.service';
 import { DataDialog } from './data-dialog/data-dialog';
 import { ConfigurationForm } from '../configuration-form';
-import { AppService } from '../../../../../../core/services/app.service';
+import { AppService } from '../../../../../core/services/app.service';
 
 @Component({
   selector: 'app-attributes-form',
   imports: [CommonModule, FormsModule, InputText, Select, Button, TooltipModule, MultiSelectModule],
   templateUrl: './attributes-form.html',
-  styleUrls: ['./attributes-form.scss', './../../../form-wrapper.scss'],
+  styleUrls: ['./attributes-form.scss', './../../form-wrapper.scss'],
   providers: [DialogService],
   standalone: true,
 })
 export class AttributesForm {
   @Input() attributes: any[] = [];
-  @Input() keys: string[] = [];
+  @Input() keys: any[] = [];
 
   private dialogService: DialogService = inject(DialogService);
   private ref: DynamicDialogRef | undefined;
@@ -41,12 +41,6 @@ export class AttributesForm {
     { label: 'Randint', value: 'randint' }
   ]
 
-  ngOnInit() {
-    this.attributes.forEach(attribute => {
-      attribute.requirements = attribute.requirements ?? [];
-    });
-  }
-
   public addAttribute() {
     this.attributes.push({
       key: '',
@@ -60,16 +54,11 @@ export class AttributesForm {
     });
   }
 
-  public removeAttribute(attribute: any) {
-    this.attributes = this.attributes.filter(attr => attr !== attribute);
+  public removeAttribute(i: number) {
+    this.attributes.splice(i, 1);
   }
 
-  public openRequirementDialog(attribute: any, requirement: any = {}, method: 'add' | 'edit' = 'add') {
-    if (method === 'add' && Object.keys(requirement).length === 0) {
-      requirement = { rule: '', constraint: '' };
-      attribute.requirements = [...attribute.requirements ?? [], requirement];
-    }
-
+  public openRequirementDialog(attribute: any, requirement: any = { rule: '', constraint: '' }, method: 'add' | 'edit' = 'add') {
     this.ref = this.dialogService.open(AttributeRequirementDialog, {
       header: "Requirement",
       width: '400px',
@@ -81,7 +70,7 @@ export class AttributesForm {
 
     this.ref.onClose.subscribe((requirementUpdated: any) => {
       if (requirementUpdated) {
-        if (Object.keys(requirement).length === 0)
+        if (method === 'add')
           attribute.requirements = [...attribute.requirements, requirementUpdated];
         else
           Object.assign(requirement, requirementUpdated);

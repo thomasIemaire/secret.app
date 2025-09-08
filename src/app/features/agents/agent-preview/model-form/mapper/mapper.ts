@@ -8,6 +8,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { label } from '@primeuix/themes/aura/metergroup';
 
 class Node {
   constructor(public parent: Node | null, public label: string = '', public children: Node[] = [], public root: string = '') { }
@@ -60,6 +61,8 @@ export class Mapper {
   @Input() isRoot: boolean = false;
 
   @Output() jsonChange = new EventEmitter<Record<string, unknown>>();
+
+  @Output() keysChange = new EventEmitter<string[]>();
 
   labelRegex: RegExp = /^[a-z-]+$/;
 
@@ -127,6 +130,22 @@ export class Mapper {
 
   public emitJson(): void {
     this.jsonChange.emit(buildJson(this.mapper));
+    this.keysChange.emit(this.getLeafKeys());
+  }
+
+  public getLeafKeys(): string[] {
+    const keys: any[] = [];
+    const traverse = (nodes: Node[]) => {
+      for (const node of nodes) {
+        if (node.children && node.children.length > 0) {
+          traverse(node.children);
+        } else {
+          keys.push({ label: node.label, value: node.key });
+        }
+      }
+    };
+    traverse(this.mapper);
+    return keys;
   }
 
   public onChildJsonChange(): void {

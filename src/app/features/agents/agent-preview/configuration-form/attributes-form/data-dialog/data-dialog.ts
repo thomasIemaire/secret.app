@@ -5,7 +5,7 @@ import { DynamicDialogRef, DynamicDialogConfig, DynamicDialogModule } from 'prim
 import { InputText } from 'primeng/inputtext';
 import { Textarea } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
-import { ApiService } from '../../../../../../../core/services/api.service';
+import { ApiService } from '../../../../../../core/services/api.service';
 
 @Component({
   standalone: true,
