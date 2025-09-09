@@ -1,0 +1,40 @@
+<div class="agent-item__wrapper" [ngClass]="classes">
+    <div class="agent__header">
+        <div class="agent-header__left">
+            <div class="agent-header__name">{{ agent.name }}</div>
+            <div class="agent-header__reference">{{ agent.reference }}</div>
+        </div>
+        <div class="agent-header__right">
+            <p-tieredmenu #menu [model]="items" [popup]="true" (click)="$event.stopPropagation()"></p-tieredmenu>
+            <p-tag [value]="agent.version" severity="contrast" />
+            <i class="menu pi pi-ellipsis-v" (click)="menu.toggle($event); $event.stopPropagation()"></i>
+        </div>
+    </div>
+    <div class="agent__description">
+        <div *ngIf="!agent.progress">
+            {{ agent.description }}
+        </div>
+        <div *ngIf="agent.progress">
+            <p-progressbar [value]="getProgress(agent.progress)">
+                <ng-template #content let-value />
+            </p-progressbar>
+        </div>
+        <div *ngIf="agent.progress" class="progress">
+            {{ getProgress(agent.progress) }}%
+        </div>
+    </div>
+    <div class="agent__footer">
+        <div class="agent-footer__left">
+            <p-avatar [image]="`${api.publicUrl}/avatars/${agent.created_by._id}.png`" shape="circle"
+                size="normal" />
+            <div class="agent-footer__info">
+                <div>Créé par {{ agent.created_by.firstname }} {{ agent.created_by.lastname }}
+                </div>
+                <div>Le {{ agent.created_at | date: 'dd/MM/yyyy à HH:mm' }}</div>
+            </div>
+        </div>
+        <div *ngIf="agent.updated_at">
+            MAJ {{ agent.updated_at | date: 'dd/MM/yyyy à HH:mm' }}
+        </div>
+    </div>
+</div>

@@ -4,9 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { TagModule } from 'primeng/tag';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { AvatarModule } from 'primeng/avatar';
 import { DragDropModule } from 'primeng/dragdrop';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
@@ -15,12 +13,12 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SelectActionDialogComponent } from '../../shared/components/molecules/select-acrion-dialog/select-acrion-dialog.component';
 import { ConfirmDatasetDialogComponent } from '../../shared/components/molecules/confirm-dataset-dialog/confirm-dataset-dialog.component';
 import { ApiService } from '../../core/services/api.service';
-import { ProgressBar } from 'primeng/progressbar';
 import { AppService } from '../../core/services/app.service';
+import { AgentItem } from "./agent-item/agent-item";
 
 @Component({
     selector: 'app-agents',
-    imports: [CommonModule, FormsModule, Toast, RouterOutlet, DynamicDialogModule, InputTextModule, SelectModule, ButtonModule, TagModule, AvatarModule, DragDropModule, ProgressBar],
+    imports: [CommonModule, FormsModule, Toast, RouterOutlet, DynamicDialogModule, InputTextModule, SelectModule, ButtonModule, DragDropModule, AgentItem],
     templateUrl: './agents.component.html',
     styleUrls: ['./agents.component.scss'],
     providers: [MessageService, DialogService]
@@ -78,11 +76,6 @@ export class AgentsComponent {
         this.displayGenerating = tab ? tab === 'generating' : true;
         this.displayTraining = tab ? tab === 'training' : true;
         this.displayAgents = tab ? tab === 'agents' : true;
-    }
-
-    getProgress(progress: number) {
-        if (!progress) return 0;
-        return Math.min(100, Math.max(0, Math.round(progress * 100)));
     }
 
     public getModels() {
@@ -257,7 +250,7 @@ export class AgentsComponent {
                 appendTo: 'body',
                 data: {
                     examples: () => {
-                        return this.api.get(`datasets/${agent.dataset}/examples?size=3`);
+                        return this.api.get(`datasets/${agent._id}/examples?size=3`);
                     }
                 }
             });
@@ -266,7 +259,7 @@ export class AgentsComponent {
                 if (confirmed) {
                     this.app.datasets.generated = this.app.datasets.generated.filter((a: any) => a._id !== agent._id);
                     this.app.datasets.ready.push(agent);
-                    this.api.post(`datasets/train/${agent.dataset}`, {}).subscribe();
+                    this.api.post(`datasets/train/${agent._id}`, {}).subscribe();
                 }
             });
         }
