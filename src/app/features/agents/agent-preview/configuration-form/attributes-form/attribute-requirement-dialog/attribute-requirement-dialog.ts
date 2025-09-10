@@ -13,10 +13,11 @@ import { ButtonModule } from 'primeng/button';
     <div>
       <div class="form__wrapper">
         <div class="group-inputs">
-          <p-select size="small" [(ngModel)]="cfg.data.requirement.rule" optionLabel="label" optionValue="value" placeholder="Règle" [options]="RuleOptions" appendTo="body"/>
-          <input pInputText pSize="small" [(ngModel)]="cfg.data.requirement.constraint" placeholder="Constrainte" />
+          <p-select size="small" [(ngModel)]="temp.rule" optionLabel="label" optionValue="value" placeholder="Règle" [options]="RuleOptions" appendTo="body"/>
+          <input pInputText pSize="small" [(ngModel)]="temp.constraint" placeholder="Constrainte" />
         </div>
-        <div class="group-inputs" *ngIf="cfg.data.requirement.rule === 'regex'">
+
+        <div class="group-inputs" *ngIf="temp.rule === 'regex'">
           <div class="group-link">
             Tester votre regex
             <a class="link" [href]="regexHelpLink" target="_blank">
@@ -25,11 +26,17 @@ import { ButtonModule } from 'primeng/button';
             </a>
           </div>
         </div>
+
+        <div class="group-inputs" *ngIf="temp.rule === 'in' || temp.rule === 'nin'">
+          <div class="group-link">
+            exemple : valeur, valeur, valeur
+          </div>
+        </div>
       </div>
 
       <div class="dialog-footer">
-        <p-button size="small" variant="text" severity="secondary" label="Annuler" (click)="ref.close(false)"></p-button>
-        <p-button size="small" severity="secondary" label="Confirmer" (click)="ref.close(cfg.data.requirement)"></p-button>
+        <p-button size="small" variant="text" severity="secondary" label="Annuler" (click)="close()"></p-button>
+        <p-button size="small" severity="secondary" label="Confirmer" (click)="ref.close(temp)"></p-button>
       </div>
     </div>
   `,
@@ -89,7 +96,11 @@ import { ButtonModule } from 'primeng/button';
     `]
 })
 export class AttributeRequirementDialog {
-  constructor(public ref: DynamicDialogRef, public cfg: DynamicDialogConfig) { }
+  public temp: any;
+  
+  constructor(public ref: DynamicDialogRef, public cfg: DynamicDialogConfig) {
+    this.temp = Object.assign({}, cfg.data.requirement);
+  }
 
   RuleOptions = [
     { label: 'Regex', value: 'regex' },
@@ -105,5 +116,10 @@ export class AttributeRequirementDialog {
 
   public get regexHelpLink(): string {
     return `https://regex101.com?regex=${encodeURIComponent(this.cfg.data.requirement.constraint || '')}&flavor=python&flags=g`;
+  }
+
+  public close(): void {
+    this.cfg.data.requirement = this.temp;
+    this.ref.close(false);
   }
 }
