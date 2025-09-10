@@ -13,6 +13,18 @@
                     severity="secondary" size="small" (click)="toggleOrder()" />
             </div>
         </div>
+
+        <div class="tabs__choices">
+            <p-button [variant]="displayModels ? undefined : 'text'" severity="secondary" label="Modèles"
+                (click)="selectTab('models')"></p-button>
+            <p-button [variant]="displayGenerating ? undefined : 'text'" severity="secondary" label="Génération"
+                (click)="selectTab('generating')"></p-button>
+            <p-button [variant]="displayTraining ? undefined : 'text'" severity="secondary" label="Entrainement"
+                (click)="selectTab('training')"></p-button>
+            <p-button [variant]="displayAgents ? undefined : 'text'" severity="secondary" label="Agents"
+                (click)="selectTab('agents')"></p-button>
+        </div>
+
         <div class="agent-kaban__wrapper">
 
             <div class="kanban-item__wrapper" *ngIf="displayModels">

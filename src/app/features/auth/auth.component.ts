@@ -16,7 +16,7 @@ export class AuthComponent implements OnInit {
     ngOnInit(): void {
         this.userService.user$.subscribe(user => {
             if (user && this.router.url.startsWith('/auth'))
-                this.router.navigate(['/']);
+                this.router.navigate(['/agents']);
             else
                 this.router.navigate(['/auth/login']);
         });

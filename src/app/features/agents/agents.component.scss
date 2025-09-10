@@ -43,6 +43,10 @@
             }
         }
 
+        .tabs__choices {
+            display: none;
+        }
+
         .agent-kaban__wrapper {
             height: 100%;
             min-height: 0;
@@ -60,7 +64,9 @@
                 padding: 1rem;
                 border: 1px solid var(--background-color-100);
                 border-radius: 1rem;
-                flex:1 1 0; min-height:0; overflow:auto;
+                flex: 1 1 0;
+                min-height: 0;
+                overflow: auto;
 
                 &.draggable {
                     border-color: var(--background-color-200);
@@ -151,5 +157,21 @@
 ::ng-deep {
     .agent-kaban__wrapper>*:not(router-outlet, .kanban-item__wrapper) {
         grid-area: 1 / 2 / 2 / 5;
+    }
+}
+
+@media screen and (max-width: 568px) {
+    .agents {
+        .agents__wrapper {
+            .tabs__choices {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .agent-kaban__wrapper {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
     }
 }

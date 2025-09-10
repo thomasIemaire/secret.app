@@ -82,8 +82,8 @@ export class SelectActionDialogComponent {
         P: number,
         F: number,
         A: number,
-        k = .9,
-        w = .6
+        k = .3,
+        w = .2
     ): number {
         if (P <= 0) return 0;
         F = Math.max(1, Math.floor(F));

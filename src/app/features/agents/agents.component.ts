@@ -272,4 +272,9 @@ export class AgentsComponent {
             this.ref.close();
         }
     }
+
+    public selectTab(tab: string) {
+        this.getActiveTab(tab);
+        this.router.navigate([], { queryParams: { tab: tab } });
+    }
 }
