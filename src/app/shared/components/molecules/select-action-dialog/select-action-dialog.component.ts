@@ -82,14 +82,14 @@ export class SelectActionDialogComponent {
         P: number,
         F: number,
         A: number,
-        k = 1.0,
-        w = 0.5
+        k = .9,
+        w = .6
     ): number {
         if (P <= 0) return 0;
         F = Math.max(1, Math.floor(F));
         A = Math.max(1, Math.floor(A));
 
-        const L = Math.max(1, Math.floor(P / F) / 5 | 0);
+        const L = Math.max(1, Math.floor(P / F) / 2 | 0);
 
         const log2 = (x: number) => Math.log2(Math.max(1, x));
         const tRaw = 1 - Math.exp(-k * (log2(F) + w * log2(A)));
