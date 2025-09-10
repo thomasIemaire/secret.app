@@ -16,6 +16,15 @@ import { ButtonModule } from 'primeng/button';
           <p-select size="small" [(ngModel)]="cfg.data.requirement.rule" optionLabel="label" optionValue="value" placeholder="Règle" [options]="RuleOptions" appendTo="body"/>
           <input pInputText pSize="small" [(ngModel)]="cfg.data.requirement.constraint" placeholder="Constrainte" />
         </div>
+        <div class="group-inputs" *ngIf="cfg.data.requirement.rule === 'regex'">
+          <div class="group-link">
+            Tester votre regex
+            <a class="link" [href]="regexHelpLink" target="_blank">
+              ici
+              <i class="pi pi-arrow-up-right"></i>
+            </a>
+          </div>
+        </div>
       </div>
 
       <div class="dialog-footer">
@@ -30,6 +39,30 @@ import { ButtonModule } from 'primeng/button';
         justify-content: flex-end;
         gap: 0.5rem;
         margin-top: 1rem;
+    }
+
+    .group-link {
+        width: 100%;
+        font-size: .875rem;
+        color: var(--p-text-color);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: .25rem;
+
+        .link {
+            display: flex;
+            align-items: center;
+            gap: .25rem;
+            font-weight: 600;
+            color: var(--p-text-color);
+            cursor: pointer;
+            text-decoration: none;
+
+            .pi {
+                font-size: .625rem;
+            }
+        }
     }
 
     .form__wrapper {
@@ -69,4 +102,8 @@ export class AttributeRequirementDialog {
     { label: 'In', value: 'in' },
     { label: 'Not in', value: 'nin' },
   ]
+
+  public get regexHelpLink(): string {
+    return `https://regex101.com?regex=${encodeURIComponent(this.cfg.data.requirement.constraint || '')}&flavor=python&flags=g`;
+  }
 }
