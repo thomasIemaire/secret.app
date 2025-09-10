@@ -114,6 +114,11 @@
                 display: flex;
                 flex-direction: column;
                 gap: .125rem;
+
+                span {
+                    font-weight: 600;
+                    color: var(--p-text-color);
+                }
             }
         }
     }

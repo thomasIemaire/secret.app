@@ -10,11 +10,12 @@ import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { SelectActionDialogComponent } from '../../shared/components/molecules/select-acrion-dialog/select-acrion-dialog.component';
+import { SelectActionDialogComponent } from '../../shared/components/molecules/select-action-dialog/select-action-dialog.component';
 import { ConfirmDatasetDialogComponent } from '../../shared/components/molecules/confirm-dataset-dialog/confirm-dataset-dialog.component';
 import { ApiService } from '../../core/services/api.service';
 import { AppService } from '../../core/services/app.service';
 import { AgentItem } from "./agent-item/agent-item";
+import { config } from 'rxjs';
 
 @Component({
     selector: 'app-agents',
@@ -213,11 +214,12 @@ export class AgentsComponent {
                         options: [
                             { label: 'Complet', value: 'complete' },
                             { label: 'Avancé', value: 'advanced' },
-                            { label: 'Recommandé', value: 'recommended' },
+                            { label: 'Intermédiaire', value: 'recommended' },
                             { label: 'Petit', value: 'small' },
                             { label: 'Minuscule', value: 'tiny' }
                         ]
-                    }
+                    },
+                    model: this.elementDragged
                 }
             });
 
