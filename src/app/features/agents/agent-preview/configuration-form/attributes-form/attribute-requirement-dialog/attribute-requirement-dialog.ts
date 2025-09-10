@@ -19,7 +19,7 @@ import { ButtonModule } from 'primeng/button';
 
         <div class="group-inputs" *ngIf="temp.rule === 'regex'">
           <div class="group-link">
-            Tester votre regex
+            Tester
             <a class="link" [href]="regexHelpLink" target="_blank">
               ici
               <i class="pi pi-arrow-up-right"></i>
