@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 
 type Entity = { key: string; start: number; end: number };
-type Token = { text: string; key?: string };
+type Node = { key?: string; children: Array<string | Node> };
 
 @Component({
     standalone: true,
@@ -14,28 +14,46 @@ type Token = { text: string; key?: string };
     template: `
     <div>
         <div class="dialog-content">
-            <div class="example-line" *ngFor="let token of tokens">
-                <ng-container *ngFor="let t of token">
-                <span *ngIf="t.key; else plain"
-                        class="entity-in-example"
-                        [pTooltip]="t.key"
-                        tooltipPosition="top">
-                    {{ t.text }}
-                </span>
-                <ng-template #plain>{{ t.text }}</ng-template>
+            <div class="example-line" *ngFor="let line of tokens">
+                <ng-container *ngFor="let node of line">
+                    <ng-container *ngTemplateOutlet="renderNode; context:{ n: node }"></ng-container>
                 </ng-container>
             </div>
+
+            <ng-template #renderNode let-n="n">
+                <!-- nœud avec entité -->
+                <ng-container *ngIf="n.key; else renderChildren">
+                    <span class="entity-in-example" [pTooltip]="n.key" tooltipPosition="top">
+                    <ng-container *ngFor="let c of n.children">
+                        <span *ngIf="isString(c); else childNode" class="plain" [textContent]="c"></span>
+                        <ng-template #childNode>
+                        <ng-container *ngTemplateOutlet="renderNode; context:{ n: c }"></ng-container>
+                        </ng-template>
+                    </ng-container>
+                    </span>
+                </ng-container>
+
+                <!-- nœud sans entité -->
+                <ng-template #renderChildren>
+                    <ng-container *ngFor="let c of n.children">
+                    <span *ngIf="isString(c); else childNode2" class="plain" [textContent]="c"></span>
+                    <ng-template #childNode2>
+                        <ng-container *ngTemplateOutlet="renderNode; context:{ n: c }"></ng-container>
+                    </ng-template>
+                    </ng-container>
+                </ng-template>
+            </ng-template>
         </div>
 
-      <div class="dialog-footer">
-        <div>
-            <p-button variant="text" severity="secondary" label="Générer" size="small" (click)="other()"></p-button>
+        <div class="dialog-footer">
+            <div>
+                <p-button variant="text" severity="secondary" label="Actualiser" size="small" (click)="reload()"></p-button>
+            </div>
+            <div>
+                <p-button variant="text" severity="secondary" label="Annuler" size="small" (click)="ref.close(false)"></p-button>
+                <p-button severity="secondary" label="Valider" size="small" (click)="ref.close(true)"></p-button>
+            </div>
         </div>
-        <div>
-            <p-button variant="text" severity="secondary" label="Annuler" size="small" (click)="ref.close(false)"></p-button>
-            <p-button severity="secondary" label="Valider" size="small" (click)="ref.close(true)"></p-button>
-        </div>
-      </div>
     </div>
   `,
     styles: [`
@@ -48,18 +66,25 @@ type Token = { text: string; key?: string };
         .example-line {
             width: 100%;
             display:flex;
-            gap:.25rem;
             align-items:center;
             flex-wrap:wrap;
+            gap: 0;
             user-select: none;
             
             .entity-in-example {
                 background-color: var(--background-color-200);
+                border: 1px solid var(--background-color-300);
                 padding: .2rem .4rem;
                 border-radius: .3rem;
-                font-size: .9rem;
+                font-size: .8rem;
                 font-weight: 600;
+                margin: 0 .125rem;
+                white-space: pre-wrap;
                 cursor: pointer;
+            }
+
+            .plain {
+                white-space: pre-wrap;
             }
         }
     }
@@ -81,13 +106,13 @@ type Token = { text: string; key?: string };
 export class ConfirmDatasetDialogComponent {
     constructor(public ref: DynamicDialogRef, public cfg: DynamicDialogConfig) { }
 
-    tokens: any[] = [];
+    tokens: Node[][] = [];
 
     ngOnInit() {
-        this.other();
+        this.reload();
     }
 
-    other() {
+    reload() {
         this.cfg.data?.examples().subscribe({
             next: (res: any[]) => {
                 this.tokens = [];
@@ -98,32 +123,61 @@ export class ConfirmDatasetDialogComponent {
         });
     }
 
-    buildTokens(text: string, entities: Entity[]): Token[] {
-        if (!text) return [];
+    isString(v: any): v is string { return typeof v === 'string'; }
 
-        const len = text.length;
-        const cleaned = entities
+    buildTokens(text: string, entities: Entity[]): Node[] {
+        const len = text?.length ?? 0;
+        const root: Node = { children: [] };
+        if (!len) return [root];
+
+        // normalisation + événements (identique à avant)
+        type Ev = { pos: number; type: 'start' | 'end'; key: string; L: number };
+        const norm = entities
             .map(e => {
-                let start = Math.max(0, Math.min(len, e.start ?? 0));
-                let end = Math.max(0, Math.min(len, e.end ?? 0));
-                if (end < start) [start, end] = [end, start];
-                return { key: e.key, start, end };
+                let s = Math.max(0, Math.min(len, e.start ?? 0));
+                let t = Math.max(0, Math.min(len, e.end ?? 0));
+                if (t < s) [s, t] = [t, s];
+                return { key: e.key, start: s, end: t, L: t - s };
             })
-            .filter(e => e.start < e.end)
-            .sort((a, b) => a.start - b.start || a.end - b.end);
+            .filter(e => e.L > 0);
 
-        const out: Token[] = [];
-        let i = 0;
-
-        for (const e of cleaned) {
-            if (e.start < i) continue;
-
-            if (e.start > i) out.push({ text: text.slice(i, e.start) });
-            out.push({ text: text.slice(e.start, e.end), key: e.key });
-            i = e.end;
+        const evs: Ev[] = [];
+        for (const e of norm) {
+            evs.push({ pos: e.start, type: 'start', key: e.key, L: e.L });
+            evs.push({ pos: e.end, type: 'end', key: e.key, L: e.L });
         }
-        if (i < len) out.push({ text: text.slice(i) });
+        evs.sort((a, b) =>
+            a.pos - b.pos ||
+            (a.type === 'end' && b.type === 'start' ? -1 : a.type === 'start' && b.type === 'end' ? 1 :
+                a.type === 'start' ? b.L - a.L : a.L - b.L)
+        );
 
-        return out;
+        // construction de l'arbre
+        const stack: Node[] = [root];
+        let cursor = 0, i = 0;
+
+        while (i < evs.length) {
+            const p = evs[i].pos;
+            if (p > cursor) {
+                stack[stack.length - 1].children.push(text.slice(cursor, p));
+                cursor = p;
+            }
+            const ends: Ev[] = [], starts: Ev[] = [];
+            while (i < evs.length && evs[i].pos === p) {
+                (evs[i].type === 'end' ? ends : starts).push(evs[i]); i++;
+            }
+            for (const e of ends.sort((a, b) => a.L - b.L)) stack.pop();
+            for (const e of starts.sort((a, b) => b.L - a.L)) {
+                const parent = stack[stack.length - 1];
+                const node: Node = { key: e.key, children: [] };
+                parent.children.push(node);
+                stack.push(node);
+            }
+        }
+
+        if (cursor < len) stack[stack.length - 1].children.push(text.slice(cursor));
+
+        // ⬅️ Retourne toujours un seul nœud racine
+        return [root];
     }
 }

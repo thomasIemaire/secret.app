@@ -5,6 +5,7 @@ import { DynamicDialogRef, DynamicDialogConfig, DynamicDialogModule } from 'prim
 import { InputText } from "primeng/inputtext";
 import { Select } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
+import { label } from '@primeuix/themes/aura/metergroup';
 
 @Component({
   standalone: true,
@@ -112,6 +113,8 @@ export class AttributeRequirementDialog {
     { label: 'Not equal', value: 'neq' },
     { label: 'In', value: 'in' },
     { label: 'Not in', value: 'nin' },
+    { label: 'Contains', value: 'contains' },
+    { label: 'Not contains', value: 'ncontains' }
   ]
 
   public get regexHelpLink(): string {
