@@ -40,7 +40,8 @@
             border-radius: var(--p-inputtext-border-radius);
         }
 
-        p-multiSelect {
+        p-multiSelect,
+        p-select {
             .group-inputs {
                 display: flex;
                 align-items: center;

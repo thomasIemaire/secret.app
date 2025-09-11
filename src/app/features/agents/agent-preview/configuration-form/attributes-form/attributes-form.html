@@ -21,6 +21,15 @@
                 <p-select class="attribute-rule-param-objectid" size="small" [options]="app.data"
                     [(ngModel)]="attribute.value.parameters.object_id" optionLabel="name" optionValue="_id"
                     placeholder="Select Object">
+                    <ng-template let-option pTemplate="item">
+                        <div class="group-inputs">
+                            <span class="item-label">{{ option.name }}</span>
+                            <i class="pi pi-trash" variant="text" severity="secondary" size="small"
+                                (click)="$event.stopPropagation(); deleteData(option._id)"
+                                (mousedown)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
+                                (keydown.space)="$event.stopPropagation()"></i>
+                        </div>
+                    </ng-template>
                     <ng-template pTemplate="footer">
                         <p-button label="Nouveau" severity="secondary" text size="small" icon="pi pi-plus"
                             (click)="openDataDialog(attribute.value.parameters.object_id, attribute)" />
@@ -34,6 +43,15 @@
                 <p-select class="attribute-rule-param-objectid" size="small" [options]="app.configurations"
                     [(ngModel)]="attribute.value.parameters.object_id" optionLabel="name" optionValue="_id"
                     placeholder="Select Object">
+                    <ng-template let-option pTemplate="item">
+                        <div class="group-inputs">
+                            <span class="item-label">{{ option.name }}</span>
+                            <i class="pi pi-trash" variant="text" severity="secondary" size="small"
+                                (click)="$event.stopPropagation(); deleteConfiguration(option._id)"
+                                (mousedown)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
+                                (keydown.space)="$event.stopPropagation()"></i>
+                        </div>
+                    </ng-template>
                     <ng-template pTemplate="footer">
                         <p-button label="Nouveau" severity="secondary" text size="small" icon="pi pi-plus"
                             (click)="openConfigurationDialog(attribute.value.parameters.object_id, attribute)" />

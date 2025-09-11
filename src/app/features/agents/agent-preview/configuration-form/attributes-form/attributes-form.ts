@@ -142,4 +142,20 @@ export class AttributesForm {
       }
     });
   }
+
+  public deleteConfiguration(id: string) {
+    this.api.delete(`models/configurations/${id}`).subscribe({
+      next: () => {
+        this.app.configurations = this.app.configurations.filter(c => c._id !== id);
+      }
+    });
+  }
+
+  public deleteData(id: string) {
+    this.api.delete(`models/data/${id}`).subscribe({
+      next: () => {
+        this.app.data = this.app.data.filter(d => d._id !== id);
+      }
+    });
+  }
 }
