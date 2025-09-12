@@ -19,7 +19,6 @@ export class SidebarComponent {
     private dialogService: DialogService = inject(DialogService);
     private ref: DynamicDialogRef | undefined;
 
-
     private userService = inject(UserService);
     private themeService = inject(ThemeService);
 
@@ -40,7 +39,7 @@ export class SidebarComponent {
                 command: () => this.onToggleTheme()
             },
             {
-                label: this.userService.user?.email || 'Profile',
+                label: this.userService.user?.email || 'Profil',
                 icon: 'pi pi-user',
                 menu: [
                     { label: 'Mon compte', icon: 'pi pi-info-circle', command: () => this.openUserDialog() },
