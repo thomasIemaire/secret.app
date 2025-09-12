@@ -2,14 +2,17 @@
     <div class="form__wrapper">
         <div *ngFor="let attribute of attributes; let i = index" class="group-inputs attribute-item">
             <p-select class="attribute-key" type="text" size="small" [(ngModel)]="attribute.key" [options]="keys"
-                optionLabel="value" optionValue="value" [editable]="true" placeholder="Attribute Key" />
+                optionLabel="value" optionValue="value" [editable]="true" placeholder="Attribute Key" 
+                appendTo="body" />
 
             <p-select class="attribute-type" size="small" [options]="typeOptions" [(ngModel)]="attribute.value.type"
-                optionLabel="label" optionValue="value" placeholder="Select Type" />
+                optionLabel="label" optionValue="value" placeholder="Select Type"
+                appendTo="body" />
 
             <div class="unified-inputs">
                 <p-select class="attribute-rule" size="small" [options]="ruleOptions" [(ngModel)]="attribute.value.rule"
-                    optionLabel="label" optionValue="value" placeholder="Select rule" />
+                    optionLabel="label" optionValue="value" placeholder="Select rule"
+                    appendTo="body" />
                 @switch (attribute.value.rule) {
                 @case('randint') {
                 <input class="attribute-rule-randint-param" pInputText type="text" pSize="small"
@@ -24,7 +27,7 @@
                 @case ('data') {
                 <p-select class="attribute-rule-param-objectid" size="small" [options]="app.data"
                     [(ngModel)]="attribute.value.parameters.object_id" optionLabel="name" optionValue="_id"
-                    placeholder="Select Object">
+                    placeholder="Select Object" appendTo="body">
                     <ng-template let-option pTemplate="item">
                         <div class="group-inputs">
                             <span class="item-label">{{ option.name }}</span>
@@ -46,7 +49,7 @@
                 @case ('configuration') {
                 <p-select class="attribute-rule-param-objectid" size="small" [options]="app.configurations"
                     [(ngModel)]="attribute.value.parameters.object_id" optionLabel="name" optionValue="_id"
-                    placeholder="Select Object">
+                    placeholder="Select Object" appendTo="body">
                     <ng-template let-option pTemplate="item">
                         <div class="group-inputs">
                             <span class="item-label">{{ option.name }}</span>
@@ -70,7 +73,7 @@
 
             <p-multiselect class="attribute-requirements" [(ngModel)]="attribute.requirements"
                 [options]="attribute.requirements" optionLabel="rule" display="chip" [filter]="false"
-                [showToggleAll]="false" size="small" placeholder="Requirements">
+                [showToggleAll]="false" size="small" placeholder="Requirements" appendTo="body">
                 <ng-template let-requirement #item>
                     <div class="group-inputs">
                         <span class="item-label">{{ requirement.rule }}</span>
