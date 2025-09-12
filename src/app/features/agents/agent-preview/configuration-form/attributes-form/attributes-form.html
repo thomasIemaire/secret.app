@@ -17,6 +17,10 @@
                 <input class="attribute-rule-randint-param" pInputText type="text" pSize="small"
                     [(ngModel)]="attribute.value.parameters.max" placeholder="Max" />
                 }
+                @case('alphanum') {
+                <input class="attribute-rule-alphanum-param" pInputText type="text" pSize="small"
+                    [(ngModel)]="attribute.value.parameters.regex" placeholder="regex" />
+                }
                 @case ('data') {
                 <p-select class="attribute-rule-param-objectid" size="small" [options]="app.data"
                     [(ngModel)]="attribute.value.parameters.object_id" optionLabel="name" optionValue="_id"

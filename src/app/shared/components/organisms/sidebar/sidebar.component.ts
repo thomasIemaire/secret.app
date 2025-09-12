@@ -44,7 +44,8 @@ export class SidebarComponent {
                 menu: [
                     { label: 'Mon compte', icon: 'pi pi-info-circle', command: () => this.openUserDialog() },
                     { label: 'Déconnexion', icon: 'pi pi-sign-out', command: () => this.userService.logout() }
-                ]
+                ],
+                tooltip: this.userService.user?.email.length! > 23
             }
         ];
     }

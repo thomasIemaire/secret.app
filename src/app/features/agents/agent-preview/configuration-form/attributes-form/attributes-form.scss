@@ -26,6 +26,12 @@
             max-width: 96px;
         }
 
+        .attribute-rule-alphanum-param {
+            width: calc(2 *  96px + 4px);
+            min-width: calc(2 *  96px + 4px);
+            max-width: calc(2 *  96px + 4px);
+        }
+
         .attribute-rule-param-objectid {
             width: calc(2 *  96px - 28px);
             min-width: calc(2 *  96px - 28px);

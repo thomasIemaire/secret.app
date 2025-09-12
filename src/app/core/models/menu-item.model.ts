@@ -6,5 +6,6 @@ export interface IMenuItem {
     route?: string;
     menu?: MenuItem[];
     command?: () => void;
+    tooltip?: boolean;
     children?: IMenuItem[];
 }

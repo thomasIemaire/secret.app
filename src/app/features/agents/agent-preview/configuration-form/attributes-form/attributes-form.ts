@@ -38,7 +38,8 @@ export class AttributesForm {
   public ruleOptions = [
     { label: 'Configuration', value: 'configuration' },
     { label: 'Data', value: 'data' },
-    { label: 'Randint', value: 'randint' }
+    { label: 'Randint', value: 'randint' },
+    { label: 'Alphanumérique', value: 'alphanum' },
   ]
 
   public addAttribute() {

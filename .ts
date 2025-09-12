@@ -1,4 +1,4 @@
-export type ModelConfigurationAttributeValueRuleType = 'configuration' | 'data' | 'randint';
+export type ModelConfigurationAttributeValueRuleType = 'configuration' | 'data' | 'randint' | 'alphanum';
 
 export interface ModelConfigurationAttributeValueRule {
     type: ModelConfigurationAttributeValueRuleType;
