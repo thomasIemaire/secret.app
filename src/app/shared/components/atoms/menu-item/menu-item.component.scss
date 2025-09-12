@@ -19,4 +19,10 @@
     .menu-item__icon {
         font-size: .875rem !important;
     }
+
+    .menu-item__label {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 }
