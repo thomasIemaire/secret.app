@@ -5,7 +5,7 @@
         .attribute-key {
             width: 100%;
         }
-        
+
         .attribute-type,
         .attribute-rule,
         .attribute-requirements {
@@ -19,7 +19,7 @@
             min-width: 48px;
             max-width: 48px;
         }
-        
+
         .attribute-rule-randint-param {
             width: 96px;
             min-width: 96px;
@@ -27,15 +27,15 @@
         }
 
         .attribute-rule-alphanum-param {
-            width: calc(2 *  96px + 4px);
-            min-width: calc(2 *  96px + 4px);
-            max-width: calc(2 *  96px + 4px);
+            width: calc(2 * 96px + 4px);
+            min-width: calc(2 * 96px + 4px);
+            max-width: calc(2 * 96px + 4px);
         }
 
         .attribute-rule-param-objectid {
-            width: calc(2 *  96px - 28px);
-            min-width: calc(2 *  96px - 28px);
-            max-width: calc(2 *  96px - 28px);
+            width: calc(2 * 96px - 28px);
+            min-width: calc(2 * 96px - 28px);
+            max-width: calc(2 * 96px - 28px);
         }
 
         .unified-inputs {
@@ -44,25 +44,6 @@
             padding: .25rem;
             background-color: var(--background-color-200);
             border-radius: var(--p-inputtext-border-radius);
-        }
-
-        p-multiSelect,
-        p-select {
-            .group-inputs {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-            
-            .item-label {
-                pointer-events: none;
-            }
-            
-            .item-action {
-                cursor: pointer;
-                margin-left: 8px;
-                pointer-events: auto;
-            }
         }
     }
 }

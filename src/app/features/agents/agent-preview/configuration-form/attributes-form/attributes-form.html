@@ -29,9 +29,9 @@
                     [(ngModel)]="attribute.value.parameters.object_id" optionLabel="name" optionValue="_id"
                     placeholder="Select Object" appendTo="body">
                     <ng-template let-option pTemplate="item">
-                        <div class="group-inputs">
+                        <div class="with-actions">
                             <span class="item-label">{{ option.name }}</span>
-                            <i class="pi pi-trash" variant="text" severity="secondary" size="small"
+                            <i class="pi pi-trash action" variant="text" severity="secondary" size="small"
                                 (click)="$event.stopPropagation(); deleteData(option._id)"
                                 (mousedown)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
                                 (keydown.space)="$event.stopPropagation()"></i>
@@ -51,9 +51,9 @@
                     [(ngModel)]="attribute.value.parameters.object_id" optionLabel="name" optionValue="_id"
                     placeholder="Select Object" appendTo="body">
                     <ng-template let-option pTemplate="item">
-                        <div class="group-inputs">
+                        <div class="with-actions">
                             <span class="item-label">{{ option.name }}</span>
-                            <i class="pi pi-trash" variant="text" severity="secondary" size="small"
+                            <i class="pi pi-trash action" variant="text" severity="secondary" size="small"
                                 (click)="$event.stopPropagation(); deleteConfiguration(option._id)"
                                 (mousedown)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
                                 (keydown.space)="$event.stopPropagation()"></i>
@@ -75,9 +75,9 @@
                 [options]="attribute.requirements" optionLabel="rule" display="chip" [filter]="false"
                 [showToggleAll]="false" size="small" placeholder="Requirements" appendTo="body">
                 <ng-template let-requirement #item>
-                    <div class="group-inputs">
+                    <div class="with-actions">
                         <span class="item-label">{{ requirement.rule }}</span>
-                        <i class="pi pi-eye" variant="text" severity="secondary" size="small"
+                        <i class="pi pi-eye action" variant="text" severity="secondary" size="small"
                             (click)="$event.stopPropagation(); openRequirementDialog(attribute, requirement, 'edit')"
                             (mousedown)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
                             (keydown.space)="$event.stopPropagation()"></i>

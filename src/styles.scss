@@ -89,6 +89,31 @@ p-selectbutton .p-togglebutton {
     flex: 1;
 }
 
+.p-select-option,
+.p-multiselect-option {
+    font-size: var(--p-inputtext-sm-font-size) !important;
+        padding-block: var(--p-inputtext-sm-padding-y) !important;
+    padding-inline: var(--p-inputtext-sm-padding-x) !important;
+
+    .with-actions {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .item-label {
+            pointer-events: none;
+        }
+
+        .action {
+            cursor: pointer;
+            margin-left: 8px;
+            pointer-events: auto;
+            font-size: .75rem !important;
+        }
+    }
+}
+
 p-progressbar .p-progressbar-value {
     background: var(--background-gradient);
     background-size: 800% 800%;
