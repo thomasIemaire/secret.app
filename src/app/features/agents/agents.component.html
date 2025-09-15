@@ -104,7 +104,7 @@
                             Aucun modèle n'est en entrainement
                         </div>
                         <app-agent-item *ngFor="let agent of filtered(app.datasets.training)"
-                            (click)="viewAgent(agent, 'training')" [agent]="agent" [classes]="['draggable']" />
+                            (click)="viewAgent(agent, 'training')" [agent]="agent" [classes]="['draggable']" [deletable]="false" />
                     </div>
 
                     <div class="kanban-content__section">

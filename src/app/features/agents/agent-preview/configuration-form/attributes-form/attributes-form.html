@@ -2,17 +2,14 @@
     <div class="form__wrapper">
         <div *ngFor="let attribute of attributes; let i = index" class="group-inputs attribute-item">
             <p-select class="attribute-key" type="text" size="small" [(ngModel)]="attribute.key" [options]="keys"
-                optionLabel="value" optionValue="value" [editable]="true" placeholder="Attribute Key" 
-                appendTo="body" />
+                optionLabel="value" optionValue="value" [editable]="true" placeholder="Attribute Key" appendTo="body" />
 
             <p-select class="attribute-type" size="small" [options]="typeOptions" [(ngModel)]="attribute.value.type"
-                optionLabel="label" optionValue="value" placeholder="Select Type"
-                appendTo="body" />
+                optionLabel="label" optionValue="value" placeholder="Select Type" appendTo="body" />
 
             <div class="unified-inputs">
                 <p-select class="attribute-rule" size="small" [options]="ruleOptions" [(ngModel)]="attribute.value.rule"
-                    optionLabel="label" optionValue="value" placeholder="Select rule"
-                    appendTo="body" />
+                    optionLabel="label" optionValue="value" placeholder="Select rule" appendTo="body" />
                 @switch (attribute.value.rule) {
                 @case('randint') {
                 <input class="attribute-rule-randint-param" pInputText type="text" pSize="small"
@@ -94,7 +91,7 @@
             <p-button icon="pi pi-trash" variant="text" severity="danger" size="small"
                 [pTooltip]="`Supprimer ${attribute.key}`" (click)="removeAttribute(i)"></p-button>
         </div>
-        <p-button icon="pi pi-plus" text severity="secondary" size="small" pTooltip="Ajouter un attribut"
-            (click)="addAttribute()"></p-button>
+        <p-button icon="pi pi-plus" text severity="secondary" size="small" tooltipPosition="left"
+            pTooltip="Ajouter un attribut" (click)="addAttribute()"></p-button>
     </div>
 </div>

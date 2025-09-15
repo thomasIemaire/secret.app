@@ -17,7 +17,7 @@ import { TieredMenu } from 'primeng/tieredmenu';
 export class AgentItem {
   @Input() type: 'model' | 'dataset' | 'agent' = 'dataset';
   @Input() agent: any;
-
+  @Input() deletable: boolean = true;
   @Input() classes: string | string[] | Set<string> | { [klass: string]: any } = '';
 
   public api: ApiService = inject(ApiService);

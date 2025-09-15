@@ -7,7 +7,7 @@
         <div class="agent-header__right">
             <p-tieredmenu #menu [model]="items" [popup]="true" (click)="$event.stopPropagation()"></p-tieredmenu>
             <p-tag [value]="agent.version" severity="contrast" />
-            <i class="menu pi pi-ellipsis-v" (click)="menu.toggle($event); $event.stopPropagation()"></i>
+            <i *ngIf="deletable" class="menu pi pi-ellipsis-v" (click)="menu.toggle($event); $event.stopPropagation()"></i>
         </div>
     </div>
     <div class="agent__description">
