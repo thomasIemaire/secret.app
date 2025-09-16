@@ -33,11 +33,7 @@ export class PlaygroundAgentComponent {
     public messageSended: boolean = false;
     public step = 0;
 
-    public agents: any[] = [
-        { label: 'Agent 1', versions: ['latest', '1.0', '2.0', '3.0'] },
-        { label: 'Agent 2', versions: ['latest', '1.0'] },
-        { label: 'Agent 3', versions: ['latest'] }
-    ];
+    public agents: any[] = [];
 
     public data$ = new BehaviorSubject<DataState>({
         agent: {},
@@ -74,11 +70,26 @@ export class PlaygroundAgentComponent {
     ];
 
     ngOnInit(): void {
-        this.api.get('agents/list').subscribe((agents: any) => {
-            for (const agent of agents) {
-                console.log(agent);
-                
+        let tests = {
+            "address": {
+                "1.0": "123",
+                "1.2": "456",
+            },
+            "vat-number": {
+                "1.0": "FR12345678901",
+                "2.0": "FR98765432109",
             }
+        }
+
+        for (const [key, value] of Object.entries(tests)) {
+            let versions = [];
+            for (const [version, id] of Object.entries(value)) {
+                versions.push({ version, id });
+            }
+            this.agents.push({ label: key, versions });
+        }
+
+        this.api.get('agents/list').subscribe((agents: any) => {
             this.fromURI();
         });
     }

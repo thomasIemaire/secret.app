@@ -12,7 +12,7 @@
                     <p-select [options]="agents" optionLabel="label" [ngModel]="(data$ | async)?.agent" size="small"
                         (ngModelChange)="onAgentChange($event)" />
                     <p-select [options]="(data$ | async)?.agent?.versions" [ngModel]="(data$ | async)?.version"
-                        size="small" (ngModelChange)="onVersionChange($event)" />
+                        optionLabel="version" optionValue="id" size="small" (ngModelChange)="onVersionChange($event)" />
                 </div>
 
                 <textarea rows="7" pTextarea [ngModel]="(data$ | async)?.value" pSize="small"
