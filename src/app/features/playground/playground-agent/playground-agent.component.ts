@@ -11,6 +11,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { JsonViewerComponent } from '../../../shared/components/atoms/json-viewer/json-viewer.component';
+import { ApiService } from '../../../core/services/api.service';
 
 type DataState = { agent: any; version: string; value: string; };
 type HistoryItem = { sender: 'ai' | 'me'; content: string | any };
@@ -25,6 +26,7 @@ type HistoryItem = { sender: 'ai' | 'me'; content: string | any };
 })
 export class PlaygroundAgentComponent {
 
+    public api: ApiService = inject(ApiService);
     public router: Router = inject(Router);
     private messageService: MessageService = inject(MessageService);
 
@@ -72,6 +74,16 @@ export class PlaygroundAgentComponent {
     ];
 
     ngOnInit(): void {
+        this.api.get('agents/list').subscribe((agents: any) => {
+            for (const agent of agents) {
+                console.log(agent);
+                
+            }
+            this.fromURI();
+        });
+    }
+
+    fromURI(): void {
         const tree = this.router.parseUrl(this.router.url);
         const segments = tree.root.children['primary']?.segments.map(s => s.path) ?? [];
         const queryParams = tree.queryParams;
