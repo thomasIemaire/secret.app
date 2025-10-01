@@ -1,88 +1,32 @@
-import { GFlowNode, GFlowNodeModel } from "../gflow";
+import { GFlowNode, GFlowNodeModel, NodeType } from './gflow.types';
+import { NODE_DEFINITION_MAP } from './node-definitions';
+import { initializeNodeConfig } from '../configs/node-config.registry';
 
 export class NodeFactory {
-    public static createNode(type: string, x: number, y: number): GFlowNode {
-        switch (type) {
-            case 'start':
-                return new GFlowNodeModel({
-                    name: 'Start',
-                    type, x, y,
-                    inputs: [],
-                    outputs: [{}],
-                });
-
-            case 'end-success':
-                return new GFlowNodeModel({
-                    name: 'Fin (Réussite)',
-                    type, x, y,
-                    inputs: [{}],
-                    outputs: [],
-                });
-
-            case 'end-error':
-                return new GFlowNodeModel({
-                    name: 'Fin (Erreur)',
-                    type, x, y,
-                    inputs: [{}],
-                    outputs: [],
-                });
-
-            case 'if':
-                return new GFlowNodeModel({
-                    name: 'If',
-                    type, x, y,
-                    inputs: [{}],
-                    outputs: [{ name: 'true' }, { name: 'false' }],
-                    configured: false,
-                });
-
-            case 'merge':
-                return new GFlowNodeModel({
-                    name: 'Merge',
-                    type, x, y,
-                    inputs: [{}],
-                    outputs: [{}],
-                    configured: false,
-                });
-
-            case 'edit':
-                return new GFlowNodeModel({
-                    name: 'Edit',
-                    type, x, y,
-                    inputs: [{}],
-                    outputs: [{}],
-                    configured: false,
-                });
-
-            case 'sardine':
-                return new GFlowNodeModel({
-                    name: 'Sardine',
-                    type, x, y,
-                    inputs: [{}],
-                    outputs: [{}, {}],
-                    configured: false,
-                });
-
-            case 'agent':
-                return new GFlowNodeModel({
-                    name: 'Agent',
-                    type, x, y,
-                    inputs: [{}],
-                    outputs: [{}],
-                    configured: false,
-                });
-
-            case 'agent-group':
-                return new GFlowNodeModel({
-                    name: 'Agent groupé',
-                    type, x, y,
-                    inputs: [{}],
-                    outputs: [{}],
-                    configured: false,
-                });
-
-            default:
-                throw new Error(`Unknown node type: ${type}`);
-        }
+  public static createNode(type: NodeType, x: number, y: number): GFlowNode {
+    const definition = NODE_DEFINITION_MAP[type];
+    if (!definition) {
+      throw new Error(`Unknown node type: ${type}`);
     }
+
+    const blueprint = definition.create();
+
+    const node = new GFlowNodeModel({
+      type,
+      name: blueprint.name,
+      x,
+      y,
+      inputs: blueprint.inputs ?? [],
+      outputs: blueprint.outputs ?? [],
+      entries: blueprint.entries ?? [],
+      exits: blueprint.exits ?? [],
+      configured: blueprint.configured,
+      config: blueprint.config,
+      configComponent: blueprint.configComponent ?? null,
+    });
+
+    initializeNodeConfig(node);
+
+    return node;
+  }
 }

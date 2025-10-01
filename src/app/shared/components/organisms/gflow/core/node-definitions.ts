@@ -1,0 +1,221 @@
+import { ConfigAgentGroup, createAgentGroupConfig } from '../configs/config-agent-group/config-agent-group';
+import {
+  ConfigAgent,
+  createAgentConfig,
+  createAgentOutputPorts,
+} from '../configs/config-agent/config-agent';
+import { ConfigEdit, createEditConfig } from '../configs/config-edit/config-edit';
+import { ConfigEnd, createEndConfig } from '../configs/config-end/config-end';
+import { ConfigIf, createIfConfig } from '../configs/config-if/config-if';
+import { ConfigMerge, createMergeConfig } from '../configs/config-merge/config-merge';
+import { ConfigSardine, createSardineConfig } from '../configs/config-sardine/config-sardine';
+import { ConfigSwitchComponent, createSwitchConfig } from '../configs/config-switch/config-switch.component';
+import { GFlowPort, JsonValue, NodeType } from './gflow.types';
+
+const cloneJson = <T extends JsonValue>(value: T): T =>
+  JSON.parse(JSON.stringify(value));
+
+const clonePorts = (ports?: GFlowPort[]): GFlowPort[] =>
+  (ports ?? []).map((port) => ({
+    ...port,
+    map: port.map === undefined ? undefined : cloneJson(port.map),
+  }));
+
+export type NodeCategory = 'Flux' | 'Logique' | 'Agents';
+
+interface NodeBlueprint {
+  name: string;
+  inputs?: GFlowPort[];
+  outputs?: GFlowPort[];
+  entries?: GFlowPort[];
+  exits?: GFlowPort[];
+  configured?: boolean;
+  config?: unknown;
+  configComponent?: any;
+}
+
+export interface NodeTypeDefinition {
+  type: NodeType;
+  label: string;
+  icon: string;
+  category: NodeCategory;
+  create: () => NodeBlueprint;
+}
+
+export interface PaletteItem {
+  type: NodeType;
+  label: string;
+  icon: string;
+}
+
+export interface PaletteGroup {
+  name: string;
+  items: PaletteItem[];
+}
+
+const definitions: NodeTypeDefinition[] = [
+  {
+    type: 'start',
+    label: 'Start',
+    icon: 'pi pi-play',
+    category: 'Flux',
+    create: () => ({
+      name: 'Start',
+      inputs: [],
+      outputs: clonePorts([{}]),
+    }),
+  },
+  {
+    type: 'end',
+    label: 'Fin',
+    icon: 'pi pi-flag',
+    category: 'Flux',
+    create: () => ({
+      name: 'Fin',
+      inputs: clonePorts([{}]),
+      outputs: [],
+      configured: false,
+      config: createEndConfig(),
+      configComponent: ConfigEnd,
+    }),
+  },
+  {
+    type: 'if',
+    label: 'If',
+    icon: 'pi pi-arrow-right-arrow-left',
+    category: 'Logique',
+    create: () => ({
+      name: 'If',
+      inputs: clonePorts([{}]),
+      outputs: clonePorts([{ name: 'true' }, { name: 'false' }]),
+      configured: false,
+      config: createIfConfig(),
+      configComponent: ConfigIf,
+    }),
+  },
+  {
+    type: 'switch',
+    label: 'Switch / Case',
+    icon: 'pi pi-sliders-h',
+    category: 'Logique',
+    create: () => ({
+      name: 'Switch',
+      inputs: clonePorts([{}]),
+      outputs: clonePorts([{ name: 'Case 1' }]),
+      configured: false,
+      config: createSwitchConfig(),
+      configComponent: ConfigSwitchComponent,
+    }),
+  },
+  {
+    type: 'merge',
+    label: 'Merge',
+    icon: 'pi pi-sitemap',
+    category: 'Logique',
+    create: () => ({
+      name: 'Merge',
+      inputs: clonePorts([{}]),
+      outputs: clonePorts([{}]),
+      configured: false,
+      config: createMergeConfig(),
+      configComponent: ConfigMerge,
+    }),
+  },
+  {
+    type: 'edit',
+    label: 'Edit',
+    icon: 'pi pi-pencil',
+    category: 'Logique',
+    create: () => ({
+      name: 'Edit',
+      inputs: clonePorts([{}]),
+      outputs: clonePorts([{ map: {} }]),
+      configured: false,
+      config: createEditConfig(),
+      configComponent: ConfigEdit,
+    }),
+  },
+  {
+    type: 'sardine',
+    label: 'Sardine',
+    icon: 'pi pi-send',
+    category: 'Agents',
+    create: () => ({
+      name: 'Sardine',
+      inputs: clonePorts([{}]),
+      outputs: clonePorts([
+        { name: 'valide' },
+        { name: 'invalide' },
+      ]),
+      configured: false,
+      config: createSardineConfig(),
+      configComponent: ConfigSardine,
+    }),
+  },
+  {
+    type: 'agent',
+    label: 'Agent',
+    icon: 'pi pi-microchip-ai',
+    category: 'Agents',
+    create: () => ({
+      name: 'Agent',
+      inputs: clonePorts([{}]),
+      outputs: clonePorts(createAgentOutputPorts()),
+      exits: clonePorts([{}]),
+      configured: false,
+      config: createAgentConfig(),
+      configComponent: ConfigAgent,
+    }),
+  },
+  {
+    type: 'agent-group',
+    label: 'Agent groupé',
+    icon: 'pi pi-users',
+    category: 'Agents',
+    create: () => ({
+      name: 'Agent groupé',
+      inputs: clonePorts([{}]),
+      outputs: clonePorts([{}]),
+      entries: clonePorts([{}, {}]),
+      configured: false,
+      config: createAgentGroupConfig(),
+      configComponent: ConfigAgentGroup,
+    }),
+  },
+];
+
+export const NODE_DEFINITIONS = definitions;
+
+export const NODE_DEFINITION_MAP: Record<NodeType, NodeTypeDefinition> = definitions
+  .reduce((acc, definition) => {
+    acc[definition.type] = definition;
+    return acc;
+  }, {} as Record<NodeType, NodeTypeDefinition>);
+
+export const PALETTE_GROUPS: PaletteGroup[] = (() => {
+  const groups = new Map<NodeCategory, PaletteGroup>();
+
+  definitions.forEach((definition) => {
+    const existing = groups.get(definition.category);
+    const item: PaletteItem = {
+      type: definition.type,
+      label: definition.label,
+      icon: definition.icon,
+    };
+
+    if (existing) {
+      existing.items.push(item);
+    } else {
+      groups.set(definition.category, {
+        name: definition.category,
+        items: [item],
+      });
+    }
+  });
+
+  return Array.from(groups.values()).map((group) => ({
+    name: group.name,
+    items: [...group.items],
+  }));
+})();
+

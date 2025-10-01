@@ -9,11 +9,11 @@ import { OrganizationChartModule } from 'primeng/organizationchart';
 import { TreeNode } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import { DividerModule } from 'primeng/divider';
-import { Gflow } from "../../../shared/components/organisms/gflow/gflow";
+import { GflowComponent } from "../../../shared/components/organisms/gflow/gflow.component";
 
 @Component({
     selector: 'app-flow-preview',
-    imports: [CommonModule, FormsModule, Button, SelectButtonModule, OrganizationChartModule, TagModule, DividerModule, Gflow],
+    imports: [CommonModule, FormsModule, Button, SelectButtonModule, OrganizationChartModule, TagModule, DividerModule, GflowComponent],
     templateUrl: './flow-preview.component.html',
     styleUrls: ['./flow-preview.component.scss']
 })
