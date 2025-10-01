@@ -40,7 +40,7 @@
                 .flow-preview__sections {
                     width: 100%;
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
+                    grid-template-columns: repeat(auto-fit, minmax(192px, 1fr));
                     gap: 1rem;
 
                     .flow-preview__section,
@@ -94,8 +94,16 @@
                 grid-column: 1 / -1;
                 border-radius: 1rem;
                 overflow: hidden;
-                position: relative;
-                border: 1px solid var(--p-button-secondary-active-background);                
+                border: 1px solid var(--p-button-secondary-active-background);
+                
+                &.fullscreen {
+                    position: fixed;
+                    height: calc(100svh - 2rem);
+                    width: calc(100svw - 2rem);
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
             }
         }
     }

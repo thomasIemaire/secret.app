@@ -23,6 +23,10 @@ export class FlowPreviewComponent {
     private route: ActivatedRoute = inject(ActivatedRoute);
 
     public flow: any = null;
+    public gflowOpts: any = {
+        readOnly: false,
+        fullscreen: false
+    };
 
     public selectPreview: any = {
         options: [

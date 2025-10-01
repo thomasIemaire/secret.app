@@ -4,7 +4,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
+  Input,
   OnDestroy,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { NodeIoPanelComponent } from './shared/components/node-io-panel/node-io-panel.component';
@@ -31,12 +34,21 @@ import { SwitchConfigEvent } from './configs/config-switch/config-switch.compone
   providers: [GflowViewportService, GflowStateService, GflowRendererService],
 })
 export class GflowComponent implements AfterViewInit, OnDestroy {
+  @Input()
+  public options: any = {
+    readOnly: false,
+    fullscreen: false
+  };
+
+  @Output()
+  optionsChange = new EventEmitter<typeof this.options>();
+
   constructor(
     private readonly cdr: ChangeDetectorRef,
     public readonly viewport: GflowViewportService,
     public readonly state: GflowStateService,
     private readonly renderer: GflowRendererService,
-  ) {}
+  ) { }
 
   @ViewChild('viewport', { static: true }) viewportRef!: ElementRef<HTMLElement>;
 
@@ -130,6 +142,11 @@ export class GflowComponent implements AfterViewInit, OnDestroy {
   }
 
   readonly nodeNameFn = (id: string) => this.state.nodeName(id);
+
+  toggleFullscreen() {
+    const next = { ...this.options, fullscreen: !this.options.fullscreen };
+    this.optionsChange.emit(next);
+  }
 
   togglePalette(ev?: MouseEvent) {
     if (ev) {

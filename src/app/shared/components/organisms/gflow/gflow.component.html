@@ -7,8 +7,10 @@
             <div class="toolbar-menu__item" (click)="togglePalette($event)">
                 Ajouter un nœud
             </div>
-            <div class="toolbar-menu__item">
-                <span class="pi pi-arrow-up-right-and-arrow-down-left-from-center"></span>
+            <div class="toolbar-menu__item" (click)="toggleFullscreen()">
+                <span class="pi"
+                    [class.pi-arrow-up-right-and-arrow-down-left-from-center]="!options.fullscreen"
+                    [class.pi-arrow-down-left-and-arrow-up-right-to-center]="options.fullscreen"></span>
             </div>
         </div>
     </div>

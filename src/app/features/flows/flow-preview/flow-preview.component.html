@@ -47,20 +47,9 @@
                     </div>
                 </div>
 
-                <p-divider />
-
                 <div class="flow-preview__sections __last">
-                    <div class="flow-preview__row-section">
-                        <div class="flow-preview__section-title">
-                            Structures
-                        </div>
-                    </div>
-
-                    <p-selectbutton [(ngModel)]="selectPreview.value" [options]="selectPreview.options" size="small"
-                        optionLabel="label" optionValue="value" [allowEmpty]="false" />
-
-                    <div class="orgchart-container">
-                        <app-gflow />
+                    <div class="orgchart-container" [class.fullscreen]="gflowOpts.fullscreen">
+                        <app-gflow [(options)]="gflowOpts" />
                     </div>
                 </div>
             </div>
